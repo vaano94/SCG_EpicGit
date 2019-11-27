@@ -1,3 +1,4 @@
+''
 EpicPI current disable.
 [ 
   Metacello new
@@ -5,3 +6,4 @@ EpicPI current disable.
     repository: 'github://emilyc7/SCG_EpicGit';
     load
 ] ensure: [ EpicPI current enable ].
+''

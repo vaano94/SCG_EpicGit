@@ -7,36 +7,15 @@ Class {
 	#name : #Epic,
 	#superclass : #Object,
 	#instVars : [
-		'feature',
+		'title',
 		'use_cases'
 	],
 	#category : #Epic
 }
 
-{ #category : #'as yet unclassified' }
-Epic >> createUseCase [
-	| uc |
-	uc := EUseCase new.
-	use_cases add: uc.
-	
-]
-
-{ #category : #'as yet unclassified' }
-Epic >> displayFeature [
-	|ret final|
-	ret := 'The feature for this epic is '.
-	final := ret, feature.
-	^ final.
-]
-
-{ #category : #accessing }
-Epic >> feature [
-	^ feature
-]
-
-{ #category : #accessing }
-Epic >> feature: anObject [
-	feature := anObject
+{ #category : #adding }
+Epic >> addUseCase: anUseCase [
+	self use_cases add: anUseCase
 ]
 
 { #category : #'as yet unclassified' }
@@ -61,7 +40,7 @@ Epic >> gtEpicInfoFor: aView [
 	^ aView textEditor
 	title: 'Information';
 	priority: 0;
-	text: [ 'The feature of this epic is ', feature ]
+	text: [ 'Epic: ', title ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -104,9 +83,19 @@ Epic >> gtUseCaseProgressColumnsFor: aView [
 { #category : #initialization }
 Epic >> initialize [
 	super initialize.
-	feature :=  UIManager default request: 'Enter the feature name'.
+	title := 'Feature of this epic'.
 	use_cases := OrderedCollection new.
 	
+]
+
+{ #category : #accessing }
+Epic >> title [
+	^ title
+]
+
+{ #category : #accessing }
+Epic >> title: aString [
+	title := aString
 ]
 
 { #category : #accessing }

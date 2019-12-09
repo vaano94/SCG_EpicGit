@@ -34,5 +34,6 @@ EScenario >> exampleMethod: aMethod [
 { #category : #'as yet unclassified' }
 EScenario >> gtViewSource: aView [
 	<gtView> 
-	^ exampleMethod gtSourceFor: aView.
+	self exampleMethod ifNil: [ ^ aView empty ].
+	^ self exampleMethod gtSourceFor: aView.
 ]

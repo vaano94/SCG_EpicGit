@@ -86,7 +86,7 @@ EUserStory >> gtStoryInfoFor: aView [
 	^ aView textEditor
 		title: 'Information';
 		priority: 0;
-		text: [ 'As a ', user name, ', I want to ', action, ' so that I can ',  goal, '.', String cr]
+		text: [ 'As a ', user name, ', I want to ', action, '.', String cr]
 ]
 
 { #category : #'as yet unclassified' }

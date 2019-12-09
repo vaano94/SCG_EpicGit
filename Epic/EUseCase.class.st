@@ -38,6 +38,11 @@ EUseCase >> addActor [
 	actor add: a.
 ]
 
+{ #category : #adding }
+EUseCase >> addUserStory: aUserStory [
+	self user_stories add: aUserStory
+]
+
 { #category : #'as yet unclassified' }
 EUseCase >> createUserStory [
 	| us |
@@ -105,7 +110,6 @@ EUseCase >> gtUserStoryColumnsFor: aView [
 		items: [ self user_stories asArray ];
 		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 50;
 		column: 'User' item: [ :anElement :anIndex | anElement user ];
-		column: 'Goal' item: [ :anElement :anIndex | anElement goal ];
 		column: 'Action' item: [ :anElement :anIndex | anElement action ];
 		column: 'Class' item: [ :anElement :anIndex | anElement class ]
 ]
@@ -116,7 +120,7 @@ EUseCase >> initialize [
 	user_stories := OrderedCollection new.
 	actor := OrderedCollection new.
 	actor add: EActor new.
-	title :=  UIManager default request: 'Enter the title of the usecase'.
+	title :=  'Use Case Title'.
 	state :=  'Not started'.
 	task := 'Undefined'.
 	

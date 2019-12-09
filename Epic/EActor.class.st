@@ -16,7 +16,7 @@ Class {
 { #category : #initialization }
 EActor >> initialize [
 	super initialize.
-	name := 'Unnamed'.
+	name := 'user'.
 	specifications := 'No specifications set'.
 	
 	

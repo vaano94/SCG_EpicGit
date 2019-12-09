@@ -10,7 +10,8 @@ Class {
 		'phoneNumber',
 		'address',
 		'email',
-		'notes'
+		'notes',
+		'company'
 	],
 	#category : #AddressBook
 }
@@ -33,6 +34,16 @@ ABContact >> addPhoneNumber: aPhoneNumber [
 { #category : #accessing }
 ABContact >> address [
 	^ address
+]
+
+{ #category : #accessing }
+ABContact >> company [
+	^ company
+]
+
+{ #category : #accessing }
+ABContact >> company: aString [
+	company := aString
 ]
 
 { #category : #accessing }

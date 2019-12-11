@@ -1,7 +1,7 @@
 "
 !Epic
 
-An epic is a feature or overarching objective. This is a fairly generalized feature within a system that meets user requirements to achieve business as usual. The epic will have a collection of ${class:name=UseCase}$ that will help define behavior that needs to be available for users.
+An epic is a feature or overarching objective. This is a fairly generalized feature within a system that meets user requirements to achieve business as usual. The epic will have a collection of ${class:name=EUseCase}$ that will help define behavior that needs to be available for users.
 "
 Class {
 	#name : #Epic,
@@ -48,7 +48,7 @@ Epic >> gtUseCaseColumnsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Use Cases';
-		priority: 3;
+		priority: 2;
 		items: [ self use_cases ];
 		column: 'Index' item: [ :anElement :anIndex | anIndex ];
 		column: 'Name' item: [ :anElement | anElement title ]
@@ -63,9 +63,7 @@ Epic >> gtUseCaseDetailedColumnsFor: aView [
 		items: [ self use_cases ];
 		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 50;
 		column: 'Name' item: [ :anElement | anElement title ];
-		column: 'Actor' item: [ :anElement | anElement actor ];
-		column: 'Task' item: [ :anElement | anElement task ];
-		column: 'Type' item: [ :anElement | anElement class ]
+		column: 'Task' item: [ :anElement | anElement task ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -73,7 +71,7 @@ Epic >> gtUseCaseProgressColumnsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Progress Report';
-		priority: 2;
+		priority: 3;
 		items: [ self use_cases ];
 		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 50;
 		column: 'Name' item: [ :anElement | anElement title ];

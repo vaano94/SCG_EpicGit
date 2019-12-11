@@ -3,9 +3,9 @@
 
 Uses cases are actions that define how a system and a user work together to achieve a goal. Because of this, each use case will have a task and an actor. The task will be within the scope of the epic's feature. They are one step into more detail from an ${class:name=Epic}$.
 
-The title serves as a 1 or 2 word summation of the contents of the use case for identification purposes. The actor will be an ${class:name=Actor}$ who can have specifications made about them. The task will be a more detailed account of the title and goal of this use case.
+The title serves as a 1 or 2 word summation of the contents of the use case for identification purposes. The actor will be an ${class:name=EActor}$ who can have specifications made about them. The task will be a more detailed account of the title and goal of this use case.
 
-Each use case will have a collection of ${class:name=UserStory}$ that will give more specifications and scenarios.
+Each use case will have a collection of ${class:name=EUserStory}$ that will give more specifications and scenarios.
 
 "
 Class {

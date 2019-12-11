@@ -1,5 +1,8 @@
 "
-This outlines the example epic of ""merge address book"". It covers adding, editing, viewing, and removing a contact and its attributes.
+!Epic Examples
+
+This class holds example epics for the Address Book.
+Each ${class:name=Epic}$ has ${class:name=EUseCase}$ that have ${class:name=EUserStory}$ that have ${class:name=EScenario}$ to serve as test cases.
 "
 Class {
 	#name : #EpicExamples,
@@ -1802,6 +1805,7 @@ EpicExamples >> useCaseAddNewContact [
 	| useCase |
 	useCase := EUseCase new.
 	useCase title: 'Add a contact'.
+	useCase task: 'Add a contact to the address book'.
 	useCase addUserStory: self userStoryAddNewUser.
 	useCase addUserStory: self userStoryNewPhoneToContact.
 	useCase addUserStory: self userStoryNewAddressToContact.
@@ -1819,6 +1823,7 @@ EpicExamples >> useCaseEditContact [
 	| useCase |
 	useCase := EUseCase new.
 	useCase title: 'Edit a contact'.
+	useCase task: 'Edit a contact that exists in the address book'.
 	useCase addUserStory: self userStoryEditLastName.
 	useCase addUserStory: self userStoryEditFirstName.
 	useCase addUserStory: self userStoryEditPhone.
@@ -1836,6 +1841,7 @@ EpicExamples >> useCaseMergeExistingContacts [
 	| useCase |
 	useCase := EUseCase new.
 	useCase title: 'Merge existing contacts'.
+	useCase task: 'Merge two contacts that existing in the address book'.
 	useCase addUserStory: self userStoryMergeFirstName.
 	useCase addUserStory: self userStoryMergeLastName.
 	useCase addUserStory: self userStoryMergePhoneNumber.
@@ -1852,6 +1858,7 @@ EpicExamples >> useCaseRemoveContact [
 	| useCase |
 	useCase := EUseCase new.
 	useCase title: 'Remove a contact'.
+	useCase task: 'Remove a contact from the address book'.
 	useCase addUserStory: self userStoryRemoveContact.
 	useCase addUserStory: self userStoryRemovePhone.
 	useCase addUserStory: self userStoryRemoveAddress.
@@ -1868,6 +1875,7 @@ EpicExamples >> useCaseSearchContact [
 	| useCase |
 	useCase := EUseCase new.
 	useCase title: 'Search for a contact'.
+	useCase task: 'Search for a contact in the address book'.
 	useCase addUserStory: self userStorySearchByFirstName.
 	useCase addUserStory: self userStorySearchByLastName.
 	useCase addUserStory: self userStorySearchByPhone.
@@ -1884,6 +1892,7 @@ EpicExamples >> useCaseViewContact [
 	| useCase |
 	useCase := EUseCase new.
 	useCase title: 'View a contact'.
+	useCase task: 'View a contact in the address book'.
 	useCase addUserStory: self userStoryViewContact.
 	useCase addUserStory: self userStoryViewContactPhoneNumbers.
 	useCase addUserStory: self userStoryViewContactAddresses.
@@ -1900,6 +1909,7 @@ EpicExamples >> useCaseViewResults [
 	| useCase |
 	useCase := EUseCase new.
 	useCase title: 'View a contact'.
+	useCase task: 'Filter the search results for a contact in the address book'.
 	useCase addUserStory: self userStoryViewByFirstName.
 	useCase addUserStory: self userStoryViewByLastName.
 	useCase addUserStory: self userStoryViewByNote.

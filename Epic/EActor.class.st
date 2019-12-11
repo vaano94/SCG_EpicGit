@@ -1,7 +1,7 @@
 "
 !Actor
 
-An actor is a representation of the person/system who is completed the action in a ${class:name=UseCase}$ or ${class:name=UserStory}$.
+An actor is a representation of the person/system who is completed the action in a ${class:name=EUseCase}$ or ${class:name=EUserStory}$.
 "
 Class {
 	#name : #EActor,

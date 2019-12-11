@@ -1,5 +1,7 @@
 "
-I represent scenarios for user stories.
+!Scenario
+I represent scenarios for ${class:name=EUserStory}$.
+I am test cases that cover every possibile outcome of a ${class:name=EUserStory}$.
 "
 Class {
 	#name : #EScenario,

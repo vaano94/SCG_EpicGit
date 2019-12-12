@@ -37,5 +37,5 @@ EScenario >> exampleMethod: aMethod [
 EScenario >> gtViewSource: aView [
 	<gtView> 
 	self exampleMethod ifNil: [ ^ aView empty ].
-	^ self exampleMethod gtSourceFor: aView.
+	^ self exampleMethod gtCoderSourceFor: aView.
 ]

@@ -1235,7 +1235,7 @@ EpicExamples >> scenarioAddressFailDuplicateAddress [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a duplicate address to a contact'.
-	scenario exampleMethod: self addressBookAddAddressFailAddress.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddAddressFailAddress) gtExample.
 	^ scenario
 ]
 
@@ -1245,7 +1245,7 @@ EpicExamples >> scenarioAddressFailDuplicateType [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a duplicate type address to a contact'.
-	scenario exampleMethod: self addressBookAddAddressFailType.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddAddressFailType) gtExample.
 	^ scenario
 ]
 
@@ -1255,7 +1255,7 @@ EpicExamples >> scenarioAddressSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a new address to a contact'.
-	scenario exampleMethod: self addressBookAddAddressSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddAddressSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1265,7 +1265,7 @@ EpicExamples >> scenarioCompanySuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a company to a contact'.
-	scenario exampleMethod: self addressBookAddCompanySuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddCompanySuccess) gtExample.
 	^ scenario
 ]
 
@@ -1275,7 +1275,7 @@ EpicExamples >> scenarioEditAddress [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the addresses in a contact'.
-	scenario exampleMethod: self addressBookEditAddress.
+	scenario exampleMethod: (EpicExamples >> #addressBookEditAddress) gtExample.
 	^ scenario
 ]
 
@@ -1285,7 +1285,7 @@ EpicExamples >> scenarioEditCompany [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the company in a contact'.
-	scenario exampleMethod: self addressBookEditCompany.
+	scenario exampleMethod: (EpicExamples >> #addressBookEditCompany) gtExample.
 	^ scenario
 ]
 
@@ -1295,7 +1295,7 @@ EpicExamples >> scenarioEditEmail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the emails in a contact'.
-	scenario exampleMethod: self addressBookEditEmail.
+	scenario exampleMethod: (EpicExamples >> #addressBookEditEmail) gtExample.
 	^ scenario
 ]
 
@@ -1305,7 +1305,7 @@ EpicExamples >> scenarioEditFirstNameFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the first name in a contact to make a duplicate'.
-	scenario exampleMethod: self addressBookFirstNameFailDuplicate.
+	scenario exampleMethod: (EpicExamples >> #addressBookFirstNameFailDuplicate) gtExample.
 	^ scenario
 ]
 
@@ -1315,7 +1315,7 @@ EpicExamples >> scenarioEditFirstNameSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the first name in a contact'.
-	scenario exampleMethod: self addressBookFirstNameSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookFirstNameSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1325,7 +1325,7 @@ EpicExamples >> scenarioEditLastNameFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the last name in a contact to make a duplicate'.
-	scenario exampleMethod: self addressBookLastNameFailDuplicate.
+	scenario exampleMethod: (EpicExamples >> #addressBookLastNameFailDuplicate) gtExample.
 	^ scenario
 ]
 
@@ -1335,7 +1335,7 @@ EpicExamples >> scenarioEditLastNameSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the last name in a contact'.
-	scenario exampleMethod: self addressBookLastNameSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookLastNameSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1345,7 +1345,7 @@ EpicExamples >> scenarioEditNote [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the note in a contact'.
-	scenario exampleMethod: self addressBookEditNote.
+	scenario exampleMethod: (EpicExamples >> #addressBookEditNote) gtExample.
 	^ scenario
 ]
 
@@ -1355,7 +1355,7 @@ EpicExamples >> scenarioEditPhone [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the phone numbers in a contact'.
-	scenario exampleMethod: self addressBookEditPhone.
+	scenario exampleMethod: (EpicExamples >> #addressBookEditPhone) gtExample.
 	^ scenario
 ]
 
@@ -1365,7 +1365,7 @@ EpicExamples >> scenarioEmailFailDuplicateAddress [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a duplicate address email to a contact'.
-	scenario exampleMethod: self addressBookAddEmailFailAddress.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddEmailFailAddress) gtExample.
 	^ scenario
 ]
 
@@ -1375,7 +1375,7 @@ EpicExamples >> scenarioEmailFailDuplicateType [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a duplicate type email to a contact'.
-	scenario exampleMethod: self addressBookAddEmailFailType.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddEmailFailType) gtExample.
 	^ scenario
 ]
 
@@ -1385,7 +1385,7 @@ EpicExamples >> scenarioEmailSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a new email to a contact'.
-	scenario exampleMethod: self addressBookAddEmailSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddEmailSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1395,7 +1395,7 @@ EpicExamples >> scenarioFirstNameSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a new first name to a contact'.
-	scenario exampleMethod: self addressBookAddFirstNameSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddFirstNameSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1405,7 +1405,7 @@ EpicExamples >> scenarioLastNameSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a new last name to a contact'.
-	scenario exampleMethod: self addressBookAddLastNameSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddLastNameSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1415,7 +1415,7 @@ EpicExamples >> scenarioMergeContacts [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Fully merge two contacts in an address book'.
-	scenario exampleMethod: self addressBookMergeContacts.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeContacts) gtExample.
 	^ scenario
 ]
 
@@ -1425,7 +1425,7 @@ EpicExamples >> scenarioMergeDifferentAddress [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on different addresses in an address book'.
-	scenario exampleMethod: self addressBookMergeDifferentAddress.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeDifferentAddress) gtExample.
 	^ scenario
 ]
 
@@ -1435,7 +1435,7 @@ EpicExamples >> scenarioMergeDifferentEmail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on different emails in an address book'.
-	scenario exampleMethod: self addressBookMergeDifferentEmail.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeDifferentEmail) gtExample.
 	^ scenario
 ]
 
@@ -1445,7 +1445,7 @@ EpicExamples >> scenarioMergeDifferentFirstName [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on different first names in an address book'.
-	scenario exampleMethod: self addressBookMergeDifferentFirstName.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeDifferentFirstName) gtExample.
 	^ scenario
 ]
 
@@ -1455,7 +1455,7 @@ EpicExamples >> scenarioMergeDifferentLastName [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on different last names in an address book'.
-	scenario exampleMethod: self addressBookMergeDifferentLastName.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeDifferentLastName) gtExample.
 	^ scenario
 ]
 
@@ -1465,7 +1465,7 @@ EpicExamples >> scenarioMergeDifferentPhone [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on different phone numbers in an address book'.
-	scenario exampleMethod: self addressBookMergeDifferentPhone.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeDifferentPhone) gtExample.
 	^ scenario
 ]
 
@@ -1475,7 +1475,7 @@ EpicExamples >> scenarioMergeSameAddress [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on same address in an address book'.
-	scenario exampleMethod: self addressBookMergeSameAddress.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeSameAddress) gtExample.
 	^ scenario
 ]
 
@@ -1485,7 +1485,7 @@ EpicExamples >> scenarioMergeSameEmail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on same email in an address book'.
-	scenario exampleMethod: self addressBookMergeSameEmail.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeSameEmail) gtExample.
 	^ scenario
 ]
 
@@ -1495,7 +1495,7 @@ EpicExamples >> scenarioMergeSameFirstName [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on same first name in an address book'.
-	scenario exampleMethod: self addressBookMergeSameFirstName.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeSameFirstName) gtExample.
 	^ scenario
 ]
 
@@ -1505,7 +1505,7 @@ EpicExamples >> scenarioMergeSameLastName [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on same last name in an address book'.
-	scenario exampleMethod: self addressBookMergeSameLastName.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeSameLastName) gtExample.
 	^ scenario
 ]
 
@@ -1515,7 +1515,7 @@ EpicExamples >> scenarioMergeSamePhone [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Merge two contacts on same phone numbers in an address book'.
-	scenario exampleMethod: self addressBookMergeSamePhone.
+	scenario exampleMethod: (EpicExamples >> #addressBookMergeSamePhone) gtExample.
 	^ scenario
 ]
 
@@ -1525,7 +1525,7 @@ EpicExamples >> scenarioNewContactFailure [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a duplicate contact'.
-	scenario exampleMethod: self addressBookAddNewFailure.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddNewFailure) gtExample.
 	^ scenario
 ]
 
@@ -1535,7 +1535,7 @@ EpicExamples >> scenarioNewContactSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a new contact'.
-	scenario exampleMethod: self addressBookAddNewSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddNewSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1545,7 +1545,7 @@ EpicExamples >> scenarioNoteSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a note to a contact'.
-	scenario exampleMethod: self addressBookAddNoteSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddNoteSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1555,7 +1555,7 @@ EpicExamples >> scenarioPhoneFailNumber [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a phone number duplicate to a contact'.
-	scenario exampleMethod: self addressBookAddPhoneFailNumber.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddPhoneFailNumber) gtExample.
 	^ scenario
 ]
 
@@ -1565,7 +1565,7 @@ EpicExamples >> scenarioPhoneFailType [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a phone number duplicate type to a contact'.
-	scenario exampleMethod: self addressBookAddPhoneFailType.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddPhoneFailType) gtExample.
 	^ scenario
 ]
 
@@ -1575,7 +1575,7 @@ EpicExamples >> scenarioPhoneSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a phone number to a contact'.
-	scenario exampleMethod: self addressBookAddPhoneSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddPhoneSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1585,7 +1585,7 @@ EpicExamples >> scenarioRemoveAddressFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove a non existing address'.
-	scenario exampleMethod: self addressBookRemoveAddressFailure.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemoveAddressFailure) gtExample.
 	^ scenario
 ]
 
@@ -1595,7 +1595,7 @@ EpicExamples >> scenarioRemoveAddressSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove an existing address'.
-	scenario exampleMethod: self addressBookRemoveAddressSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemoveAddressSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1605,7 +1605,7 @@ EpicExamples >> scenarioRemoveCompany [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove the company of a contact'.
-	scenario exampleMethod: self addressBookRemoveCompany.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemoveCompany) gtExample.
 	^ scenario
 ]
 
@@ -1615,7 +1615,7 @@ EpicExamples >> scenarioRemoveContactFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove non existing contact'.
-	scenario exampleMethod: self addressBookRemoveContactFailure.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemoveContactFailure) gtExample.
 	^ scenario
 ]
 
@@ -1625,7 +1625,7 @@ EpicExamples >> scenarioRemoveContactSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove contact'.
-	scenario exampleMethod: self addressBookRemoveContactSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemoveContactSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1635,7 +1635,7 @@ EpicExamples >> scenarioRemoveEmailFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove non existing email from contact'.
-	scenario exampleMethod: self addressBookRemoveEmailFailure.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemoveEmailFailure) gtExample.
 	^ scenario
 ]
 
@@ -1645,7 +1645,7 @@ EpicExamples >> scenarioRemoveEmailSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove an email from contact'.
-	scenario exampleMethod: self addressBookRemoveEmailSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemoveEmailSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1655,7 +1655,7 @@ EpicExamples >> scenarioRemoveNote [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove a note from contact'.
-	scenario exampleMethod: self addressBookRemoveNote.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemoveNote) gtExample.
 	^ scenario
 ]
 
@@ -1665,7 +1665,7 @@ EpicExamples >> scenarioRemovePhoneFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove non existing phone from contact'.
-	scenario exampleMethod: self addressBookRemovePhoneFailure.
+	scenario exampleMethod: (EpicExamples >> #addressBookRemovePhoneFailure) gtExample.
 	^ scenario
 ]
 
@@ -1675,7 +1675,7 @@ EpicExamples >> scenarioRemovePhoneSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'remove a phone from contact'.
-	scenario exampleMethod: self addressBookRemovePhoneSuccess.
+	 scenario exampleMethod: (EpicExamples >> #addressBookRemovePhoneSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1685,7 +1685,7 @@ EpicExamples >> scenarioSearchAddressFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by address that doesnt exist'.
-	scenario exampleMethod: self addressBookSearchAddressFail.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchAddressFail) gtExample.
 	^ scenario
 ]
 
@@ -1695,7 +1695,7 @@ EpicExamples >> scenarioSearchAddressSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by address'.
-	scenario exampleMethod: self addressBookSearchAddressSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchAddressSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1705,7 +1705,7 @@ EpicExamples >> scenarioSearchCompanyFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by a company that doesnt exist'.
-	scenario exampleMethod: self addressBookSearchCompanyFail.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchCompanyFail) gtExample.
 	^ scenario
 ]
 
@@ -1715,7 +1715,7 @@ EpicExamples >> scenarioSearchCompanySuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by a company'.
-	scenario exampleMethod: self addressBookSearchCompanySuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchCompanySuccess) gtExample.
 	^ scenario
 ]
 
@@ -1725,7 +1725,7 @@ EpicExamples >> scenarioSearchEmailFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by an email that doesnt exist'.
-	scenario exampleMethod: self addressBookSearchEmailFail.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchEmailFail) gtExample.
 	^ scenario
 ]
 
@@ -1735,7 +1735,7 @@ EpicExamples >> scenarioSearchEmailSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by an email'.
-	scenario exampleMethod: self addressBookSearchEmailSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchEmailSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1745,7 +1745,7 @@ EpicExamples >> scenarioSearchFirstNameFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by an first name that doesnt exist'.
-	scenario exampleMethod: self addressBookSearchFirstNameFail.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchFirstNameFail) gtExample.
 	^ scenario
 ]
 
@@ -1755,7 +1755,7 @@ EpicExamples >> scenarioSearchFirstNameSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by a first name'.
-	scenario exampleMethod: self addressBookSearchFirstNameSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchFirstNameSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1765,7 +1765,7 @@ EpicExamples >> scenarioSearchLastNameFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by an last name that doesnt exist'.
-	scenario exampleMethod: self addressBookSearchLastNameFail.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchLastNameFail) gtExample.
 	^ scenario
 ]
 
@@ -1775,7 +1775,7 @@ EpicExamples >> scenarioSearchLastNameSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by a last name'.
-	scenario exampleMethod: self addressBookSearchLastNameSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchLastNameSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1785,7 +1785,7 @@ EpicExamples >> scenarioSearchPhoneFail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by a phone that doesnt exist'.
-	scenario exampleMethod: self addressBookSearchPhoneFail.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchPhoneFail) gtExample.
 	^ scenario
 ]
 
@@ -1795,7 +1795,7 @@ EpicExamples >> scenarioSearchPhoneSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by phone'.
-	scenario exampleMethod: self addressBookSearchPhoneSuccess.
+	scenario exampleMethod: (EpicExamples >> #addressBookSearchPhoneSuccess) gtExample.
 	^ scenario
 ]
 
@@ -1925,7 +1925,7 @@ EpicExamples >> userStoryAddNewUser [
 	<gtExample>
 	| userStory |
 	userStory := EUserStory new.
-	userStory action: 'add a new user'.
+	userStory action: 'add a contact'.
 	
 	"userStory addScenario: self scenarioNewContactFailure."
 	userStory addScenario: self scenarioNewContactSuccess.

@@ -74,7 +74,11 @@ EUserStory >> gtComponentsColumnsFor: aView [
 EUserStory >> gtDocumentFor: aView [
     <gtView>
     | aDocument |
-    aDocument := GtDocument new text: 'As a <user>, ${class:name=EActor}$ I want to <complete action> so that I can <goal>'. 
+    aDocument := GtDocument new text: 'As a <user>, ${class:name=EActor}$ I want to <complete action> so that I can <goal>
+
+Under elements, you can see a list of all actors that are present within this user story.
+
+Under scenarios, you can see a list and view each of the scenarios used to support this story.'. 
     ^ (aDocument gtTextFor: aView)
         title: 'View Details';
         priority: 1

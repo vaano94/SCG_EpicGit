@@ -24,9 +24,11 @@ Epic >> gtDocumentFor: aView [
 	| aDocument |
 	aDocument := GtDocument new
 		text:
-			'In progress report, you can see the progress of each ${class:name=EUseCase}$ that exists in this Epic.
+			'An ${class:name=Epic}$ is a feature or overarching objective. This is a fairly generalized feature within a system that meets user requirements to achieve business as usual. The epic will have a collection of ${class:name=EUseCase}$ that will help define behavior that needs to be available for users.
 
 Under Use Cases you can see a list of all ${class:name=EUseCase}$.
+			
+In progress report, you can see the progress of each ${class:name=EUseCase}$ that exists in this Epic.
 
 Under Use Case Details, you will see all aspects of each of the ${class:name=EUseCase}$ in a detailed view, including the ${class:name=EActor}$.'.
 	^ (aDocument gtTextFor: aView)

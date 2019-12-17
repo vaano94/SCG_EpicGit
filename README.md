@@ -20,6 +20,8 @@ Metacello new
 You can see documentation for the Epic package by typing ```Epic.``` into the playground and running.
 You can start up the examples by typing ```EpicExamples.``` into the playground and running. You will see a list of the examples. The first word in the Selector name will be what category that example falls into (i.e. epic, useCase, etc.). The most logical way to step through the project will be to find an epic example (epicManageAddressBook, epicSearchAddressBook, epicMergeContacts) and run that. To see the code itself, click on the Selector name. To see the displays and components of each example, click on the Result.
 
+Another way to access the examples is through the System Browser. If you search for AddressBook and click on EpicExamples, the examples have been sorted into protocols. This is an easy way to see only epic examples, for instance. Simply click the green arrow to begin and select the "\_GT" tab to see the GToolKit views.
+
 
 ## Background Knowledge
 

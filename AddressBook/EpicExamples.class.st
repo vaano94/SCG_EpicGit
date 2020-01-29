@@ -10,6 +10,22 @@ Class {
 	#category : #AddressBook
 }
 
+{ #category : #'as yet unclassified' }
+EpicExamples >> addressBookAddAddressSuccess [
+	<gtExample>
+	| addressBook contact |
+	addressBook := self emptyAddressBook.
+	contact := ABContact janeDoe.
+	addressBook
+		addContact: contact.
+	
+	contact addAddress: ABAddress addressNew.
+	
+	self assert: contact address isNotEmpty.
+	self assert: contact address size equals: 1.
+	^addressBook.
+]
+
 { #category : #'examples - epic' }
 EpicExamples >> epicManageAddressBook [
 	<gtExample>

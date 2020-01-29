@@ -207,7 +207,7 @@ AddressBook >> addressBookAddNoteSuccess [
 AddressBook >> addressBookAddPhoneFailNumber [
 	<gtExample>
 	| contact addressBook |
-	contact := self janeDoe.
+	contact := ABContact janeDoe.
 	addressBook := self emptyAddressBook.
 	addressBook addContact: contact.
 	

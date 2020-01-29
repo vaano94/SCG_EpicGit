@@ -12,6 +12,16 @@ Class {
 	#category : #AddressBook
 }
 
+{ #category : #tests }
+ABPhoneNumber class >> testPhone [
+| phone |
+	phone := ABPhoneNumber new.
+	phone 
+		countryCode: 41;
+		number: 12345678;
+		type: 'Home'.
+]
+
 { #category : #accessing }
 ABPhoneNumber >> countryCode [
 	^ countryCode
@@ -32,7 +42,7 @@ ABPhoneNumber >> number: aNumber [
 	number := aNumber
 ]
 
-{ #category : #'examples - contacts' }
+{ #category : #'instance creation examples' }
 ABPhoneNumber >> phoneBadNumber [
 	<gtExample>
 	| phone |
@@ -46,7 +56,7 @@ ABPhoneNumber >> phoneBadNumber [
 	^phone.
 ]
 
-{ #category : #'examples - contacts' }
+{ #category : #'instance creation examples' }
 ABPhoneNumber >> phoneBadType [
 	<gtExample>
 	| phone |
@@ -60,7 +70,7 @@ ABPhoneNumber >> phoneBadType [
 	^phone.
 ]
 
-{ #category : #'examples - contacts' }
+{ #category : #'instance creation examples' }
 ABPhoneNumber >> phoneNew [
 	<gtExample>
 	| phone |
@@ -75,7 +85,7 @@ ABPhoneNumber >> phoneNew [
 ]
 
 { #category : #accessing }
-ABPhoneNumber >> phoneNumber [
+ABPhoneNumber >> toString [
 	^ '+', countryCode asString, ' ', number asString
 ]
 

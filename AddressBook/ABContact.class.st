@@ -165,7 +165,7 @@ ABContact >> gtViewPhones: aView [
 		priority: 3;
 		items: [ phoneNumber ];
 		column: 'Type' item: [ :aPhoneNumber | aPhoneNumber type ];
-		column: 'Number' item: [ :aPhoneNumber | aPhoneNumber phoneNumber ]
+		column: 'Number' item: [ :aPhoneNumber | aPhoneNumber toString ]
 ]
 
 { #category : #initialization }
@@ -207,7 +207,7 @@ ABContact >> phoneNumber: phone [
 	phoneNumber:= phone
 ]
 
-{ #category : #printing }
+{ #category : #accessing }
 ABContact >> toString [
 	^ 'FirstName: ' , firstName , String cr , 
 	'LastName: ' , lastName	, String cr,

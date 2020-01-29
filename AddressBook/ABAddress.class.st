@@ -15,6 +15,61 @@ Class {
 	#category : #AddressBook
 }
 
+{ #category : #'tests - instance' }
+ABAddress class >> testAddress [
+	| address |
+	address := ABAddress new.
+	address
+		streetName: 'TestStreet';
+		streetNumber: 000;
+		city: 'TestCity';
+		country: 'TestCountry';
+		postalCode: 0000;
+		type: ABAddressType home.
+	^ address
+]
+
+{ #category : #'instance creation examples' }
+ABAddress >> addressBadAddress [
+	<gtExample>
+	| address |
+	address := self new.
+	address
+		streetName: 'Schuzenmattstrasse';
+		streetNumber: 13;
+		city: 'Bern';
+		country: 'Switzerland';
+		postalCode: 3001;
+		type: 'Home'.
+	self assert:address city equals: 'Bern'.
+	^address.
+]
+
+{ #category : #'instance creation examples' }
+ABAddress >> addressBadType [
+	<gtExample>
+	| address |
+	address := ABAddress new.
+	address
+		streetName: 'Schuzenmattstrasse';
+		streetNumber: 14;
+		city: 'Bern';
+		country: 'Switzerland';
+		postalCode: 3001;
+		type: 'Work'.
+	self assert:address city equals: 'Bern'.
+	^address.
+]
+
+{ #category : #'instance creation examples' }
+ABAddress >> addressNew [
+	<gtExample>
+	| address |
+	address := self class testAddress.
+	self assert:address city equals: 'TestCity'.
+	^address.
+]
+
 { #category : #accessing }
 ABAddress >> city [
 	^ city
@@ -35,9 +90,10 @@ ABAddress >> country: aCountry [
 	country := aCountry
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ABAddress >> fullAddress [
-	^ streetName, ' ', streetNumber asString, ' ', postalCode asString, ' ', city, ' ', country
+	^ streetName , ' ' , streetNumber asString , ' '
+		, postalCode asString , ' ' , city , ' ' , country
 ]
 
 { #category : #accessing }
@@ -68,6 +124,12 @@ ABAddress >> streetNumber [
 { #category : #accessing }
 ABAddress >> streetNumber: aNumber [
 	streetNumber := aNumber
+]
+
+{ #category : #accessing }
+ABAddress >> toString [
+	^ streetName , ' ' , streetNumber asString , ' '
+		, postalCode asString , ' ' , city , ' ' , country
 ]
 
 { #category : #accessing }

@@ -13,6 +13,51 @@ Class {
 	#category : #AddressBook
 }
 
+{ #category : #'examples - contacts' }
+ABEmail >> emailBadAddress [
+	<gtExample>
+	| email |
+	email := ABEmail new.
+	email 
+		extension: 'com';
+		type: 'Work';
+		username: 'jdoe';
+		website: 'gmail'.
+
+	self assert:email website equals: 'gmail'.
+	^email.
+]
+
+{ #category : #'examples - contacts' }
+ABEmail >> emailBadType [
+	<gtExample>
+	| email |
+	email := ABEmail new.
+	email 
+		extension: 'com';
+		type: 'Home';
+		username: 'jdoe1';
+		website: 'gmail'.
+
+	self assert:email website equals: 'gmail'.
+	^email.
+]
+
+{ #category : #'examples - contacts' }
+ABEmail >> emailNew [
+	<gtExample>
+	| email |
+	email := ABEmail new.
+	email 
+		extension: 'com';
+		type: 'Home';
+		username: 'jdoe';
+		website: 'gmail'.
+
+	self assert:email website equals: 'gmail'.
+	^email.
+]
+
 { #category : #accessing }
 ABEmail >> extension [
 	^ extension
@@ -23,8 +68,8 @@ ABEmail >> extension: anExtension [
 	extension := anExtension
 ]
 
-{ #category : #'as yet unclassified' }
-ABEmail >> fullEmail [
+{ #category : #accessing }
+ABEmail >> toString [
 	^ username, '@', website, '.', extension
 ]
 

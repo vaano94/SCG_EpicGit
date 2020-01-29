@@ -11,10 +11,56 @@ Class {
 		'address',
 		'email',
 		'notes',
-		'company'
+		'company',
+		'createdAt'
 	],
 	#category : #AddressBook
 }
+
+{ #category : #'examples - contacts' }
+ABContact class >> janeDoe [
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'Jane'.
+	contact lastName: 'Doe'.
+	^ contact
+]
+
+{ #category : #'examples - contacts' }
+ABContact class >> janeSmith [
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'Jane'.
+	contact lastName: 'Smith'.
+	^ contact
+]
+
+{ #category : #'examples - contacts' }
+ABContact class >> johnDoe [
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'John'.
+	contact lastName: 'Doe'.
+	^ contact
+]
+
+{ #category : #'examples - contacts' }
+ABContact class >> johnSmith [
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'John'.
+	contact lastName: 'Smith'.
+	^ contact
+]
+
+{ #category : #tests }
+ABContact class >> test [
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'Test'.
+	contact lastName: 'Test'.
+	^ contact
+]
 
 { #category : #adding }
 ABContact >> addAddress: anAddress [
@@ -49,6 +95,17 @@ ABContact >> company: aString [
 { #category : #accessing }
 ABContact >> email [
 	^ email
+]
+
+{ #category : #accessing }
+ABContact >> email: emailList [
+	email := emailList
+]
+
+{ #category : #'as yet unclassified' }
+ABContact >> emptyStringOnNilValue: value [
+	value ifNil: [^ 'null' ].
+	value ifEmpty: [^ ''].
 ]
 
 { #category : #accessing }
@@ -97,7 +154,7 @@ ABContact >> gtViewEmails: aView [
 		priority: 2;
 		items: [ email ];
 		column: 'Type' item: [ :anEmail | anEmail type ];
-		column: 'Email' item: [ :anEmail | anEmail fullEmail ]
+		column: 'Email' item: [ :anEmail | anEmail toString ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -117,7 +174,7 @@ ABContact >> initialize [
 	phoneNumber := OrderedCollection new.
 	address := OrderedCollection new.
 	email := OrderedCollection new.
-	
+	createdAt := DateAndTime now
 ]
 
 { #category : #accessing }
@@ -143,4 +200,34 @@ ABContact >> notes: aString [
 { #category : #accessing }
 ABContact >> phoneNumber [
 	^ phoneNumber
+]
+
+{ #category : #accessing }
+ABContact >> phoneNumber: phone [
+	phoneNumber:= phone
+]
+
+{ #category : #printing }
+ABContact >> toString [
+	^ 'FirstName: ' , firstName , String cr , 
+	'LastName: ' , lastName	, String cr,
+	'PhoneNumber: ' , phoneNumber, String cr,
+	'Address: ', address, String cr,
+	'Email: ' , email, String cr, 
+	'Notes: ' , (self emptyStringOnNilValue: notes), String cr,
+	'Company: ' , (self emptyStringOnNilValue: company), String cr,
+	'CreatedAt ', createdAt asStringOrText 
+	
+	"
+	emptyStringOnNilValue: notes
+					ifTrue: [ Transcript show: 'woop' ] value
+					ifFalse: [ Transcript show: 'poop' ] value
+	,
+	 
+	isEmptyOrNil ifTrue: [ notes = 'woop' ] ,
+		, 'PhoneNumber ' , phoneNumber , 'Address ' , address , 'Email: '
+		, email , 'Notes: ' , notes , 'Company: ' , company , 'CreatedAt: '
+		, createdAt asString
+		
+	"
 ]

@@ -12,7 +12,7 @@ Class {
 		'email',
 		'notes',
 		'company',
-		'createdAt'
+		'lastUpdated'
 	],
 	#category : #'AddressBook-Model'
 }
@@ -98,16 +98,6 @@ ABContact >> company: aString [
 ]
 
 { #category : #accessing }
-ABContact >> createdAt [
-	^ createdAt
-]
-
-{ #category : #accessing }
-ABContact >> createdAt: anObject [
-	createdAt := anObject
-]
-
-{ #category : #accessing }
 ABContact >> email [
 	^ email
 ]
@@ -121,6 +111,32 @@ ABContact >> email: emailList [
 ABContact >> emptyStringOnNilValue: value [
 	value ifNil: [^ 'null' ].
 	value ifEmpty: [^ ''].
+]
+
+{ #category : #'as yet unclassified' }
+ABContact >> exampleMergeTwoContacts [
+	<gtExample>
+	| a b phn phones adr addresses|
+	a := ABContact new.
+	a
+		firstName: 'a';
+		lastName: 'a'.
+	(Delay forMilliseconds: 1000) wait.
+	b := ABContact new.
+	b
+		firstName: 'b';
+		lastName: 'b'.
+	phn := ABPhoneNumber testPhone.
+	phones := OrderedCollection new.
+	phones add: phn.
+	b phoneNumber: phones.
+	
+	adr := ABAddress testAddress.
+	addresses := OrderedCollection new.
+	addresses add: adr.
+	b address: addresses.
+	
+	^ (a mergeWith: b)
 ]
 
 { #category : #accessing }
@@ -189,7 +205,7 @@ ABContact >> initialize [
 	phoneNumber := OrderedCollection new.
 	address := OrderedCollection new.
 	email := OrderedCollection new.
-	createdAt := DateAndTime now
+	lastUpdated := DateAndTime now.
 ]
 
 { #category : #accessing }
@@ -202,48 +218,50 @@ ABContact >> lastName: aString [
 	lastName := aString
 ]
 
+{ #category : #accessing }
+ABContact >> lastUpdated [
+	^ lastUpdated
+]
+
+{ #category : #accessing }
+ABContact >> lastUpdated: anObject [
+	lastUpdated := anObject
+]
+
 { #category : #private }
 ABContact >> mergeWith: anotherContact [
-	| answer main x y str returnValue|
+	| answer main str returnValue|
 
-	x := self.
-	y := 456.
 	str:= 'Contact {1} is more recent: {2} compared to {3}, overwrite and merge it''s details to contact {4}? y/n'.
-"	UIManager default request: str.	"
 	
-	(self createdAt) > (anotherContact createdAt)
-		ifTrue: [answer:= UIManager default request: (str format: {self fullName . self createdAt . anotherContact createdAt  . anotherContact fullName}). main:= self]
-		ifFalse: [answer:= UIManager default request: (str format: {anotherContact fullName . anotherContact createdAt . self createdAt  . self fullName}). main:= anotherContact]
+	(self lastUpdated) > (anotherContact lastUpdated)
+		ifTrue: [answer:= UIManager default request: (str format: {self fullName . self lastUpdated . anotherContact lastUpdated  . anotherContact fullName}). main:= self]
+		ifFalse: [answer:= UIManager default request: (str format: {anotherContact fullName . anotherContact lastUpdated . self lastUpdated  . self fullName}). main:= anotherContact]
 		.
 		
 	Transcript show: (('Main is {1} ' format: {main fullName}) , String cr).
 			
-	 (answer = 'y' & main = self)
+	 ((answer = 'y') & (main = self))
 		ifTrue: [
 				Transcript show: 'Merging self into another contact'.
 				anotherContact firstName: self firstName.
 				anotherContact lastName: self lastName.
 				Transcript show: 'Merging phone number'.
-				anotherContact phoneNumber: [ 
-					self phoneNumber isEmpty
-					ifFalse: self phoneNumber.					 							
-					] value.
+				anotherContact phoneNumber: (self phoneNumber isEmpty ifFalse: self phoneNumber). 
 				anotherContact address: [
-					self address isNil isEmpty
+					self address isEmpty
 					ifTrue: self address.					 							
 					] value.
 				anotherContact email: [
-					self email isNil isEmpty
+					self email isEmpty
 					ifTrue: self email
 					] value.
 				anotherContact notes: [ 
-					self notes isNil not
-					ifTrue: self notes ] value.
-				anotherContact company: [
-					self company isNil not
-					ifTrue: self company] value.
+					self notes 
+					ifFalse: self notes ] value.
+				anotherContact company: 	(self company isEmpty ifFalse: self company).
 				
-				Transcript show: anotherContact fullName.
+				Transcript show: 'Finished merging' , anotherContact fullName.
 				returnValue := anotherContact	
 			].
 		
@@ -252,15 +270,11 @@ ABContact >> mergeWith: anotherContact [
 													]
 "
 		
-	(answer = 'y' & main = anotherContact)
+	((answer = 'y') & (main = anotherContact))
 		ifTrue: [Transcript show: 'Merging another contacnt into self'.
 				self firstName: anotherContact firstName.
 				self lastName: anotherContact lastName.
-				Transcript show: 'Merging phoneNumber'.
-				self phoneNumber: [ 
-					anotherContact phoneNumber isEmpty
-					ifFalse: anotherContact phoneNumber.					 							
-					] value.
+				self phoneNumber: (anotherContact phoneNumber isEmpty ifFalse: anotherContact phoneNumber).
 				self address: [
 					anotherContact address isEmpty
 					ifFalse: anotherContact address.					 							
@@ -270,14 +284,14 @@ ABContact >> mergeWith: anotherContact [
 					ifFalse: anotherContact email
 					] value .
 				self notes: [ 
-					anotherContact notes isNil not
-					ifTrue: anotherContact notes ] value.
+					anotherContact notes = nil
+					ifFalse: anotherContact notes ] value.
 				self company: [
-					anotherContact company isNil not
-					ifTrue: anotherContact company] value.
+					anotherContact company = nil
+					ifFalse: anotherContact company] value.
 				
-				Transcript show: self fullName.
-				returnValue = self	
+				Transcript show: 'Finished merging' , self fullName.
+				returnValue := self	
 			].		
 	^ returnValue			
 		
@@ -312,18 +326,5 @@ ABContact >> toString [
 	'Email: ' , email, String cr, 
 	'Notes: ' , (self emptyStringOnNilValue: notes), String cr,
 	'Company: ' , (self emptyStringOnNilValue: company), String cr,
-	'CreatedAt ', createdAt asStringOrText 
-	
-	"
-	emptyStringOnNilValue: notes
-					ifTrue: [ Transcript show: 'woop' ] value
-					ifFalse: [ Transcript show: 'poop' ] value
-	,
-	 
-	isEmptyOrNil ifTrue: [ notes = 'woop' ] ,
-		, 'PhoneNumber ' , phoneNumber , 'Address ' , address , 'Email: '
-		, email , 'Notes: ' , notes , 'Company: ' , company , 'CreatedAt: '
-		, createdAt asString
-		
-	"
+	'CreatedAt ', lastUpdated asStringOrText 
 ]

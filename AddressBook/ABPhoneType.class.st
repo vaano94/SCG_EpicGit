@@ -1,7 +1,12 @@
+"
+I only return string instances of addresses types.
+Available are company, home, mobile, other, pager, work
+call me as 'ABAddressType home'
+"
 Class {
 	#name : #ABPhoneType,
 	#superclass : #Object,
-	#category : #AddressBook
+	#category : #'AddressBook-Model'
 }
 
 { #category : #instances }

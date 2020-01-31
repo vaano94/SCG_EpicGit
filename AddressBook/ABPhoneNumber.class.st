@@ -9,7 +9,7 @@ Class {
 		'countryCode',
 		'number'
 	],
-	#category : #AddressBook
+	#category : #'AddressBook-Model'
 }
 
 { #category : #tests }
@@ -19,7 +19,8 @@ ABPhoneNumber class >> testPhone [
 	phone 
 		countryCode: 41;
 		number: 12345678;
-		type: 'Home'.
+		type: ABPhoneType home.
+	^ phone
 ]
 
 { #category : #accessing }
@@ -43,44 +44,11 @@ ABPhoneNumber >> number: aNumber [
 ]
 
 { #category : #'instance creation examples' }
-ABPhoneNumber >> phoneBadNumber [
-	<gtExample>
-	| phone |
-	phone := ABPhoneNumber new.
-	phone 
-		countryCode: 1;
-		number: 5551234567;
-		type: 'Work'.
-
-	self assert:phone countryCode equals: 1.
-	^phone.
-]
-
-{ #category : #'instance creation examples' }
-ABPhoneNumber >> phoneBadType [
-	<gtExample>
-	| phone |
-	phone := ABPhoneNumber new.
-	phone 
-		countryCode: 1;
-		number: 5552345678;
-		type: 'Home'.
-
-	self assert:phone countryCode equals: 1.
-	^phone.
-]
-
-{ #category : #'instance creation examples' }
 ABPhoneNumber >> phoneNew [
 	<gtExample>
 	| phone |
-	phone := ABPhoneNumber new.
-	phone 
-		countryCode: 1;
-		number: 5551234567;
-		type: 'Home'.
-
-	self assert:phone countryCode equals: 1.
+	phone := ABPhoneNumber testPhone.
+	self assert: (phone countryCode) equals: 41.
 	^phone.
 ]
 

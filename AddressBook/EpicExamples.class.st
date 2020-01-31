@@ -10,7 +10,7 @@ Class {
 	#category : #AddressBook
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EpicExamples >> addressBookAddAddressSuccess [
 	<gtExample>
 	| addressBook contact |

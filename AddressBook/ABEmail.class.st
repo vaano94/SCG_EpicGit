@@ -6,40 +6,22 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'username',
-		'website',
+		'host',
 		'extension',
 		'type'
 	],
-	#category : #AddressBook
+	#category : #'AddressBook-Model'
 }
 
-{ #category : #'examples - contacts' }
-ABEmail >> emailBadAddress [
-	<gtExample>
+{ #category : #tests }
+ABEmail class >> testEmail [
 	| email |
 	email := ABEmail new.
 	email 
 		extension: 'com';
-		type: 'Work';
+		type: ABEmailType home;
 		username: 'jdoe';
-		website: 'gmail'.
-
-	self assert:email website equals: 'gmail'.
-	^email.
-]
-
-{ #category : #'examples - contacts' }
-ABEmail >> emailBadType [
-	<gtExample>
-	| email |
-	email := ABEmail new.
-	email 
-		extension: 'com';
-		type: 'Home';
-		username: 'jdoe1';
-		website: 'gmail'.
-
-	self assert:email website equals: 'gmail'.
+		host: 'gmail'.
 	^email.
 ]
 
@@ -47,14 +29,8 @@ ABEmail >> emailBadType [
 ABEmail >> emailNew [
 	<gtExample>
 	| email |
-	email := ABEmail new.
-	email 
-		extension: 'com';
-		type: 'Home';
-		username: 'jdoe';
-		website: 'gmail'.
-
-	self assert:email website equals: 'gmail'.
+	email := ABEmail testEmail.
+	self assert:email host equals: 'gmail'.
 	^email.
 ]
 
@@ -69,8 +45,18 @@ ABEmail >> extension: anExtension [
 ]
 
 { #category : #accessing }
+ABEmail >> host [
+	^ host
+]
+
+{ #category : #accessing }
+ABEmail >> host: anObject [
+	host := anObject
+]
+
+{ #category : #accessing }
 ABEmail >> toString [
-	^ username, '@', website, '.', extension
+	^ username, '@', host, '.', extension
 ]
 
 { #category : #accessing }
@@ -91,14 +77,4 @@ ABEmail >> username [
 { #category : #accessing }
 ABEmail >> username: aUsername [
 	username := aUsername
-]
-
-{ #category : #accessing }
-ABEmail >> website [
-	^ website
-]
-
-{ #category : #accessing }
-ABEmail >> website: aWebsite [
-	website := aWebsite
 ]

@@ -6,7 +6,7 @@ call me as 'ABAddressType home'
 Class {
 	#name : #ABAddressType,
 	#superclass : #Object,
-	#category : #AddressBook
+	#category : #'AddressBook-Model'
 }
 
 { #category : #instances }

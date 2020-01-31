@@ -14,7 +14,7 @@ Class {
 		'company',
 		'createdAt'
 	],
-	#category : #AddressBook
+	#category : #'AddressBook-Model'
 }
 
 { #category : #'examples - contacts' }
@@ -83,6 +83,11 @@ ABContact >> address [
 ]
 
 { #category : #accessing }
+ABContact >> address: anObject [
+	address := anObject
+]
+
+{ #category : #accessing }
 ABContact >> company [
 	^ company
 ]
@@ -90,6 +95,16 @@ ABContact >> company [
 { #category : #accessing }
 ABContact >> company: aString [
 	company := aString
+]
+
+{ #category : #accessing }
+ABContact >> createdAt [
+	^ createdAt
+]
+
+{ #category : #accessing }
+ABContact >> createdAt: anObject [
+	createdAt := anObject
 ]
 
 { #category : #accessing }
@@ -185,6 +200,87 @@ ABContact >> lastName [
 { #category : #accessing }
 ABContact >> lastName: aString [
 	lastName := aString
+]
+
+{ #category : #private }
+ABContact >> mergeWith: anotherContact [
+	| answer main x y str returnValue|
+
+	x := self.
+	y := 456.
+	str:= 'Contact {1} is more recent: {2} compared to {3}, overwrite and merge it''s details to contact {4}? y/n'.
+"	UIManager default request: str.	"
+	
+	(self createdAt) > (anotherContact createdAt)
+		ifTrue: [answer:= UIManager default request: (str format: {self fullName . self createdAt . anotherContact createdAt  . anotherContact fullName}). main:= self]
+		ifFalse: [answer:= UIManager default request: (str format: {anotherContact fullName . anotherContact createdAt . self createdAt  . self fullName}). main:= anotherContact]
+		.
+		
+	Transcript show: (('Main is {1} ' format: {main fullName}) , String cr).
+			
+	 (answer = 'y' & main = self)
+		ifTrue: [
+				Transcript show: 'Merging self into another contact'.
+				anotherContact firstName: self firstName.
+				anotherContact lastName: self lastName.
+				Transcript show: 'Merging phone number'.
+				anotherContact phoneNumber: [ 
+					self phoneNumber isEmpty
+					ifFalse: self phoneNumber.					 							
+					] value.
+				anotherContact address: [
+					self address isNil isEmpty
+					ifTrue: self address.					 							
+					] value.
+				anotherContact email: [
+					self email isNil isEmpty
+					ifTrue: self email
+					] value.
+				anotherContact notes: [ 
+					self notes isNil not
+					ifTrue: self notes ] value.
+				anotherContact company: [
+					self company isNil not
+					ifTrue: self company] value.
+				
+				Transcript show: anotherContact fullName.
+				returnValue := anotherContact	
+			].
+		
+		"					ifTrue: [ (anotherContact phoneNumber isNil | anotherContact phoneNumber isEmpty ) 
+													ifTrue: self phone. 
+													]
+"
+		
+	(answer = 'y' & main = anotherContact)
+		ifTrue: [Transcript show: 'Merging another contacnt into self'.
+				self firstName: anotherContact firstName.
+				self lastName: anotherContact lastName.
+				Transcript show: 'Merging phoneNumber'.
+				self phoneNumber: [ 
+					anotherContact phoneNumber isEmpty
+					ifFalse: anotherContact phoneNumber.					 							
+					] value.
+				self address: [
+					anotherContact address isEmpty
+					ifFalse: anotherContact address.					 							
+					] value.
+				self email: [
+					anotherContact email isEmpty
+					ifFalse: anotherContact email
+					] value .
+				self notes: [ 
+					anotherContact notes isNil not
+					ifTrue: anotherContact notes ] value.
+				self company: [
+					anotherContact company isNil not
+					ifTrue: anotherContact company] value.
+				
+				Transcript show: self fullName.
+				returnValue = self	
+			].		
+	^ returnValue			
+		
 ]
 
 { #category : #accessing }

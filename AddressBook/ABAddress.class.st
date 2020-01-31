@@ -12,7 +12,7 @@ Class {
 		'city',
 		'country'
 	],
-	#category : #AddressBook
+	#category : #'AddressBook-Model'
 }
 
 { #category : #'tests - instance' }

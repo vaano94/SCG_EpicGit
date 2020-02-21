@@ -62,6 +62,25 @@ ABContact class >> test [
 	^ contact
 ]
 
+{ #category : #tests }
+ABContact class >> testFullContact [
+	| contact phn phones adr addresses |
+	contact := ABContact new.
+	contact
+		firstName: 'test';
+		lastName: 'test'.
+	phn := ABPhoneNumber testPhone.
+	phones := OrderedCollection new.
+	phones add: phn.
+	contact phoneNumber: phones.
+	adr := ABAddress testAddress.
+	addresses := OrderedCollection new.
+	addresses add: adr.
+	contact address: addresses.
+	
+	^ contact
+]
+
 { #category : #adding }
 ABContact >> addAddress: anAddress [
 	address add: anAddress.
@@ -105,38 +124,6 @@ ABContact >> email [
 { #category : #accessing }
 ABContact >> email: emailList [
 	email := emailList
-]
-
-{ #category : #'as yet unclassified' }
-ABContact >> emptyStringOnNilValue: value [
-	value ifNil: [^ 'null' ].
-	value ifEmpty: [^ ''].
-]
-
-{ #category : #'as yet unclassified' }
-ABContact >> exampleMergeTwoContacts [
-	<gtExample>
-	| a b phn phones adr addresses|
-	a := ABContact new.
-	a
-		firstName: 'a';
-		lastName: 'a'.
-	(Delay forMilliseconds: 1000) wait.
-	b := ABContact new.
-	b
-		firstName: 'b';
-		lastName: 'b'.
-	phn := ABPhoneNumber testPhone.
-	phones := OrderedCollection new.
-	phones add: phn.
-	b phoneNumber: phones.
-	
-	adr := ABAddress testAddress.
-	addresses := OrderedCollection new.
-	addresses add: adr.
-	b address: addresses.
-	
-	^ (a mergeWith: b)
 ]
 
 { #category : #accessing }
@@ -231,12 +218,15 @@ ABContact >> lastUpdated: anObject [
 { #category : #private }
 ABContact >> mergeWith: anotherContact [
 	| answer main str returnValue|
+	self
+		assert: [ self lastUpdated > anotherContact lastUpdated ]
+		description: 'We only merge older contacts into newer ones'.
 
 	str:= 'Contact {1} is more recent: {2} compared to {3}, overwrite and merge it''s details to contact {4}? y/n'.
 	
 	(self lastUpdated) > (anotherContact lastUpdated)
-		ifTrue: [answer:= UIManager default request: (str format: {self fullName . self lastUpdated . anotherContact lastUpdated  . anotherContact fullName}). main:= self]
-		ifFalse: [answer:= UIManager default request: (str format: {anotherContact fullName . anotherContact lastUpdated . self lastUpdated  . self fullName}). main:= anotherContact]
+		ifTrue: [answer:= UIManager default request: (str format: {self fullName . self lastUpdated . anotherContact lastUpdated  . anotherContact fullName}). main:= self. Transcript show: 'ifTrueWorked'; cr.]
+		ifFalse: [answer:= UIManager default request: (str format: {anotherContact fullName . anotherContact lastUpdated . self lastUpdated  . self fullName}). main:= anotherContact. Transcript show: 'ifFalseWorked'; cr.]
 		.
 		
 	Transcript show: (('Main is {1} ' format: {main fullName}) , String cr).
@@ -264,11 +254,6 @@ ABContact >> mergeWith: anotherContact [
 				Transcript show: 'Finished merging' , anotherContact fullName.
 				returnValue := anotherContact	
 			].
-		
-		"					ifTrue: [ (anotherContact phoneNumber isNil | anotherContact phoneNumber isEmpty ) 
-													ifTrue: self phone. 
-													]
-"
 		
 	((answer = 'y') & (main = anotherContact))
 		ifTrue: [Transcript show: 'Merging another contacnt into self'.
@@ -324,7 +309,7 @@ ABContact >> toString [
 	'PhoneNumber: ' , phoneNumber, String cr,
 	'Address: ', address, String cr,
 	'Email: ' , email, String cr, 
-	'Notes: ' , (self emptyStringOnNilValue: notes), String cr,
-	'Company: ' , (self emptyStringOnNilValue: company), String cr,
+	'Notes: ' , (notes ifNil: ['']), String cr,
+	'Company: ' , (company ifNil: ['']), String cr,
 	'CreatedAt ', lastUpdated asStringOrText 
 ]

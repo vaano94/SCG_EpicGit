@@ -23,6 +23,11 @@ Filter >> initialize [
 ]
 
 { #category : #accessing }
+Filter >> withAddresses [
+	 filters add: 'addresses'
+]
+
+{ #category : #accessing }
 Filter >> withCompanies [
 	 filters add: 'companies'
 ]
@@ -35,6 +40,11 @@ Filter >> withNames [
 { #category : #accessing }
 Filter >> withPhones [
 	 filters add: 'phones'
+]
+
+{ #category : #accessing }
+Filter >> withoutAddresses [
+	 filters remove: 'addresses'
 ]
 
 { #category : #accessing }

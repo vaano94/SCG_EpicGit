@@ -20,7 +20,7 @@ Class {
 		'pillar',
 		'scenarios'
 	],
-	#category : #Epic
+	#category : #'Epic-Model'
 }
 
 { #category : #accessing }

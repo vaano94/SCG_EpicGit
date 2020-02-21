@@ -10,7 +10,7 @@ Class {
 		'description',
 		'exampleMethod'
 	],
-	#category : #Epic
+	#category : #'Epic-Model'
 }
 
 { #category : #accessing }

@@ -30,12 +30,12 @@ EpicExamples >> addressBookAddAddressSuccess [
 EpicExamples >> epicManageAddressBook [
 	<gtExample>
 	| epic |
-	epic := Epic new.
+	epic := EEpic new.
 	epic title: 'Manage address book'.
 	epic addUseCase: self useCaseAddNewContact.
-	epic addUseCase: self useCaseEditContact.
+"	epic addUseCase: self useCaseEditContact.
 	epic addUseCase: self useCaseRemoveContact.
-	epic addUseCase: self useCaseViewContact.
+	epic addUseCase: self useCaseViewContact."
 	^ epic 
 ]
 
@@ -43,7 +43,7 @@ EpicExamples >> epicManageAddressBook [
 EpicExamples >> epicMergeContacts [
 	<gtExample>
 	| epic |
-	epic := Epic new.
+	epic := EEpic new.
 	epic title: 'Merge contacts in address book'.
 	epic addUseCase: self useCaseMergeExistingContacts.
 	^ epic 
@@ -53,7 +53,7 @@ EpicExamples >> epicMergeContacts [
 EpicExamples >> epicSearchAddressBook [
 	<gtExample>
 	| epic |
-	epic := Epic new.
+	epic := EEpic new.
 	epic title: 'Search address book'.
 	epic addUseCase: self useCaseSearchContact.
 	epic addUseCase: self useCaseViewResults.
@@ -231,7 +231,7 @@ EpicExamples >> scenarioFirstNameSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a new first name to a contact'.
-	scenario exampleMethod: (EpicExamples >> #addressBookAddFirstNameSuccess) gtExample.
+	scenario exampleMethod: (EpicExamples >> #addressBookAddContact) gtExample.
 	^ scenario
 ]
 
@@ -371,7 +371,8 @@ EpicExamples >> scenarioNewContactSuccess [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'add a new contact'.
-	scenario exampleMethod: (EpicExamples >> #addressBookAddNewSuccess) gtExample.
+	self flag: 'Fix this later'.
+	scenario exampleMethod: (ABAddressBook >> #addressBookAddContact) gtExample.
 	^ scenario
 ]
 
@@ -643,13 +644,13 @@ EpicExamples >> useCaseAddNewContact [
 	useCase title: 'Add a contact'.
 	useCase task: 'Add a contact to the address book'.
 	useCase addUserStory: self userStoryAddNewUser.
-	useCase addUserStory: self userStoryNewPhoneToContact.
-	useCase addUserStory: self userStoryNewAddressToContact.
+	"useCase addUserStory: self userStoryNewPhoneToContact."
+	"useCase addUserStory: self userStoryNewAddressToContact.
 	useCase addUserStory: self userStoryNewEmailAddressToContact.
 	useCase addUserStory: self userStoryNewFirstNameToContact.
 	useCase addUserStory: self userStoryNewLastNameToContact.
 	useCase addUserStory: self userStoryNewCompanyToContact.
-	self assert: useCase user_stories  size equals: 7.
+	self assert: useCase user_stories  size equals: 7."
 	^ useCase
 ]
 

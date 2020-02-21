@@ -18,7 +18,7 @@ Class {
 		'task',
 		'user_stories'
 	],
-	#category : #Epic
+	#category : #'Epic-Model'
 }
 
 { #category : #accessing }
@@ -50,7 +50,7 @@ EUseCase >> createUserStory [
 	user_stories add: us.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
 EUseCase >> gtActorColumnsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -61,7 +61,7 @@ EUseCase >> gtActorColumnsFor: aView [
 		column: 'Name' item: [ :anElement | anElement name ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
 EUseCase >> gtCaseInfoFor: aView [
 	<gtView>
 	^ aView textEditor
@@ -72,7 +72,7 @@ EUseCase >> gtCaseInfoFor: aView [
 				, String cr , 'The task of this use case is: ' , self task ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
 EUseCase >> gtDiagramFor: aView [
 	<gtView>
 	^ aView textEditor
@@ -81,7 +81,7 @@ EUseCase >> gtDiagramFor: aView [
 		text: [ 'This page will hopefully have a use case diagram' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
 EUseCase >> gtDocumentFor: aView [
 	<gtView>
 	| aDocument |
@@ -101,7 +101,7 @@ Under Diagram, you will be able to see a use case diagram. This is still under c
 		priority: 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
 EUseCase >> gtUserStoryColumnsFor: aView [
 	<gtView>
 	^ aView columnedList

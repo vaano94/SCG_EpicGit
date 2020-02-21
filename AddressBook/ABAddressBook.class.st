@@ -2,7 +2,7 @@
 I represent an address book with a contact list.
 "
 Class {
-	#name : #AddressBook,
+	#name : #ABAddressBook,
 	#superclass : #Object,
 	#instVars : [
 		'contacts'
@@ -10,160 +10,135 @@ Class {
 	#category : #'AddressBook-Model'
 }
 
+{ #category : #'as yet unclassified' }
+ABAddressBook class >> addressBookTwoFullTestContacts [
+	| addressBook contact phn phones adr addresses email anotherContact |
+	addressBook := self emptyAddressBook.
+	contact := ABContact new.
+	contact
+		firstName: 'test';
+		lastName: 'test'.
+	phn := ABPhoneNumber testPhone.
+	phones := OrderedCollection new.
+	phones add: phn.
+	contact phoneNumber: phones.
+	
+	adr := ABAddress testAddress.
+	addresses := OrderedCollection new.
+	addresses add: adr.
+	contact address: addresses.
+		
+	email :=	ABEmail testEmail.
+	contact addEmail: email.
+	contact company: 'Test Company'.
+	
+	addressBook addContact: contact.
+	
+	anotherContact := contact copy. 
+	contact firstName: 'another'; lastName: 'contact'; company: 'Completely another company'.
+	
+	addressBook addContact: anotherContact.
+	
+	^ addressBook
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBook class >> addressBookWithFullTestContact [
+	| addressBook contact phn phones adr addresses email |
+	addressBook := self emptyAddressBook.
+	contact := ABContact new.
+	contact
+		firstName: 'test';
+		lastName: 'test'.
+	phn := ABPhoneNumber testPhone.
+	phones := OrderedCollection new.
+	phones add: phn.
+	contact phoneNumber: phones.
+	
+	adr := ABAddress testAddress.
+	addresses := OrderedCollection new.
+	addresses add: adr.
+	contact address: addresses.
+	addressBook addContact: contact.
+		
+	email :=	ABEmail testEmail.
+	contact addEmail: email.
+	
+	contact company: 'Test Company'.
+	
+	^ addressBook
+]
+
 { #category : #'instance creation examples' }
-AddressBook class >> emptyAddressBook [
+ABAddressBook class >> emptyAddressBook [
 	| addressBook |
-	addressBook := AddressBook new.
+	addressBook := ABAddressBook new.
 	^addressBook.
 ]
 
 { #category : #adding }
-AddressBook >> addContact: aContact [
+ABAddressBook >> addContact: aContact [
+	| tempContact |
+	tempContact := aContact.
+	self contacts doWithIndex: 
+	[:each :i | 
+	(each fullName) = (aContact fullName)
+		ifTrue: [ tempContact := each mergeWith: aContact.
+				contacts at: i put: tempContact .
+				^ tempContact.
+			 ].
+	 ]. 
 	^ contacts add: aContact.
 ]
 
 { #category : #'examples - AddAddressBook' }
-AddressBook >> addressBookAddFirstNameSuccess [
+ABAddressBook >> addressBookAddContact [
 	<gtExample>
-	| addressBook contact |
+	| addressBook b phn phones adr addresses |
 	addressBook := self emptyAddressBook.
-	contact := self janeDoe.
-	contact firstName: ''.
+	b := ABContact new.
+	b  firstName: 'b';
+		lastName: 'b'.
+	phn := ABPhoneNumber testPhone.
+	phones := OrderedCollection new.
+	phones add: phn.
+	b phoneNumber: phones.
+	adr := ABAddress testAddress.
+	addresses := OrderedCollection new.
+	addresses add: adr.
+	b address: addresses.
+	
 	addressBook
-		addContact: contact.
+		addContact: b.
 	
-	contact firstName: 'Jane'.
-	
-	self assert: contact firstName equals: 'Jane'.
+	self assert: b firstName equals: 'b'.
 	^addressBook.
 ]
 
 { #category : #'examples - AddAddressBook' }
-AddressBook >> addressBookAddLastNameSuccess [
+ABAddressBook >> addressBookAddTwoContactsWithSameName [
 	<gtExample>
-	| addressBook contact |
-	addressBook := self emptyAddressBook.
-	contact := self janeDoe.
-	contact lastName: ''.
-	addressBook
-		addContact: contact.
+	| addressBook contactWithSameName email|
+	addressBook := ABAddressBook addressBookWithFullTestContact.
 	
-	contact lastName: 'Doe'.
+	contactWithSameName := ABContact testFullContact.
+	email := ABEmail new. email host: 'HOST'; username: 'USERNAME'.
+	contactWithSameName addEmail: email. 
+	self assert: contactWithSameName firstName equals: 'test'.
 	
-	self assert: contact lastName equals: 'Doe'.
-	^addressBook.
-]
-
-{ #category : #'examples - AddAddressBook' }
-AddressBook >> addressBookAddNewFailure [
-	<gtExample>
-	| addressBook |
-	addressBook := self addressBookAddNewSuccess.
-	addressBook
-		addContact: self janeDoe.
+	addressBook addContact: contactWithSameName.
 	
-	self assert: addressBook contacts isNotEmpty.
-	self assert: addressBook contacts size equals: 1.
-	^addressBook.
-]
-
-{ #category : #'examples - AddAddressBook' }
-AddressBook >> addressBookAddNewSuccess [
-	<gtExample>
-	| addressBook |
-	addressBook := self emptyAddressBook.
-	addressBook
-		addContact: self janeDoe.
-	
-	self assert: addressBook contacts isNotEmpty.
-	self assert: addressBook contacts size equals: 1.
-	^addressBook.
-]
-
-{ #category : #'examples - AddAddressBook' }
-AddressBook >> addressBookAddNoteSuccess [
-	<gtExample>
-	| addressBook contact |
-	addressBook := self emptyAddressBook.
-	contact := self janeDoe.
-	addressBook
-		addContact: contact.
-	
-	contact notes: 'coworker at SCG'.
-	
-	self assert: contact notes equals: 'coworker at SCG'.
-	^addressBook.
-]
-
-{ #category : #'examples - AddAddressBook' }
-AddressBook >> addressBookAddPhoneFailNumber [
-	<gtExample>
-	| contact addressBook |
-	contact := ABContact janeDoe.
-	addressBook := self emptyAddressBook.
-	addressBook addContact: contact.
-	
-	contact addPhoneNumber: ABPhoneNumber testPhone.
-	contact addPhoneNumber: ABPhoneNumber testPhone.
-	
-	self assert: contact phoneNumber isNotEmpty.
-	self assert: contact phoneNumber size equals: 1.
-	
-	^addressBook.
-]
-
-{ #category : #'examples - AddAddressBook' }
-AddressBook >> addressBookAddPhoneFailType [
-	<gtExample>
-	| contact addressBook |
-	contact := ABContact janeDoe.
-	addressBook := self emptyAddressBook.
-	addressBook addContact: contact.
-	
-	contact addPhoneNumber: ABPhoneNumber testPhone.
-	contact addPhoneNumber: ABPhoneNumber testPhone.
-	
-	self assert: contact phoneNumber isNotEmpty.
-	self assert: contact phoneNumber size equals: 1.
-	
-	^addressBook.
-]
-
-{ #category : #'examples - AddAddressBook' }
-AddressBook >> addressBookAddPhoneSuccess [
-	<gtExample>
-	| addressBook contact|
-	addressBook := self emptyAddressBook.
-	contact := self janeDoe.
-	addressBook
-		addContact: contact.
-	contact addPhoneNumber: self phoneNew.
-	
-	self assert: contact phoneNumber isNotEmpty.
-	self assert: contact phoneNumber size equals: 1.
 	^addressBook.
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookEditAddress [
+ABAddressBook >> addressBookEditAddress [
 	<gtExample>
 	| addressBook contact address |
-	addressBook := self addressBookAddAddressSuccess.
+	addressBook := ABAddressBook addressBookWithFullTestContact.
 	contact := addressBook contacts at: 1.
 	address := contact address at: 1.
-	
-	address streetName: 'Langasse'.
-	
-	self assert: address streetName equals: 'Langasse'.
-	self assert: address streetNumber equals: 14.
-	self assert: address city equals: 'Bern'.
-	self assert: address country equals: 'Switzerland'.
-	self assert: address postalCode equals: 3001.
-	self assert: address type equals: 'Home'.
-	
-	contact addAddress: self addressBadAddress.
-	self assert: contact address size equals: 2.
-	
+		
 	"Change street number -- success"
 	address streetNumber: 13.
 	self assert: address streetNumber equals: 13.
@@ -196,7 +171,7 @@ AddressBook >> addressBookEditAddress [
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookEditCompany [
+ABAddressBook >> addressBookEditCompany [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self addressBookAddCompanySuccess.
@@ -209,7 +184,7 @@ AddressBook >> addressBookEditCompany [
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookEditEmail [
+ABAddressBook >> addressBookEditEmail [
 	<gtExample>
 	| addressBook contact email |
 	addressBook := self addressBookAddEmailSuccess.
@@ -264,7 +239,7 @@ AddressBook >> addressBookEditEmail [
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookEditNote [
+ABAddressBook >> addressBookEditNote [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self addressBookAddNoteSuccess.
@@ -277,7 +252,7 @@ AddressBook >> addressBookEditNote [
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookEditPhone [
+ABAddressBook >> addressBookEditPhone [
 	<gtExample>
 	| addressBook contact phone |
 	addressBook := self addressBookAddPhoneSuccess.
@@ -305,7 +280,7 @@ AddressBook >> addressBookEditPhone [
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookFirstNameFailDuplicate [
+ABAddressBook >> addressBookFirstNameFailDuplicate [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self addressBookAddNewSuccess.
@@ -322,7 +297,7 @@ AddressBook >> addressBookFirstNameFailDuplicate [
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookFirstNameSuccess [
+ABAddressBook >> addressBookFirstNameSuccess [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self addressBookAddNewSuccess.
@@ -339,7 +314,7 @@ AddressBook >> addressBookFirstNameSuccess [
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookLastNameFailDuplicate [
+ABAddressBook >> addressBookLastNameFailDuplicate [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self addressBookAddNewSuccess.
@@ -356,7 +331,7 @@ AddressBook >> addressBookLastNameFailDuplicate [
 ]
 
 { #category : #'examples - EditAddressBook' }
-AddressBook >> addressBookLastNameSuccess [
+ABAddressBook >> addressBookLastNameSuccess [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self addressBookAddNewSuccess.
@@ -373,7 +348,7 @@ AddressBook >> addressBookLastNameSuccess [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeContacts [
+ABAddressBook >> addressBookMergeContacts [
 	<gtExample>
 	| addressBook contact1 contact2|
 	addressBook := self addressBookAddNewSuccess.
@@ -389,7 +364,7 @@ AddressBook >> addressBookMergeContacts [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeDifferentAddress [
+ABAddressBook >> addressBookMergeDifferentAddress [
 	<gtExample>
 	| addressBook contact1 contact2 testContact merged|
 	addressBook := self addressBookAddAddressSuccess.
@@ -409,7 +384,7 @@ AddressBook >> addressBookMergeDifferentAddress [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeDifferentEmail [
+ABAddressBook >> addressBookMergeDifferentEmail [
 	<gtExample>
 	| addressBook contact1 contact2 testContact merged|
 	addressBook := self addressBookAddEmailSuccess.
@@ -431,7 +406,7 @@ AddressBook >> addressBookMergeDifferentEmail [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeDifferentFirstName [
+ABAddressBook >> addressBookMergeDifferentFirstName [
 	<gtExample>
 	| addressBook contact1 contact2 testContact merged|
 	addressBook := self addressBookAddNewSuccess.
@@ -452,7 +427,7 @@ AddressBook >> addressBookMergeDifferentFirstName [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeDifferentLastName [
+ABAddressBook >> addressBookMergeDifferentLastName [
 	<gtExample>
 	| addressBook contact1 contact2 testContact merged|
 	addressBook := self addressBookAddNewSuccess.
@@ -473,7 +448,7 @@ AddressBook >> addressBookMergeDifferentLastName [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeDifferentPhone [
+ABAddressBook >> addressBookMergeDifferentPhone [
 	<gtExample>
 	| addressBook contact1 contact2 testContact merged|
 	addressBook := self addressBookAddPhoneSuccess.
@@ -493,7 +468,7 @@ AddressBook >> addressBookMergeDifferentPhone [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeSameAddress [
+ABAddressBook >> addressBookMergeSameAddress [
 	<gtExample>
 	| addressBook contact1 contact2|
 	addressBook := self addressBookAddAddressSuccess.
@@ -510,7 +485,7 @@ AddressBook >> addressBookMergeSameAddress [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeSameEmail [
+ABAddressBook >> addressBookMergeSameEmail [
 	<gtExample>
 	| addressBook contact1 contact2|
 	addressBook := self addressBookAddEmailSuccess.
@@ -527,7 +502,7 @@ AddressBook >> addressBookMergeSameEmail [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeSameFirstName [
+ABAddressBook >> addressBookMergeSameFirstName [
 	<gtExample>
 	| addressBook contact1 contact2|
 	addressBook := self addressBookAddNewSuccess.
@@ -543,7 +518,7 @@ AddressBook >> addressBookMergeSameFirstName [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeSameLastName [
+ABAddressBook >> addressBookMergeSameLastName [
 	<gtExample>
 	| addressBook contact1 contact2|
 	addressBook := self addressBookAddNewSuccess.
@@ -559,7 +534,7 @@ AddressBook >> addressBookMergeSameLastName [
 ]
 
 { #category : #'examples - MergeAddressBook' }
-AddressBook >> addressBookMergeSamePhone [
+ABAddressBook >> addressBookMergeSamePhone [
 	<gtExample>
 	| addressBook contact1 contact2|
 	addressBook := self addressBookAddPhoneSuccess.
@@ -576,7 +551,7 @@ AddressBook >> addressBookMergeSamePhone [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemoveAddressFailure [
+ABAddressBook >> addressBookRemoveAddressFailure [
 	<gtExample>
 	| addressBook contact address |
 	addressBook := self addressBookAddAddressSuccess.
@@ -595,7 +570,7 @@ AddressBook >> addressBookRemoveAddressFailure [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemoveAddressSuccess [
+ABAddressBook >> addressBookRemoveAddressSuccess [
 	<gtExample>
 	| addressBook contact address |
 	addressBook := self addressBookAddAddressSuccess.
@@ -613,7 +588,7 @@ AddressBook >> addressBookRemoveAddressSuccess [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemoveCompany [
+ABAddressBook >> addressBookRemoveCompany [
 	<gtExample>
 	| addressBook contact  |
 	addressBook := self addressBookAddCompanySuccess.
@@ -626,7 +601,7 @@ AddressBook >> addressBookRemoveCompany [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemoveContactFailure [
+ABAddressBook >> addressBookRemoveContactFailure [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self addressBookAddNewSuccess.
@@ -642,7 +617,7 @@ AddressBook >> addressBookRemoveContactFailure [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemoveContactSuccess [
+ABAddressBook >> addressBookRemoveContactSuccess [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self addressBookAddNewSuccess.
@@ -658,7 +633,7 @@ AddressBook >> addressBookRemoveContactSuccess [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemoveEmailFailure [
+ABAddressBook >> addressBookRemoveEmailFailure [
 	<gtExample>
 	| addressBook contact email |
 	addressBook := self addressBookAddEmailSuccess.
@@ -677,7 +652,7 @@ AddressBook >> addressBookRemoveEmailFailure [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemoveEmailSuccess [
+ABAddressBook >> addressBookRemoveEmailSuccess [
 	<gtExample>
 	| addressBook contact email |
 	addressBook := self addressBookAddEmailSuccess.
@@ -695,7 +670,7 @@ AddressBook >> addressBookRemoveEmailSuccess [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemoveNote [
+ABAddressBook >> addressBookRemoveNote [
 	<gtExample>
 	| addressBook contact  |
 	addressBook := self addressBookAddNoteSuccess.
@@ -708,7 +683,7 @@ AddressBook >> addressBookRemoveNote [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemovePhoneFailure [
+ABAddressBook >> addressBookRemovePhoneFailure [
 	<gtExample>
 	| addressBook contact phone |
 	addressBook := self addressBookAddPhoneSuccess.
@@ -726,7 +701,7 @@ AddressBook >> addressBookRemovePhoneFailure [
 ]
 
 { #category : #'examples - RemoveAddressBook' }
-AddressBook >> addressBookRemovePhoneSuccess [
+ABAddressBook >> addressBookRemovePhoneSuccess [
 	<gtExample>
 	| addressBook contact phone |
 	addressBook := self addressBookAddPhoneSuccess.
@@ -744,7 +719,7 @@ AddressBook >> addressBookRemovePhoneSuccess [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchAddressFail [
+ABAddressBook >> addressBookSearchAddressFail [
 	<gtExample>
 	| addressBook ret address |
 	addressBook := self addressBookAddAddressSuccess.
@@ -756,7 +731,7 @@ AddressBook >> addressBookSearchAddressFail [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchAddressSuccess [
+ABAddressBook >> addressBookSearchAddressSuccess [
 	<gtExample>
 	| addressBook ret address contact |
 	addressBook := self addressBookAddAddressSuccess.
@@ -769,7 +744,7 @@ AddressBook >> addressBookSearchAddressSuccess [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchCompanyFail [
+ABAddressBook >> addressBookSearchCompanyFail [
 	<gtExample>
 	| addressBook ret company |
 	addressBook := self addressBookAddCompanySuccess.
@@ -781,7 +756,7 @@ AddressBook >> addressBookSearchCompanyFail [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchCompanySuccess [
+ABAddressBook >> addressBookSearchCompanySuccess [
 	<gtExample>
 	| addressBook ret company |
 	addressBook := self addressBookAddCompanySuccess.
@@ -793,7 +768,7 @@ AddressBook >> addressBookSearchCompanySuccess [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchEmailFail [
+ABAddressBook >> addressBookSearchEmailFail [
 	<gtExample>
 	| addressBook ret email |
 	addressBook := self addressBookAddEmailSuccess.
@@ -805,7 +780,7 @@ AddressBook >> addressBookSearchEmailFail [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchEmailSuccess [
+ABAddressBook >> addressBookSearchEmailSuccess [
 	<gtExample>
 	| addressBook ret email contact |
 	addressBook := self addressBookAddEmailSuccess.
@@ -818,7 +793,7 @@ AddressBook >> addressBookSearchEmailSuccess [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchFirstNameFail [
+ABAddressBook >> addressBookSearchFirstNameFail [
 	<gtExample>
 	| addressBook ret |
 	addressBook := self addressBookAddNewSuccess.
@@ -829,7 +804,7 @@ AddressBook >> addressBookSearchFirstNameFail [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchFirstNameSuccess [
+ABAddressBook >> addressBookSearchFirstNameSuccess [
 	<gtExample>
 	| addressBook ret |
 	addressBook := self addressBookAddNewSuccess.
@@ -840,7 +815,7 @@ AddressBook >> addressBookSearchFirstNameSuccess [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchLastNameFail [
+ABAddressBook >> addressBookSearchLastNameFail [
 	<gtExample>
 	| addressBook ret |
 	addressBook := self addressBookAddNewSuccess.
@@ -851,7 +826,7 @@ AddressBook >> addressBookSearchLastNameFail [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchLastNameSuccess [
+ABAddressBook >> addressBookSearchLastNameSuccess [
 	<gtExample>
 	| addressBook ret |
 	addressBook := self addressBookAddNewSuccess.
@@ -862,7 +837,7 @@ AddressBook >> addressBookSearchLastNameSuccess [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchPhoneFail [
+ABAddressBook >> addressBookSearchPhoneFail [
 	<gtExample>
 	| addressBook ret phone |
 	addressBook := self addressBookAddPhoneSuccess.
@@ -874,7 +849,7 @@ AddressBook >> addressBookSearchPhoneFail [
 ]
 
 { #category : #'examples - SearchAddressBook' }
-AddressBook >> addressBookSearchPhoneSuccess [
+ABAddressBook >> addressBookSearchPhoneSuccess [
 	<gtExample>
 	| addressBook ret phone contact |
 	addressBook := self addressBookAddPhoneSuccess.
@@ -887,7 +862,7 @@ AddressBook >> addressBookSearchPhoneSuccess [
 ]
 
 { #category : #'examples - addresses' }
-AddressBook >> addressBookWithTwoAddresses [
+ABAddressBook >> addressBookWithTwoAddresses [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self emptyAddressBook.
@@ -904,10 +879,10 @@ AddressBook >> addressBookWithTwoAddresses [
 ]
 
 { #category : #'examples - contacts' }
-AddressBook >> addressBookWithTwoContacts [
+ABAddressBook >> addressBookWithTwoContacts [
 	<gtExample>
 	| addressBook |
-	addressBook := AddressBook emptyAddressBook.
+	addressBook := ABAddressBook emptyAddressBook.
 	addressBook
 		addContact: ABContact janeDoe;
 		addContact: ABContact johnDoe.
@@ -918,22 +893,22 @@ AddressBook >> addressBookWithTwoContacts [
 ]
 
 { #category : #accessing }
-AddressBook >> contacts [
+ABAddressBook >> contacts [
 	^ contacts
 ]
 
 { #category : #'instance creation examples' }
-AddressBook >> emptyAddressBook [
+ABAddressBook >> emptyAddressBook [
 	<gtExample>
 	| addressBook |
-	addressBook := AddressBook emptyAddressBook.
+	addressBook := ABAddressBook emptyAddressBook.
 	self assert: addressBook contacts isNotNil.
 	self assert: addressBook contacts isEmpty.
 	^addressBook.
 ]
 
 { #category : #'as yet unclassified' }
-AddressBook >> gtViewContactsList: aView [
+ABAddressBook >> gtViewContactsList: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Contacts';
@@ -943,14 +918,103 @@ AddressBook >> gtViewContactsList: aView [
 ]
 
 { #category : #initialization }
-AddressBook >> initialize [
+ABAddressBook >> initialize [
 	super initialize.
 	contacts := OrderedCollection new.
 ]
 
 { #category : #'as yet unclassified' }
-AddressBook >> merge: aContact1 and: aContact2 on: aString [
+ABAddressBook >> merge: aContact1 and: aContact2 on: aString [
 	"a:= UIManager default request: 'Title of the request'"
 	
 	^nil.
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBook >> search: word withFilters: filters [
+	|book aggregatedResult|
+	book:= self.
+	aggregatedResult:= Set new.
+	
+	filters do: [ :filter | 
+		'email'.
+ 		contacts = self searchByType: filter keyword: word.
+		
+		 ].
+	
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBook >> searchAddresses: word [
+	| addresses result wordLC|
+	result := Set new.
+	wordLC:= word asLowercase.
+	contacts do: [ :contact | 
+		addresses:= contact address.
+		"'streetName streetNumber postalCode city country''"
+		addresses do: [ :address | 
+			
+		((address streetName asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ]  .
+	 	
+		((address streetNumber asString asLowercase)  includesSubstring: wordLC) ifTrue: [ result add: contact ].
+		
+		 ((address postalCode asString asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ].
+	
+		 ((address city asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ].
+	
+		((address country asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ].
+			]		
+		].
+	^ result.
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBook >> searchByType: type [
+	|result|
+	result := Set new.
+	type = 'Companies' ifTrue: [ 
+		 "result = searchByCompanies book" ].
+	type = 'Names' ifTrue: [  ].
+	type = 'Phones' ifTrue: [  ].
+	
+	^ result.
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBook >> searchByType: type keyword: word [
+	|result|
+	result :=	 Set new.
+	type = 'Companies' ifTrue: [ 
+		result add: (self searchCompanies: word).
+		 ].
+	type = 'Names' ifTrue: [ 
+		result add: (self searchAddresses: word).
+		  ].
+	type = 'Phones' ifTrue: [ 
+		 ].
+	type = 'Address' ifTrue: [  ].
+	
+	^ result.
+]
+
+{ #category : #search }
+ABAddressBook >> searchCompanies: word [
+	| result |
+	result := Set new.
+	contacts do: [ :contact | 
+		((contact company asLowercase) includesSubstring: (word asLowercase)) ifTrue: [ result add: contact ].
+		].
+	^ result.
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBook >> searchNames: word [
+	| result wordLC|
+	result := Set new.
+	wordLC:= word asLowercase.
+	contacts do: [ :contact | 
+		((contact firstName asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ].
+	 	((contact lastName asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ].
+		].
+	^ result.
 ]

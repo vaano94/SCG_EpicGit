@@ -6,12 +6,19 @@ call me as 'ABAddressType home'
 Class {
 	#name : #ABPhoneType,
 	#superclass : #Object,
+	#instVars : [
+		'type'
+	],
+	#classInstVars : [
+		'knownType'
+	],
 	#category : #'AddressBook-Model'
 }
 
 { #category : #instances }
 ABPhoneType class >> company [
- ^ 'Company'
+	^ self basicNew initialize;
+	type: 'Mobile'
 ]
 
 { #category : #instances }
@@ -19,22 +26,50 @@ ABPhoneType class >> home [
  ^ 'Home'
 ]
 
+{ #category : #accessing }
+ABPhoneType class >> knownType [
+	^ knownType
+]
+
+{ #category : #accessing }
+ABPhoneType class >> knownType: anObject [
+	knownType := anObject
+]
+
 { #category : #instances }
 ABPhoneType class >> mobile [
  ^ 'Mobile'
 ]
 
+{ #category : #'instance creation' }
+ABPhoneType class >> new [
+	self error: 'Phone type is a singleton'
+]
+
 { #category : #instances }
 ABPhoneType class >> other [
- ^ 'Other'
+	^ self basicNew initialize;
+	type: 'Other'
 ]
 
 { #category : #instances }
 ABPhoneType class >> pager [
- ^ 'Pager'
+	^ self basicNew initialize;
+	type: 'Pager'
 ]
 
 { #category : #instances }
 ABPhoneType class >> work [
- ^ 'Work'
+	^ self basicNew initialize;
+	type: 'Work'
+]
+
+{ #category : #accessing }
+ABPhoneType >> type [
+	^ type
+]
+
+{ #category : #accessing }
+ABPhoneType >> type: anObject [
+	type := anObject
 ]

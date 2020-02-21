@@ -6,20 +6,43 @@ call me as 'ABAddressType home'
 Class {
 	#name : #ABAddressType,
 	#superclass : #Object,
+	#instVars : [
+		'type'
+	],
 	#category : #'AddressBook-Model'
 }
 
 { #category : #instances }
 ABAddressType class >> home [
- ^ 'Home'
+	^ self basicNew 
+		initialize;
+		type: 'Home'
+]
+
+{ #category : #'instance creation' }
+ABAddressType class >> new [
+	self error: 'Address type is a singleton'
 ]
 
 { #category : #instances }
 ABAddressType class >> other [
- ^ 'Other'
+	^ self basicNew 
+		initialize;
+		type: 'Other'
 ]
 
 { #category : #instances }
 ABAddressType class >> work [
- ^ 'Work'
+	^ self basicNew initialize;
+	type: 'Work'
+]
+
+{ #category : #accessing }
+ABAddressType >> type [
+	^ type
+]
+
+{ #category : #accessing }
+ABAddressType >> type: anObject [
+	type := anObject
 ]

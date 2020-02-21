@@ -10,7 +10,7 @@ Class {
 		'name',
 		'specifications'
 	],
-	#category : #Epic
+	#category : #'Epic-Model'
 }
 
 { #category : #initialization }

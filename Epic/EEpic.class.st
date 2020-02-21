@@ -4,22 +4,22 @@
 An epic is a feature or overarching objective. This is a fairly generalized feature within a system that meets user requirements to achieve business as usual. The epic will have a collection of ${class:name=EUseCase}$ that will help define behavior that needs to be available for users.
 "
 Class {
-	#name : #Epic,
+	#name : #EEpic,
 	#superclass : #Object,
 	#instVars : [
 		'title',
 		'use_cases'
 	],
-	#category : #Epic
+	#category : #'Epic-Model'
 }
 
 { #category : #adding }
-Epic >> addUseCase: anUseCase [
+EEpic >> addUseCase: anUseCase [
 	self use_cases add: anUseCase
 ]
 
-{ #category : #'as yet unclassified' }
-Epic >> gtDocumentFor: aView [
+{ #category : #ui }
+EEpic >> gtDocumentFor: aView [
 	<gtView>
 	| aDocument |
 	aDocument := GtDocument new
@@ -36,8 +36,8 @@ Under Use Case Details, you will see all aspects of each of the ${class:name=EUs
 		priority: 1
 ]
 
-{ #category : #'as yet unclassified' }
-Epic >> gtEpicInfoFor: aView [
+{ #category : #ui }
+EEpic >> gtEpicInfoFor: aView [
 	<gtView>
 	^ aView textEditor
 	title: 'Information';
@@ -45,8 +45,8 @@ Epic >> gtEpicInfoFor: aView [
 	text: [ 'Epic: ', title ]
 ]
 
-{ #category : #'as yet unclassified' }
-Epic >> gtUseCaseColumnsFor: aView [
+{ #category : #ui }
+EEpic >> gtUseCaseColumnsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Use Cases';
@@ -56,8 +56,8 @@ Epic >> gtUseCaseColumnsFor: aView [
 		column: 'Name' item: [ :anElement | anElement title ]
 ]
 
-{ #category : #'as yet unclassified' }
-Epic >> gtUseCaseDetailedColumnsFor: aView [
+{ #category : #ui }
+EEpic >> gtUseCaseDetailedColumnsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Use Case Details';
@@ -68,8 +68,8 @@ Epic >> gtUseCaseDetailedColumnsFor: aView [
 		column: 'Task' item: [ :anElement | anElement task ]
 ]
 
-{ #category : #'as yet unclassified' }
-Epic >> gtUseCaseProgressColumnsFor: aView [
+{ #category : #ui }
+EEpic >> gtUseCaseProgressColumnsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Progress Report';
@@ -81,7 +81,7 @@ Epic >> gtUseCaseProgressColumnsFor: aView [
 ]
 
 { #category : #initialization }
-Epic >> initialize [
+EEpic >> initialize [
 	super initialize.
 	title := 'Feature of this epic'.
 	use_cases := OrderedCollection new.
@@ -89,21 +89,21 @@ Epic >> initialize [
 ]
 
 { #category : #accessing }
-Epic >> title [
+EEpic >> title [
 	^ title
 ]
 
 { #category : #accessing }
-Epic >> title: aString [
+EEpic >> title: aString [
 	title := aString
 ]
 
 { #category : #accessing }
-Epic >> use_cases [
+EEpic >> use_cases [
 	^ use_cases
 ]
 
 { #category : #accessing }
-Epic >> use_cases: anObject [
+EEpic >> use_cases: anObject [
 	use_cases := anObject
 ]

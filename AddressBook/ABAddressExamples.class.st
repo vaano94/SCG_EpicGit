@@ -1,5 +1,5 @@
 Class {
-	#name : #ABAddressExample,
+	#name : #ABAddressExamples,
 	#superclass : #Object,
 	#category : #'AddressBook-Examples'
 }

@@ -18,8 +18,19 @@ ABPhoneNumber class >> testPhone [
 	phone := ABPhoneNumber new.
 	phone 
 		countryCode: 41;
-		number: 12345678;
-		type: ABPhoneType home.
+		number: 123456789;
+		type: ABPhoneType work.
+	^ phone
+]
+
+{ #category : #tests }
+ABPhoneNumber class >> testPhoneOnlyNines [
+| phone |
+	phone := ABPhoneNumber new.
+	phone 
+		countryCode: 47;
+		number: 999999999;
+		type: ABPhoneType work.
 	^ phone
 ]
 
@@ -59,7 +70,7 @@ ABPhoneNumber >> toString [
 
 { #category : #accessing }
 ABPhoneNumber >> type [
-	^ type
+	^ type type
 ]
 
 { #category : #accessing }

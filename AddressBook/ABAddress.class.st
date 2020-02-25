@@ -30,44 +30,27 @@ ABAddress class >> testAddress [
 ]
 
 { #category : #'instance creation examples' }
-ABAddress >> addressBadAddress [
-	<gtExample>
-	| address |
-	address := self new.
-	address
-		streetName: 'Schuzenmattstrasse';
-		streetNumber: 13;
-		city: 'Bern';
-		country: 'Switzerland';
-		postalCode: 3001;
-		type: 'Home'.
-	self assert:address city equals: 'Bern'.
-	^address.
-]
-
-{ #category : #'instance creation examples' }
-ABAddress >> addressBadType [
-	<gtExample>
-	| address |
-	address := ABAddress new.
-	address
-		streetName: 'Schuzenmattstrasse';
-		streetNumber: 14;
-		city: 'Bern';
-		country: 'Switzerland';
-		postalCode: 3001;
-		type: 'Work'.
-	self assert:address city equals: 'Bern'.
-	^address.
-]
-
-{ #category : #'instance creation examples' }
 ABAddress >> addressNew [
 	<gtExample>
 	| address |
 	address := self class testAddress.
 	self assert:address city equals: 'TestCity'.
 	^address.
+]
+
+{ #category : #'instance creation examples' }
+ABAddress >> addressWithoutType [
+	<gtExample>
+	| address |
+	address := ABAddress testAddress.
+	address
+		streetName: 'Schuzenmattstrasse';
+		streetNumber: 13;
+		city: 'Bern';
+		country: 'Switzerland';
+		postalCode: 3001;
+		type: nil.
+	^ address
 ]
 
 { #category : #accessing }
@@ -134,10 +117,12 @@ ABAddress >> toString [
 
 { #category : #accessing }
 ABAddress >> type [
-	^ type
+	^ type type
 ]
 
 { #category : #accessing }
 ABAddress >> type: aType [
+	(aType isMemberOf: ABAddressType) ifFalse: [ 
+		Error signal: 'Can only assign ABAddresType types' ].
 	type := aType
 ]

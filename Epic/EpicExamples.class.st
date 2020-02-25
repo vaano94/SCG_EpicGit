@@ -7,7 +7,7 @@ Each ${class:name=Epic}$ has ${class:name=EUseCase}$ that have ${class:name=EUse
 Class {
 	#name : #EpicExamples,
 	#superclass : #Object,
-	#category : #AddressBook
+	#category : #'Epic-AddressBook'
 }
 
 { #category : #accessing }
@@ -33,9 +33,9 @@ EpicExamples >> epicManageAddressBook [
 	epic := EEpic new.
 	epic title: 'Manage address book'.
 	epic addUseCase: self useCaseAddNewContact.
-"	epic addUseCase: self useCaseEditContact.
+"	epic addUseCase: self useCaseEditContact."
 	epic addUseCase: self useCaseRemoveContact.
-	epic addUseCase: self useCaseViewContact."
+"	epic addUseCase: self useCaseViewContact."
 	^ epic 
 ]
 
@@ -111,7 +111,7 @@ EpicExamples >> scenarioEditAddress [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the addresses in a contact'.
-	scenario exampleMethod: (EpicExamples >> #addressBookEditAddress) gtExample.
+	scenario exampleMethod: (EpicExamples >> #contactBookEditContactAddress) gtExample.
 	^ scenario
 ]
 
@@ -121,7 +121,7 @@ EpicExamples >> scenarioEditCompany [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the company in a contact'.
-	scenario exampleMethod: (EpicExamples >> #addressBookEditCompany) gtExample.
+	scenario exampleMethod: (EpicExamples >> #contactBookEditCompany) gtExample.
 	^ scenario
 ]
 
@@ -131,7 +131,7 @@ EpicExamples >> scenarioEditEmail [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the emails in a contact'.
-	scenario exampleMethod: (EpicExamples >> #addressBookEditEmail) gtExample.
+	scenario exampleMethod: (EpicExamples >> #contactEditEmail) gtExample.
 	^ scenario
 ]
 
@@ -181,7 +181,7 @@ EpicExamples >> scenarioEditNote [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the note in a contact'.
-	scenario exampleMethod: (EpicExamples >> #addressBookEditNote) gtExample.
+	scenario exampleMethod: (EpicExamples >> #contactEditNote) gtExample.
 	^ scenario
 ]
 
@@ -191,7 +191,7 @@ EpicExamples >> scenarioEditPhone [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'edit the phone numbers in a contact'.
-	scenario exampleMethod: (EpicExamples >> #addressBookEditPhone) gtExample.
+	scenario exampleMethod: (EpicExamples >> #contactEditPhone) gtExample.
 	^ scenario
 ]
 
@@ -370,7 +370,7 @@ EpicExamples >> scenarioNewContactSuccess [
 	<gtExample>
 	| scenario |
 	scenario := EScenario new.
-	scenario description: 'add a new contact'.
+	scenario description: 'Фdd a new contact'.
 	self flag: 'Fix this later'.
 	scenario exampleMethod: (ABAddressBook >> #addressBookAddContact) gtExample.
 	^ scenario
@@ -413,16 +413,6 @@ EpicExamples >> scenarioPhoneSuccess [
 	scenario := EScenario new.
 	scenario description: 'add a phone number to a contact'.
 	scenario exampleMethod: (EpicExamples >> #addressBookAddPhoneSuccess) gtExample.
-	^ scenario
-]
-
-{ #category : #'examples - scenario' }
-EpicExamples >> scenarioRemoveAddressFail [
-	<gtExample>
-	| scenario |
-	scenario := EScenario new.
-	scenario description: 'remove a non existing address'.
-	scenario exampleMethod: (EpicExamples >> #addressBookRemoveAddressFailure) gtExample.
 	^ scenario
 ]
 
@@ -577,22 +567,22 @@ EpicExamples >> scenarioSearchEmailSuccess [
 ]
 
 { #category : #'examples - scenario' }
+EpicExamples >> scenarioSearchFirstName [
+	<gtExample>
+	| scenario |
+	scenario := EScenario new.
+	scenario description: 'search for a contact by a first name'.
+	scenario exampleMethod: (ABAddressBookExamples >> #addressBookSearchFirstNameSuccess) gtExample.
+	^ scenario
+]
+
+{ #category : #'examples - scenario' }
 EpicExamples >> scenarioSearchFirstNameFail [
 	<gtExample>
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'search for a contact by an first name that doesnt exist'.
 	scenario exampleMethod: (EpicExamples >> #addressBookSearchFirstNameFail) gtExample.
-	^ scenario
-]
-
-{ #category : #'examples - scenario' }
-EpicExamples >> scenarioSearchFirstNameSuccess [
-	<gtExample>
-	| scenario |
-	scenario := EScenario new.
-	scenario description: 'search for a contact by a first name'.
-	scenario exampleMethod: (EpicExamples >> #addressBookSearchFirstNameSuccess) gtExample.
 	^ scenario
 ]
 
@@ -983,8 +973,8 @@ EpicExamples >> userStoryRemoveAddress [
 	| userStory |
 	userStory := EUserStory new.
 	userStory action: 'remove a specific address of a specific contact'.
-	"userStory addScenario: self scenarioRemoveAddressSuccess.
-	userStory addScenario: self scenarioRemoveAddressFail."
+	userStory addScenario: self scenarioRemoveAddressSuccess.
+	"userStory addScenario: self scenarioRemoveAddressFail."
 	^ userStory
 ]
 
@@ -1081,7 +1071,7 @@ EpicExamples >> userStorySearchByFirstName [
 	userStory := EUserStory new.
 	userStory action: 'search for a contact by first name'.
 	"userStory addScenario: self scenarioSearchFirstNameFail."
-	userStory addScenario: self scenarioSearchFirstNameSuccess.
+	userStory addScenario: self scenarioSearchFirstName.
 	^ userStory
 ]
 

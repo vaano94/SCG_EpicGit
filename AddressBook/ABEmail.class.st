@@ -61,7 +61,7 @@ ABEmail >> toString [
 
 { #category : #accessing }
 ABEmail >> type [
-	^ type
+	^ type name
 ]
 
 { #category : #accessing }

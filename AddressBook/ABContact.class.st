@@ -64,7 +64,7 @@ ABContact class >> test [
 
 { #category : #tests }
 ABContact class >> testFullContact [
-	| contact phn phones adr addresses |
+	| contact phn phones adr addresses emailInstance |
 	contact := ABContact new.
 	contact
 		firstName: 'test';
@@ -78,6 +78,9 @@ ABContact class >> testFullContact [
 	addresses add: adr.
 	contact address: addresses.
 	
+	emailInstance :=	ABEmail testEmail.
+	contact email add: emailInstance.
+	
 	^ contact
 ]
 
@@ -88,11 +91,15 @@ ABContact >> addAddress: anAddress [
 
 { #category : #adding }
 ABContact >> addEmail: anEmail [
+	self email do: [ :e | e type = anEmail type ifTrue: [ 
+			^ Error signal: 'Can not add repetitive email type' ] ].
 	email add: anEmail.
 ]
 
 { #category : #adding }
 ABContact >> addPhoneNumber: aPhoneNumber [
+		self phoneNumber do: [ :num | num type = aPhoneNumber type ifTrue: [ 
+			^ Error signal: 'Can not add repetitive phone phone Number type' ] ].
 	phoneNumber add: aPhoneNumber.
 ]
 

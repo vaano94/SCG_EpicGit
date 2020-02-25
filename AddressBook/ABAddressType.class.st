@@ -37,6 +37,11 @@ ABAddressType class >> work [
 	type: 'Work'
 ]
 
+{ #category : #comparing }
+ABAddressType >> equals: anObject [
+	^ self type = (anObject type).
+]
+
 { #category : #accessing }
 ABAddressType >> type [
 	^ type

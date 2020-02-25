@@ -18,12 +18,13 @@ Class {
 { #category : #instances }
 ABPhoneType class >> company [
 	^ self basicNew initialize;
-	type: 'Mobile'
+	type: 'Company'
 ]
 
 { #category : #instances }
 ABPhoneType class >> home [
- ^ 'Home'
+	^ self basicNew initialize;
+	type: 'Home'
 ]
 
 { #category : #accessing }
@@ -38,7 +39,8 @@ ABPhoneType class >> knownType: anObject [
 
 { #category : #instances }
 ABPhoneType class >> mobile [
- ^ 'Mobile'
+	^ self basicNew initialize;
+	type: 'Mobile'
 ]
 
 { #category : #'instance creation' }

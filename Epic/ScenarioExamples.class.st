@@ -8,7 +8,7 @@ Class {
 ScenarioExamples >> addressBookAddAddressSuccess [
 	<gtExample>
 	| addressBook contact |
-	addressBook := self emptyAddressBook.
+	addressBook := ABAddressBook emptyAddressBook.
 	contact := ABContact janeDoe.
 	addressBook
 		addContact: contact.

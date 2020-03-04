@@ -44,16 +44,6 @@ ABAddressBookExamples >> addressBookAddTwoContactsWithSameName [
 	^addressBook.
 ]
 
-{ #category : #'instance creation examples' }
-ABAddressBookExamples >> emptyAddressBook [
-	<gtExample>
-	| addressBook |
-	addressBook := ABAddressBook emptyAddressBook.
-	self assert: addressBook contacts isNotNil.
-	self assert: addressBook contacts isEmpty.
-	^addressBook.
-]
-
 { #category : #search }
 ABAddressBookExamples >> exampleSearchAddressesWithOneContact [
 	<gtExample>
@@ -150,21 +140,6 @@ ABAddressBookExamples >> exampleSearchNamesWithTwoContacts [
 ]
 
 { #category : #search }
-ABAddressBookExamples >> exampleSearchPhoneWithOneContact [
-	<gtExample>
-	| book resultOneRecord emptySet|
-	
-	book := ABAddressBook addressBookWithFullTestContact.
-	
-	resultOneRecord := book searchPhones: 1.
-	self assert: resultOneRecord size equals: 1.
-	
-	emptySet := book searchPhones: 9.
-	self assert: emptySet size equals: 0.
-	^ book
-]
-
-{ #category : #search }
 ABAddressBookExamples >> exampleSearchPhonesWithOneContact [
 	<gtExample>
 	| book resultOneRecord emptySet|
@@ -192,4 +167,38 @@ ABAddressBookExamples >> exampleSearchPhonesWithTwoContacts [
 	resultOneRecord := book searchPhones: 99999.
 	self assert: resultOneRecord size equals: 1.
 	^ book
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBookExamples >> filterSearchByFilter [
+	<gtExample>
+	|filter book a|
+	filter := ContactFilter new. 
+	filter
+		withCompanies;
+		withNames;
+		withPhones.
+	
+	book:= ABAddressBook addressBookTwoFullTestContacts.
+	a := ABContact new. a firstName: '|'; lastName: '|'.
+	book addContact: a.
+
+	book search: 'a' withFilter: filter.
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBookExamples >> removeContact [
+	<gtExample>
+	| addressBook contact|
+	addressBook := ABAddressBook addressBookWithFullTestContact.
+	contact:= addressBook contacts at: 1.
+	addressBook removeContact: contact.
+	self assert: addressBook contacts size equals: 0.
+	
+	addressBook := ABAddressBook addressBookTwoFullTestContacts.
+	contact:= addressBook contacts at: 2.
+	addressBook removeContact: contact.
+	self assert: addressBook contacts size equals: 1.
+	
+	^ addressBook.
 ]

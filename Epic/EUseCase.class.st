@@ -14,9 +14,14 @@ Class {
 	#instVars : [
 		'title',
 		'actor',
+		'supportingActor',
+		'precondition',
+		'successGarantie',
+		'complexity',
+		'flowOfEvents',
 		'state',
 		'task',
-		'user_stories'
+		'userStories'
 	],
 	#category : #'Epic-Model'
 }
@@ -39,15 +44,40 @@ EUseCase >> addActor [
 ]
 
 { #category : #adding }
+EUseCase >> addActor: anObject [
+	actor add: anObject.
+]
+
+{ #category : #adding }
 EUseCase >> addUserStory: aUserStory [
-	self user_stories add: aUserStory
+	self userStories add: aUserStory
+]
+
+{ #category : #accessing }
+EUseCase >> complexity [
+	^ complexity
+]
+
+{ #category : #accessing }
+EUseCase >> complexity: anObject [
+	complexity := anObject
 ]
 
 { #category : #'as yet unclassified' }
 EUseCase >> createUserStory [
 	| us |
 	us := EUserStory new.
-	user_stories add: us.
+	userStories add: us.
+]
+
+{ #category : #accessing }
+EUseCase >> flowOfEvents [
+	^ flowOfEvents
+]
+
+{ #category : #accessing }
+EUseCase >> flowOfEvents: anObject [
+	flowOfEvents := anObject
 ]
 
 { #category : #ui }
@@ -55,10 +85,10 @@ EUseCase >> gtActorColumnsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Actors';
-		priority: 2;
+		priority: 1;
 		items: [ self actor asOrderedCollection];
-		column: 'Index' item: [ :anElement :anIndex | anIndex ];
-		column: 'Name' item: [ :anElement | anElement name ]
+		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 40;
+		column: 'Name' item: [ :anElement | anElement name ] width: 200
 ]
 
 { #category : #ui }
@@ -67,9 +97,17 @@ EUseCase >> gtCaseInfoFor: aView [
 	^ aView textEditor
 		title: 'Information';
 		priority: 0;
-		text: [ title , String cr , String cr
-				, 'The current state of this use case is: ' , state , String cr
-				, String cr , 'The task of this use case is: ' , self task ]
+		text: [ title , String cr , String cr, 
+				'The current state of this use case is: ' , state , String cr, 
+				String cr , 'The task of this use case is: ' , self task, String cr,
+				'Actor: ', self actor asString, String cr,
+				'Supporting Actor: ', self supportingActor asString, String cr,
+				'Precondition: ', self precondition , String cr,
+				'SuccessGarantie: ', self successGarantie , String cr,
+				'Complexity: ', self complexity , String cr,
+				'Flow of events: ', self flowOfEvents , String cr
+				
+				 ]
 ]
 
 { #category : #ui }
@@ -107,9 +145,9 @@ EUseCase >> gtUserStoryColumnsFor: aView [
 	^ aView columnedList
 		title: 'User Stories';
 		priority: 3;
-		items: [ self user_stories asArray ];
+		items: [ self userStories asArray ];
 		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 50;
-		column: 'User' item: [ :anElement :anIndex | anElement user ];
+		column: 'User' item: [ :anElement :anIndex | anElement user name ];
 		column: 'Action' item: [ :anElement :anIndex | anElement action ];
 		column: 'Class' item: [ :anElement :anIndex | anElement class ]
 ]
@@ -117,7 +155,7 @@ EUseCase >> gtUserStoryColumnsFor: aView [
 { #category : #initialization }
 EUseCase >> initialize [
 	super initialize.
-	user_stories := OrderedCollection new.
+	userStories := OrderedCollection new.
 	actor := OrderedCollection new.
 	actor add: EActor new.
 	title :=  'Use Case Title'.
@@ -138,6 +176,16 @@ EUseCase >> markStarted [
 ]
 
 { #category : #accessing }
+EUseCase >> precondition [
+	^ precondition
+]
+
+{ #category : #accessing }
+EUseCase >> precondition: anObject [
+	precondition := anObject
+]
+
+{ #category : #accessing }
 EUseCase >> state [
 	^ state
 ]
@@ -145,6 +193,26 @@ EUseCase >> state [
 { #category : #accessing }
 EUseCase >> state: anObject [
 	state := anObject
+]
+
+{ #category : #accessing }
+EUseCase >> successGarantie [
+	^ successGarantie
+]
+
+{ #category : #accessing }
+EUseCase >> successGarantie: anObject [
+	successGarantie := anObject
+]
+
+{ #category : #accessing }
+EUseCase >> supportingActor [
+	^ supportingActor
+]
+
+{ #category : #accessing }
+EUseCase >> supportingActor: anObject [
+	supportingActor := anObject
 ]
 
 { #category : #accessing }
@@ -168,11 +236,11 @@ EUseCase >> title: anObject [
 ]
 
 { #category : #accessing }
-EUseCase >> user_stories [
-	^ user_stories
+EUseCase >> userStories [
+	^ userStories
 ]
 
 { #category : #accessing }
-EUseCase >> user_stories: anObject [
-	user_stories := anObject
+EUseCase >> userStories: anObject [
+	userStories := anObject
 ]

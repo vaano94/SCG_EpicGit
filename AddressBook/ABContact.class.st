@@ -86,6 +86,8 @@ ABContact class >> testFullContact [
 
 { #category : #adding }
 ABContact >> addAddress: anAddress [
+	self address do: [ :e | (e type = anAddress type) ifTrue: [ 
+			^ Error signal: 'Can not add repetitive address type' ] ].
 	address add: anAddress.
 ]
 

@@ -37,7 +37,7 @@ Under Use Case Details, you will see all aspects of each of the ${class:name=EUs
 ]
 
 { #category : #ui }
-EEpic >> gtEpicInfoFor: aView [
+EEpic >> gtEpicInformationFor: aView [
 	<gtView>
 	^ aView textEditor
 	title: 'Information';

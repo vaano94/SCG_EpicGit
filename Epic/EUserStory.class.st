@@ -18,10 +18,21 @@ Class {
 		'goal',
 		'component',
 		'pillar',
-		'scenarios'
+		'scenarios',
+		'acceptCriteria'
 	],
 	#category : #'Epic-Model'
 }
+
+{ #category : #accessing }
+EUserStory >> acceptCriteria [
+	^ acceptCriteria
+]
+
+{ #category : #accessing }
+EUserStory >> acceptCriteria: anObject [
+	acceptCriteria := anObject
+]
 
 { #category : #accessing }
 EUserStory >> action [
@@ -87,10 +98,18 @@ Under scenarios, you can see a list and view each of the scenarios used to suppo
 { #category : #'as yet unclassified' }
 EUserStory >> gtStoryInfoFor: aView [
 	<gtView>
-	^ aView textEditor
+	|aDocument|
+	aDocument := GtDocument new.
+	aDocument editor useSyncStylerStrategy.
+	self assert: aDocument text asString equals: self emptyContent.
+	self assert: aDocument isSubscribedToSystem not.
+	self assert: (SystemAnnouncer uniqueInstance hasSubscriber: aDocument) not.
+	^ aDocument
+	
+	"^ aView textEditor
 		title: 'Information';
 		priority: 0;
-		text: [ 'As a ', user name, ', I want to ', action, '.', String cr]
+		text: [ 'As a ', user name, ', I want to ', action, '.', String cr]"
 ]
 
 { #category : #'as yet unclassified' }

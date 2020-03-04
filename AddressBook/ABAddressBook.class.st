@@ -5,7 +5,8 @@ Class {
 	#name : #ABAddressBook,
 	#superclass : #Object,
 	#instVars : [
-		'contacts'
+		'contacts',
+		'filter'
 	],
 	#category : #'AddressBook-Model'
 }
@@ -100,6 +101,16 @@ ABAddressBook >> contacts [
 	^ contacts
 ]
 
+{ #category : #'instance creation examples' }
+ABAddressBook >> emptyAddressBook [
+	<gtExample>
+	| addressBook |
+	addressBook := ABAddressBook emptyAddressBook.
+	self assert: addressBook contacts isNotNil.
+	self assert: addressBook contacts isEmpty.
+	^addressBook.
+]
+
 { #category : #'as yet unclassified' }
 ABAddressBook >> gtViewContactsList: aView [
 	<gtView>
@@ -123,17 +134,27 @@ ABAddressBook >> merge: aContact1 and: aContact2 on: aString [
 	^nil.
 ]
 
+{ #category : #removing }
+ABAddressBook >> removeContact: contact [
+	|copiedCollection|
+	copiedCollection := self contacts.
+	self contacts do: [ :c | contact = c ifTrue: [ copiedCollection remove: contact ] ].
+	^ copiedCollection 
+]
+
 { #category : #'as yet unclassified' }
-ABAddressBook >> search: word withFilters: filters [
-	|book aggregatedResult|
-	book:= self.
+ABAddressBook >> search: word withFilter: searchFilter [
+	|aggregatedResult c|
 	aggregatedResult:= Set new.
 	
-	filters do: [ :filter | 
-		'email'.
- 		contacts = self searchByType: filter keyword: word.
+	(searchFilter filters) do: [ :fil | 
+		"possible types = Companies, Addresses, Names, Phones"
 		
-		 ].
+ 		c := (self searchByType: fil keyword: word).
+		c do: [ :cont | aggregatedResult add: cont ].
+	].
+
+	^ aggregatedResult
 	
 ]
 
@@ -149,7 +170,7 @@ ABAddressBook >> searchAddresses: word [
 			
 		((address streetName asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ]  .
 	 	
-		((address streetNumber asString asLowercase)  includesSubstring: wordLC) ifTrue: [ result add: contact ].
+		((address streetNumber asString asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ].
 		
 		 ((address postalCode asString asLowercase) includesSubstring: wordLC) ifTrue: [ result add: contact ].
 	
@@ -166,16 +187,16 @@ ABAddressBook >> searchByType: type keyword: word [
 	|result|
 	result :=	 Set new.
 	type = 'Companies' ifTrue: [ 
-		result add: (self searchCompanies: word).
+		result addAll: (self searchCompanies: word).
 		 ].
 	type = 'Names' ifTrue: [ 
-		result add: (self searchAddresses: word).
+		result addAll: (self searchNames: word).
 		  ].
 	type = 'Phones' ifTrue: [ 
-		result add: (self searchPhones: word).	
+		result addAll: (self searchPhones: word).	
 		 ].
-	type = 'Address' ifTrue: [ 
-		result add: (self searchAddresses: word).
+	type = 'Addresses' ifTrue: [ 
+		result addAll: (self searchAddresses: word).
 		 ].
 	
 	^ result.
@@ -186,7 +207,9 @@ ABAddressBook >> searchCompanies: word [
 	| result |
 	result := Set new.
 	contacts do: [ :contact | 
-		((contact company asLowercase) includesSubstring: (word asLowercase)) ifTrue: [ result add: contact ].
+		contact company notNil ifTrue: [ 
+					((contact company asLowercase) includesSubstring: (word asLowercase)) ifTrue: [ result add: contact ].
+			 ].
 		].
 	^ result.
 ]

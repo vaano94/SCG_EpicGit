@@ -5,7 +5,18 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-ABContactExamples >> contactAddSameMailTypes [
+ABContactExamples >> addSameAddressTypes [
+	<gtExample>
+	| contact address |
+	contact:= ABContact testFullContact.
+	
+	address := ABAddress testAddress.
+	self should: [	contact addAddress: address ] raise: Error.
+	^ contact
+]
+
+{ #category : #'as yet unclassified' }
+ABContactExamples >> addSameMailTypes [
 	<gtExample>
 	| contact email secondEmail |
 	contact:= ABContact testFullContact.
@@ -17,22 +28,21 @@ ABContactExamples >> contactAddSameMailTypes [
 	^ contact
 ]
 
-{ #category : #'examples - EditAddressBook' }
-ABContactExamples >> contactBookEditCompany [
+{ #category : #'as yet unclassified' }
+ABContactExamples >> addSamePhoneTypes [
 	<gtExample>
-	| contact |
+	|contact anotherPhone|
 	contact := ABContact testFullContact.
-	contact company: 'Bern City'.
-	self assert: contact company equals: 'Bern City'.
 	
-	^contact.
+   anotherPhone:=	ABPhoneNumber testPhone.
+	self should: [ contact addPhoneNumber: anotherPhone] raise: Error.
+	^ contact
 ]
 
 { #category : #'examples - EditAddressBook' }
-ABContactExamples >> contactBookEditContactAddress [
+ABContactExamples >> editAddress [
 	<gtExample>
-	| addressBook contact address |
-"	addressBook := ABAddressBook addressBookWithFullTestContact."
+	| contact address |
 	contact := ABContact testFullContact.
 	address := contact address at: 1.
 	address streetNumber: 13.
@@ -62,7 +72,18 @@ ABContactExamples >> contactBookEditContactAddress [
 ]
 
 { #category : #'examples - EditAddressBook' }
-ABContactExamples >> contactEditEmail [
+ABContactExamples >> editCompany [
+	<gtExample>
+	| contact |
+	contact := ABContact testFullContact.
+	contact company: 'Bern City'.
+	self assert: contact company equals: 'Bern City'.
+	
+	^contact.
+]
+
+{ #category : #'examples - EditAddressBook' }
+ABContactExamples >> editEmail [
 	<gtExample>
 	| contact email anotherEmail |
 	contact := ABContact testFullContact.
@@ -93,7 +114,7 @@ ABContactExamples >> contactEditEmail [
 ]
 
 { #category : #'examples - EditAddressBook' }
-ABContactExamples >> contactEditNote [
+ABContactExamples >> editNote [
 	<gtExample>
 	| contact |
 	contact := ABContact testFullContact.
@@ -105,7 +126,7 @@ ABContactExamples >> contactEditNote [
 ]
 
 { #category : #'examples - EditAddressBook' }
-ABContactExamples >> contactEditPhone [
+ABContactExamples >> editPhone [
 	<gtExample>
 	| contact phone anotherPhone|
 	contact := ABContact testFullContact.
@@ -126,7 +147,7 @@ ABContactExamples >> contactEditPhone [
 ]
 
 { #category : #'as yet unclassified' }
-ABContactExamples >> contactMergeTwoContacts [
+ABContactExamples >> mergeTwoContacts [
 	<gtExample>
 	| a b phn phones adr addresses|
 	a := ABContact new.
@@ -149,15 +170,4 @@ ABContactExamples >> contactMergeTwoContacts [
 	b address: addresses.
 	
 	^ (a mergeWith: b)
-]
-
-{ #category : #'as yet unclassified' }
-ABContactExamples >> exampleSamePhoneTypes [
-	<gtExample>
-	|contact phone anotherPhone|
-	contact := ABContact testFullContact.
-	
-   anotherPhone:=	ABPhoneNumber testPhone.
-	self should: [contact addPhoneNumber: anotherPhone] raise: Error.
-	^ contact
 ]

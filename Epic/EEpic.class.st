@@ -2,6 +2,9 @@
 !Epic
 
 An epic is a feature or overarching objective. This is a fairly generalized feature within a system that meets user requirements to achieve business as usual. The epic will have a collection of ${class:name=EUseCase}$ that will help define behavior that needs to be available for users.
+
+
+The ${example:GtDocumentExamples>>#exampleComUrl|label=#host|expanded=false}$  website is accessed ${example:GtDocumentExamples>>#exampleComAccessPerHour|label=#size|expanded=false}$ times every hour by ${example:GtDocumentExamples>>#exampleComUniqueAccessPerHour|label=#size|expanded=false}$ unique users.
 "
 Class {
 	#name : #EEpic,
@@ -30,7 +33,11 @@ Under Use Cases you can see a list of all ${class:name=EUseCase}$.
 			
 In progress report, you can see the progress of each ${class:name=EUseCase}$ that exists in this Epic.
 
-Under Use Case Details, you will see all aspects of each of the ${class:name=EUseCase}$ in a detailed view, including the ${class:name=EActor}$.'.
+Under Use Case Details, you will see all aspects of each of the ${class:name=EUseCase}$ in a detailed view, including the ${class:name=EActor}$. 
+
+The ${example:GtDocumentExamples>>#exampleComUrl|label=#host|expanded=false}$  website is accessed ${example:GtDocumentExamples>>#exampleComAccessPerHour|label=#size|expanded=false}$ times every hour by ${example:GtDocumentExamples>>#exampleComUniqueAccessPerHour|label=#size|expanded=false}$ unique users.
+
+'.
 	^ (aDocument gtTextFor: aView)
 		title: 'View Details';
 		priority: 1

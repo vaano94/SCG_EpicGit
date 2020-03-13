@@ -15,11 +15,11 @@ EpicExamples >> addressBookAddAddressSuccess [
 	<gtExample>
 	| addressBook contact |
 	addressBook := self emptyAddressBook.
-	contact := ABContact janeDoe.
+	contact := ABContact janeDoeClass.
 	addressBook
 		addContact: contact.
 	
-	contact addAddress: ABAddress addressNew.
+	contact addAddress: (ABAddressExamples >> #emptyAddress) gtExample returnValue.
 	
 	self assert: contact address isNotEmpty.
 	self assert: contact address size equals: 1.
@@ -179,6 +179,7 @@ EpicExamples >> scenarioSearchByAddress [
 	scenario exampleMethods: (Array 
 		with: (ABAddressBookExamples >> #exampleSearchAddressesWithOneContact) gtExample
 		).
+	scenario addParametrizedExample: (ABAddressBookExamples >> #exampleSearchAddressesWithOneContact) gtExample.
 	^ scenario
 ]
 
@@ -212,7 +213,7 @@ EpicExamples >> scenarioSearchByName [
 { #category : #'examples - scenario' }
 EpicExamples >> scenarioSearchByPhone [
 	<gtExample>
-	| scenario |
+	| scenario parametrizedExample|
 	scenario := EScenario new.
 	scenario description: 'search for a contact by phone'.
 	scenario exampleMethods: 
@@ -220,6 +221,18 @@ EpicExamples >> scenarioSearchByPhone [
 			with: (ABAddressBookExamples >> #exampleSearchPhonesWithOneContact) gtExample 
 			with: (ABAddressBookExamples >> #exampleSearchPhonesWithTwoContacts) gtExample 
 		).
+	parametrizedExample := EParametrizedExample new.
+	parametrizedExample exampleMethod: ABAddressBookExamples >> #exampleAddContact:toAddressBook:.
+	scenario addParametrizedExample: parametrizedExample.
+	^ scenario
+]
+
+{ #category : #'examples - scenario' }
+EpicExamples >> scenarioSearchByPhone: phone book: book [
+	<gtExample>
+	| scenario |
+	scenario := EParametrizedExample new.
+	scenario parametrizedExample: self class >> #scenarioSeachByPhone.
 	^ scenario
 ]
 

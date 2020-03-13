@@ -100,14 +100,17 @@ EUseCase >> gtCaseInfoFor: aView [
 		text: [ title , String cr , String cr, 
 				'The current state of this use case is: ' , state , String cr, 
 				String cr , 'The task of this use case is: ' , self task, String cr,
-				'Actor: ', self actor asString, String cr,
+				'Actor: ', (self actor ifNil: ['']) asString, String cr,
 				'Supporting Actor: ', self supportingActor asString, String cr,
-				'Precondition: ', self precondition , String cr,
-				'SuccessGarantie: ', self successGarantie , String cr,
-				'Complexity: ', self complexity , String cr,
-				'Flow of events: ', self flowOfEvents , String cr
+				'Precondition: ', (self precondition ifNil: ['']) , String cr,
+				'SuccessGarantie: ', (self successGarantie ifNil: ['']) , String cr,
+				'Complexity: ', (self complexity  ifNil: ['']), String cr,
+				'Flow of events: ', (self flowOfEvents ifNil: ['']) , String cr 
 				
-				 ]
+				
+				]
+				
+			
 ]
 
 { #category : #ui }

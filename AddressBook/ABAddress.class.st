@@ -29,30 +29,6 @@ ABAddress class >> testAddress [
 	^ address
 ]
 
-{ #category : #'instance creation examples' }
-ABAddress >> addressNew [
-	<gtExample>
-	| address |
-	address := self class testAddress.
-	self assert:address city equals: 'TestCity'.
-	^address.
-]
-
-{ #category : #'instance creation examples' }
-ABAddress >> addressWithoutType [
-	<gtExample>
-	| address |
-	address := ABAddress testAddress.
-	address
-		streetName: 'Schuzenmattstrasse';
-		streetNumber: 13;
-		city: 'Bern';
-		country: 'Switzerland';
-		postalCode: 3001;
-		type: nil.
-	^ address
-]
-
 { #category : #accessing }
 ABAddress >> city [
 	^ city
@@ -90,6 +66,15 @@ ABAddress >> postalCode: aNumber [
 ]
 
 { #category : #accessing }
+ABAddress >> printOn: aStream [
+	super printOn: aStream.
+	aStream 
+		nextPutAll: '(';
+		nextPutAll: self toString;
+		nextPut: $)
+]
+
+{ #category : #accessing }
 ABAddress >> streetName [
 	^ streetName
 ]
@@ -117,12 +102,22 @@ ABAddress >> toString [
 
 { #category : #accessing }
 ABAddress >> type [
-	^ type type
+	^ type
 ]
 
 { #category : #accessing }
 ABAddress >> type: aType [
-	(aType isMemberOf: ABAddressType) ifFalse: [ 
-		Error signal: 'Can only assign ABAddresType types' ].
+	self 
+		assert: [ aType isNotNil ] 
+		description: 'Cannot set nil types'.
+	self 
+		assert: [ aType isMemberOf: ABAddressType ] 
+		description: 'Can only assign ABAddresType types'.
+
 	type := aType
+]
+
+{ #category : #accessing }
+ABAddress >> typeName [
+	^ type type
 ]

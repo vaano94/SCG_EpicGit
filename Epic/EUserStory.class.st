@@ -118,7 +118,8 @@ EUserStory >> gtViewScenarios: aView [
 	^ aView list
 		title: 'Scenarios';
 		priority: 4;
-		items: [ scenarios ]
+		items: [ scenarios ];
+		itemFormat: [ :aScenario | aScenario description ]
 ]
 
 { #category : #initialization }

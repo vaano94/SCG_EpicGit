@@ -1,3 +1,14 @@
+"
+This class contains tests.
+
+example := (ABAddressBookExamples >> #exampleAddContact:toAddressBook:) gtParametrizedExample.
+
+example arguments: {
+	ABContact johnDoe. ABAddressBook emptyAddressBook }.
+	
+result := example run.
+result returnValue.
+"
 Class {
 	#name : #ABAddressBookExamples,
 	#superclass : #TestCase,
@@ -7,6 +18,8 @@ Class {
 { #category : #'examples - AddAddressBook' }
 ABAddressBookExamples >> addressBookAddContact [
 	<gtExample>
+	<return: #ABAddressBook>
+	
 	| addressBook b phn phones adr addresses |
 	addressBook := ABAddressBook emptyAddressBook.
 	b := ABContact new.
@@ -35,13 +48,28 @@ ABAddressBookExamples >> addressBookAddTwoContactsWithSameName [
 	addressBook := ABAddressBook addressBookWithFullTestContact.
 	
 	contactWithSameName := ABContact testFullContact.
-	email := ABEmail new. email host: 'HOST'; username: 'USERNAME'.
+	email := ABEmail new
+		host: 'HOST'; 
+		username: 'USERNAME';
+		type: ABEmailType work.
 	contactWithSameName addEmail: email. 
 	self assert: contactWithSameName firstName equals: 'test'.
 	
 	addressBook addContact: contactWithSameName.
 	
 	^addressBook.
+]
+
+{ #category : #search }
+ABAddressBookExamples >> exampleAddContact: aContact toAddressBook: anAddressBook [
+	<gtExample>	
+	<given: #aContact ofType: #ABContact in: #ABContactExamples>
+	<given: #anAddressBook ofType: #ABAddressBook in: #ABAddressBookExamples>
+	<return: #ABAddressBook>
+	
+	anAddressBook addContact: aContact.
+
+	^ anAddressBook
 ]
 
 { #category : #search }

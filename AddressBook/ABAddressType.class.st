@@ -38,6 +38,11 @@ ABAddressType class >> work [
 ]
 
 { #category : #comparing }
+ABAddressType >> = anObject [
+	^ self type = anObject type.
+]
+
+{ #category : #comparing }
 ABAddressType >> equals: anObject [
 	^ self type = (anObject type).
 ]

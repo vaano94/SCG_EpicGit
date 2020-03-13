@@ -4,6 +4,78 @@ Class {
 	#category : #'AddressBook-Examples'
 }
 
+{ #category : #'examples - contacts' }
+ABContactExamples class >> janeDoeClass [
+	<gtExample>
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'Jane'.
+	contact lastName: 'Doe'.
+	^ contact
+]
+
+{ #category : #'examples - contacts' }
+ABContactExamples class >> janeSmith [
+	<gtExample>
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'Jane'.
+	contact lastName: 'Smith'.
+	^ contact
+]
+
+{ #category : #'examples - contacts' }
+ABContactExamples class >> johnDoe [
+	<gtExample>
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'John'.
+	contact lastName: 'Doe'.
+	^ contact
+]
+
+{ #category : #'examples - contacts' }
+ABContactExamples class >> johnSmith [
+	<gtExample>
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'John'.
+	contact lastName: 'Smith'.
+	^ contact
+]
+
+{ #category : #tests }
+ABContactExamples class >> test [
+	<gtExample>
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'Test'.
+	contact lastName: 'Test'.
+	^ contact
+]
+
+{ #category : #tests }
+ABContactExamples class >> testFullContact [
+	| contact phn phones adr addresses emailInstance |
+	contact := ABContact new.
+	contact
+		firstName: 'test';
+		lastName: 'test'.
+	phn := ABPhoneNumber testPhone.
+	phones := OrderedCollection new.
+	phones add: phn.
+	contact phoneNumber: phones.
+	adr := ABAddress testAddress.
+	addresses := OrderedCollection new.
+	addresses add: adr.
+	contact address: addresses.
+	
+	emailInstance :=	ABEmail testEmail.
+	contact email add: emailInstance.
+	
+	^ contact
+]
+
 { #category : #'as yet unclassified' }
 ABContactExamples >> addSameAddressTypes [
 	<gtExample>
@@ -143,6 +215,57 @@ ABContactExamples >> editPhone [
 	contact addPhoneNumber: anotherPhone.
 	self assert: contact phoneNumber size equals: 2.
 			
+	^ contact
+]
+
+{ #category : #'as yet unclassified' }
+ABContactExamples >> exampleTwoLists [
+|ex examplesArray el lists aList |
+ex:= EParametrizedExample new.
+examplesArray:= ex getGtExamplesAsParametersFor: (ABAddressBookExamples >> #exampleAddContact:toAddressBook:).
+
+
+el:= BlElement new 
+	layout: BlFlowLayout horizontal;
+	margin: (BlInsets all: 5);
+	constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent  ];
+	background: Color white.
+
+lists:= OrderedCollection new.
+(1 to: 2) do: [ :in |
+	aList := BrSimpleList new.
+	aList
+		stencil: [ :each :index |
+			BlTextElement new
+				text: each asRopedText;
+				constraintsDo: [ :c | 
+					c horizontal exact: 100.
+					c vertical exact: 15 ];
+				padding: (BlInsets all: 5);
+				when: BlClickEvent do: [ :anEvent  |
+					anEvent consumed: true.
+					aList selectOne: index ] ];
+		constraintsDo: [ :c | 
+					c horizontal fitContent.
+					c vertical fitContent ];	
+		margin: (BlInsets left: 20; right: 20);
+		display: (examplesArray at: in).
+		lists add: aList.
+	 ].
+el addChild: (lists at: 2).
+el addChild: (lists at: 1).
+el
+]
+
+{ #category : #'as yet unclassified' }
+ABContactExamples >> janeDoeInstance [
+	<gtExample>
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'Jane'.
+	contact lastName: 'Doe'.
 	^ contact
 ]
 

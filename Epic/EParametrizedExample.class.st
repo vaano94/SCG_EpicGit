@@ -74,20 +74,11 @@ EParametrizedExample >> executeExample: anExampleMethod withParams: params [
 	"I execute a given example scenario with given compiled methods"
 
 	| parametrizedExample convertedParams result |
-	
 	parametrizedExample := anExampleMethod gtParametrizedExample.
 	convertedParams := self prepareReturnValuesArrayFor: params.
 	parametrizedExample arguments: convertedParams.
 	result := parametrizedExample run.
 	^ result returnValue
-
-	"	example := (ABAddressBookExamples >> #exampleAddContact:toAddressBook:) gtParametrizedExample.
-	example arguments: {
-		 ABAddressBook emptyAddressBook }.
-	
-result := example run.
-
-result returnValue."
 ]
 
 { #category : #'as yet unclassified' }
@@ -121,19 +112,7 @@ EParametrizedExample >> getGtExamplesAsParametersFor: aParamTest [
 			[ :e | foundClasses add: (self class environment at: (e argumentNamed: #in)) ].
 	examplesDividedByClasses := OrderedCollection new.
 	foundClasses
-		do: [ :aClass | 
-			"| methods classesExamples |
-			methods := aClass gtExamples.
-			classesExamples := OrderedCollection new.
-			methods
-				do: [ :m | 
-					| methodExamples |
-					methodExamples := OrderedCollection new.
-					m pragmas
-						do: [ :p | 
-							p selector == #gtExample
-								ifTrue: [ classesExamples add: m ] ] ]."
-			examplesDividedByClasses add: aClass gtExamples ].
+		do: [ :aClass | examplesDividedByClasses add: aClass gtExamples ].
 	^ examplesDividedByClasses
 ]
 
@@ -161,7 +140,11 @@ EParametrizedExample >> prepareReturnValuesArrayFor: aCollectionOfExamples [
 	"I accept methods declared with <gtExample> , execute them and return an array with returned values"
 
 	^ aCollectionOfExamples
-		collect: [ :anExample | anExample run returnValue ]
+		collect: [ :anExample | 
+			(anExample isMemberOf: GtExample)
+				ifTrue: [ anExample run returnValue ]
+				ifFalse: [ anExample ].
+			]
 ]
 
 { #category : #'as yet unclassified' }

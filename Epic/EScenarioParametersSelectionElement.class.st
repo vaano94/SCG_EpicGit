@@ -44,11 +44,6 @@ EScenarioParametersSelectionElement >> createAListOfMethods: methodDictionary in
 ]
 
 { #category : #'as yet unclassified' }
-EScenarioParametersSelectionElement >> createAnInputField [
-	^ nil
-]
-
-{ #category : #'as yet unclassified' }
 EScenarioParametersSelectionElement >> createAnInputField: index [
 	| editor in |
 	editor := BrEditor new
@@ -62,7 +57,7 @@ EScenarioParametersSelectionElement >> createAnInputField: index [
 			e editor
 				when: BrTextEditorInsertedEvent
 				do: [ self inform: 'Target ' , e editor text.
-					self methodParams at: in put: (e editor text) ] ].
+					self methodParams at: index put: e editor text asString ] ].
 	^ editor
 ]
 
@@ -119,14 +114,6 @@ EScenarioParametersSelectionElement >> initializeForParametrizedExample: aParame
 			| element |
 			element := self generateElementFor: we atIndex: index.
 			drawnElements add: element ].
-	examplesArray := aParametrizedExample
-		getGtExamplesAsParametersFor: parametrizedExample exampleMethod.
-	methodDictionaries := OrderedCollection new.
-	examplesArray
-		do: [ :e | 
-			| dict |
-			dict := parametrizedExample createMapFromCompiledMethodList: e.
-			methodDictionaries add: dict ].
 	self updateWidget
 ]
 
@@ -172,7 +159,8 @@ EScenarioParametersSelectionElement >> selectedValues [
 
 { #category : #updating }
 EScenarioParametersSelectionElement >> updateWidget [
-	| container element |
+	| container element argumentAmount |
+	
 	container := BlElement new
 		layout: BlFlowLayout horizontal;
 		margin: (BlInsets all: 5);
@@ -180,9 +168,11 @@ EScenarioParametersSelectionElement >> updateWidget [
 			c horizontal fitContent.
 			c vertical fitContent ];
 		background: Color white.
-	methodParams := Array new: methodDictionaries size.	"needs to be size of methodDictionaries"
-	self drawnElements do: [ :de | container addChild: de ].
-	(1 to: methodDictionaries size)
+	self drawnElements do: [ :de | de margin: (BlInsets all: 10). container addChild: de ].
+	argumentAmount := self parametrizedExample exampleMethod
+		gtParametrizedExample numberOfRequieredArguments.
+	methodParams := Array new: argumentAmount.
+	(1 to: argumentAmount)
 		do: [ :in | 
 			| aList |
 			"aList := BrSimpleList new.
@@ -215,6 +205,7 @@ EScenarioParametersSelectionElement >> updateWidget [
 			"aList := self
 				createAListOfMethods: (methodDictionaries at: in)
 				inDisplay: in.
-			container addChild: aList" ].
+			container addChild: aList"
+			 ].
 	self addChild: container
 ]

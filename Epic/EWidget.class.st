@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'name',
-		'object'
+		'object',
+		'parameterName'
 	],
 	#category : #'Epic-Model'
 }

@@ -181,6 +181,7 @@ ABAddressBookExamples >> exampleSearchCompany [
 { #category : #'as yet unclassified' }
 ABAddressBookExamples >> exampleSearchCompany: aCompany In: aBook [
 	<gtParametrizedExample>
+	<gtExample>
 	<given: #aCompany ofType: #String in: #input>
 	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples>
 	<return: #ABAddressBook>
@@ -255,11 +256,12 @@ ABAddressBookExamples >> exampleSearchNamesWithTwoContacts [
 	^ book
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ABAddressBookExamples >> exampleSearchPhones: aPhone in: aBook [
 	<gtParametrizedExample>
-	<given: #aPhone ofType: #String in: #input>
-	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples>
+	<gtExample>
+	<given: #'phone number' ofType: #String in: #input>
+	<given: #'addressBook' ofType: #ABAddressBook in: #ABAddressBookExamples>
 	<return: #ABAddressBook>
 	^ aBook searchPhones: aPhone
 ]

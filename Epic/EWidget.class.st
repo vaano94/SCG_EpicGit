@@ -28,3 +28,13 @@ EWidget >> object [
 EWidget >> object: anObject [
 	object := anObject
 ]
+
+{ #category : #accessing }
+EWidget >> parameterName [
+	^ parameterName
+]
+
+{ #category : #accessing }
+EWidget >> parameterName: anObject [
+	parameterName := anObject
+]

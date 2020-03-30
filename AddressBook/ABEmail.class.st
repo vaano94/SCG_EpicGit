@@ -44,6 +44,19 @@ ABEmail >> extension: anExtension [
 	extension := anExtension
 ]
 
+{ #category : #'as yet unclassified' }
+ABEmail >> googleEmail [
+	<gtExample>
+	| email |
+	email := ABEmail new.
+	email
+		extension: 'com';
+		username: 'mail';
+		host: 'gmail';
+		type: ABEmailType work.
+	^ email
+]
+
 { #category : #accessing }
 ABEmail >> host [
 	^ host

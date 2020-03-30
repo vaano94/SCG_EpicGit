@@ -62,6 +62,7 @@ ABAddressBookExamples >> addressBookTwoFullTestContacts [
 	<gtExample>
 	<label: 'Two contacts in a book'>
 	<description: 'A book with two fully filled contacts'>
+	<return: #ABAddressBook>
 	| addressBook contact phn phones adr addresses email anotherContact |
 	addressBook := self emptyAddressBook.
 	contact := ABContact new.
@@ -98,6 +99,7 @@ ABAddressBookExamples >> addressBookWithFullTestContact [
 	<gtExample>
 	<label: 'Full contact'>
 	<description: 'A book with fully filled contact'>
+	<return: #ABAddressBook>
 	| addressBook contact phn phones adr addresses email |
 	addressBook := self emptyAddressBook.
 	contact := ABContact new.
@@ -179,11 +181,11 @@ ABAddressBookExamples >> exampleSearchCompany [
 ]
 
 { #category : #'as yet unclassified' }
-ABAddressBookExamples >> exampleSearchCompany: aCompany In: aBook [
+ABAddressBookExamples >> exampleSearchCompany: aCompany in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #aCompany ofType: #String in: #input>
-	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples>
+	<given: #aCompany ofType: #String in: #input elementType: nil>
+	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples elementType: #dropdown>
 	<return: #ABAddressBook>
 	| result |
 	result := aBook searchCompanies: aCompany.
@@ -197,7 +199,7 @@ ABAddressBookExamples >> exampleSearchCompanyWithOneContact [
 	<description: 'Verify that searching company within one contact is successful'>
 	| book resultOneCompany |
 	book := self addressBookWithFullTestContact.
-	resultOneCompany := self exampleSearchCompany: 'Company' In: book.
+	resultOneCompany := self exampleSearchCompany: 'Company' in: book.
 	self assert: resultOneCompany size equals: 1.
 	^ book
 ]
@@ -209,9 +211,9 @@ ABAddressBookExamples >> exampleSearchCompanyWithTwoContacts [
 	<description: 'Verify that searching company within two contacts is successful'>
 	| book resultTwoCompanies resultOneCompany |
 	book := self addressBookTwoFullTestContacts.
-	resultTwoCompanies := self exampleSearchCompany: 'Company' In: book.
+	resultTwoCompanies := self exampleSearchCompany: 'Company' in: book.
 	self assert: resultTwoCompanies size equals: 2.
-	resultOneCompany := self exampleSearchCompany: 'another' In: book.
+	resultOneCompany := self exampleSearchCompany: 'another' in: book.
 	self assert: resultOneCompany size equals: 1.
 	^ book
 ]
@@ -260,8 +262,8 @@ ABAddressBookExamples >> exampleSearchNamesWithTwoContacts [
 ABAddressBookExamples >> exampleSearchPhones: aPhone in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #'phone number' ofType: #String in: #input>
-	<given: #'addressBook' ofType: #ABAddressBook in: #ABAddressBookExamples>
+	<given: #'Phone number' ofType: #String in: #input>
+	<given: #'Address book' ofType: #ABAddressBook in: #ABAddressBookExamples>
 	<return: #ABAddressBook>
 	^ aBook searchPhones: aPhone
 ]

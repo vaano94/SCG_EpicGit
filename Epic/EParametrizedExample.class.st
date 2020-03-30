@@ -7,49 +7,6 @@ Class {
 	#category : #'Epic-Model'
 }
 
-{ #category : #'examples - buttons' }
-EParametrizedExample >> coloredButton [
-	<gtExample>
-	| button labelText label |
-	button := BlElement new
-		background:
-			(Color
-				r: 63
-				g: 81
-				b: 181
-				range: 255);
-		geometry: (BlRectangle cornerRadius: 2);
-		relocate: 100 @ 100;
-		padding:
-			(BlInsets
-				top: 8
-				right: 16
-				bottom: 8
-				left: 16);
-		layout: BlLinearLayout horizontal;
-		effect:
-			(BlGaussianShadowEffect
-				color: (Color black alpha: 0.3)
-				width: 1
-				offset: 0 @ 2);
-		when: BlClickEvent
-			do: [ :anEvent | 
-			anEvent consumed: true.
-			anEvent target phlow selectObject: 1 ];
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
-	labelText := 'Run' asRopedText
-		foreground: Color white;
-		fontSize: 13;
-		fontName: 'Helvetica';
-		thin.
-	label := BlTextElement new.
-	label text: labelText.
-	button addChild: label.
-	^ button
-]
-
 { #category : #'as yet unclassified' }
 EParametrizedExample >> createMapFromCompiledMethodList: listOfMethods [
 	|dict|
@@ -76,7 +33,7 @@ EParametrizedExample >> executeExample: anExampleMethod withParams: params [
 	| parametrizedExample convertedParams result |
 	parametrizedExample := anExampleMethod gtParametrizedExample.
 	convertedParams := self prepareReturnValuesArrayFor: params.
-	parametrizedExample arguments: convertedParams.
+	parametrizedExample arguments: convertedParams asArray.
 	result := parametrizedExample run.
 	^ result returnValue
 ]
@@ -132,7 +89,7 @@ EParametrizedExample >> gtViewParameters2For: aView [
 				spawnObject:
 					(self
 						executeExample: self exampleMethod
-						withParams: selectorElement selectedExampleMethods) ]
+						withParams: selectorElement selectedParameterValues) ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -153,11 +110,14 @@ EParametrizedExample >> recognizeWidgetElements [
 	widgets := OrderedCollection new.
 	pragmas := self exampleMethod pragmas.
 	searchParams := pragmas
-		select: [ :p | p selector == #given:ofType:in: ].
+		select: [ :p | 
+			p selector == #given:ofType:in:
+				| (p selector == #given:ofType:in:elementType:) ].
 	searchParams
 		do: [ :e | 
-			| val |
+			| val elementType |
 			"determine input"
+			elementType := e argumentNamed: #elementType.
 			val := e argumentNamed: #in.
 			val = 'input'
 				ifTrue: [ "determine search"
@@ -167,11 +127,20 @@ EParametrizedExample >> recognizeWidgetElements [
 						add:
 							(EWidget new
 								name: 'input';
-								object: 'String') ]
-				ifFalse: [ widgets
-						add:
-							(EWidget new
-								name: 'class';
-								object: (self class environment at: (e argumentNamed: #in))) ] ].
+								object: 'String';
+								parameterName: (e argumentNamed: #given)) ]
+				ifFalse: [ elementType = 'dropdown'
+						ifTrue: [ widgets
+								add:
+									(EWidget new
+										name: 'classDropdown';
+										object: (self class environment at: (e argumentNamed: #in));
+										parameterName: (e argumentNamed: #given)) ]
+						ifFalse: [ widgets
+								add:
+									(EWidget new
+										name: 'class';
+										object: (self class environment at: (e argumentNamed: #in));
+										parameterName: (e argumentNamed: #given)) ] ] ].
 	^ widgets
 ]

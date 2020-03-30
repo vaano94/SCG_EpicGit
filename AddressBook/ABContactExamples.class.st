@@ -225,6 +225,19 @@ ABContactExamples >> janeDoeInstance [
 	<gtExample>
 	<label: 'Empty John Doe'>
 	<description: 'Contact only with first and last names'>
+	<return: #ABContact>
+	| contact |
+	contact := ABContact new.
+	contact firstName: 'Jane'.
+	contact lastName: 'Doe'.
+	^ contact
+]
+
+{ #category : #'as yet unclassified' }
+ABContactExamples >> janeDoeInstanceNotExample [
+	<label: 'Empty John Doe'>
+	<description: 'Contact only with first and last names'>
+	<return: #ABContact>
 	| contact |
 	contact := ABContact new.
 	contact firstName: 'Jane'.

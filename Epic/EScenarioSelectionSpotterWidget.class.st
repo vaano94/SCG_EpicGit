@@ -22,20 +22,20 @@ EScenarioSelectionSpotterWidget >> actOnExampleSelected:  anExample [
 
 { #category : #examples }
 EScenarioSelectionSpotterWidget >> createLabelForExample: anExample [
-	^ (BrLabel new
-												text: anExample label;
-												margin: (BlInsets right: 10);
-												padding: (BlInsets all: 2);
-												geometry: (BlRectangle cornerRadius: 5);
-												background: BrGlamorousColors secondaryHeaderBackgroundColor;
-												look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
-												constraintsDo: [ :c | c linear vertical alignCenter ])
+	^ BrLabel new
+		text: anExample label;
+		margin: (BlInsets right: 5);
+		padding: (BlInsets all: 3);
+		geometry: (BlRectangle cornerRadius: 5);
+		background: (Color fromHexString: 'eaeaea');
+		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+		constraintsDo: [ :c | c linear vertical alignCenter ]
 ]
 
 { #category : #examples }
 EScenarioSelectionSpotterWidget >> createSearchIcon [
 	^ BrButton new
-		background: BrGlamorousColors secondaryHeaderBackgroundColor;
+		background: (Color fromHexString: 'eaeaea');
 		icon: BrGlamorousIcons search asElement;
 		label: 'Search'
 ]
@@ -92,16 +92,15 @@ EScenarioSelectionSpotterWidget >> initialize [
 	super initialize.
 	container := BlElement new
 		layout: BlLinearLayout horizontal;
+		padding: (BlInsets all: 6);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal matchParent ].
-
 	exampleContainer := BlElement new
 		layout: BlFrameLayout new;
 		constraintsDo: [ :c | 
 			c vertical matchParent.
 			c horizontal matchParent ].
-		
 	container addChild: exampleContainer.
 	container addChild: self createSpotterDropdown.
 	self addChild: container

@@ -192,7 +192,7 @@ ABContactExamples >> editEmail [
 { #category : #'examples - EditAddressBook' }
 ABContactExamples >> editNote [
 	<gtExample>
-	<label: 'John Doe with notes changed'>
+	<label: 'John Doe changed notes'>
 	<description: 'Verify that changing the notes of a contact works'>
 	| contact |
 	contact := ABContactExamples testFullContact.

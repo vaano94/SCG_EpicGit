@@ -32,7 +32,7 @@ EScenarioSelectionWidget >> initialize [
 			(BlInsets
 				left: 0;
 				right: 0);
-		border: (BlBorder paint: Color lightGray width: 2);
+		border: (BlBorder paint: (Color fromHexString: 'D9D9D9') width: 0.5);
 		geometry: (BlRectangle cornerRadius: 10).
 	self addChild: exampleList
 ]

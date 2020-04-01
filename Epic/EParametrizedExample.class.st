@@ -115,9 +115,12 @@ EParametrizedExample >> recognizeWidgetElements [
 				| (p selector == #given:ofType:in:elementType:) ].
 	searchParams
 		do: [ :e | 
-			| val elementType |
+			| val elementType widget |
+			widget := EWidget new parameterName: (e argumentNamed: #given).
 			"determine input"
-			elementType := e argumentNamed: #elementType.
+			[ elementType := e argumentNamed: #elementType ]
+				on: Error
+				do: [ elementType := '' ].
 			val := e argumentNamed: #in.
 			val = 'input'
 				ifTrue: [ "determine search"
@@ -125,22 +128,32 @@ EParametrizedExample >> recognizeWidgetElements [
 					"else determine class"
 					widgets
 						add:
-							(EWidget new
+							(widget
 								name: 'input';
-								object: 'String';
-								parameterName: (e argumentNamed: #given)) ]
-				ifFalse: [ elementType = 'dropdown'
-						ifTrue: [ widgets
-								add:
-									(EWidget new
-										name: 'classDropdown';
-										object: (self class environment at: (e argumentNamed: #in));
-										parameterName: (e argumentNamed: #given)) ]
-						ifFalse: [ widgets
-								add:
-									(EWidget new
-										name: 'class';
-										object: (self class environment at: (e argumentNamed: #in));
-										parameterName: (e argumentNamed: #given)) ] ] ].
+								object: 'String') ].
+			elementType = 'search'
+				ifTrue: [ widgets
+						add:
+							(widget
+								name: 'search';
+								object: (self class environment at: val)) ].
+			elementType = 'multipleSearch'
+				ifTrue: [ widgets
+						add:
+							(widget
+								name: 'multipleSearch';
+								object: (self class environment at: val)) ].
+			elementType = 'dropdown'
+				ifTrue: [ widgets
+						add:
+							(widget
+								name: 'classDropdown';
+								object: (self class environment at: val)) ].
+			elementType = 'list'
+				ifTrue: [ widgets
+						add:
+							(widget
+								name: 'class';
+								object: (self class environment at: val)) ] ].
 	^ widgets
 ]

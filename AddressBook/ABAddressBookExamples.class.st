@@ -184,8 +184,9 @@ ABAddressBookExamples >> exampleSearchCompany [
 ABAddressBookExamples >> exampleSearchCompany: aCompany in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #aCompany ofType: #String in: #input elementType: nil>
-	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples elementType: #dropdown>
+	<given: #aCompany ofType: #String in: #input>
+	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #list>
 	<return: #ABAddressBook>
 	| result |
 	result := aBook searchCompanies: aCompany.
@@ -222,8 +223,22 @@ ABAddressBookExamples >> exampleSearchCompanyWithTwoContacts [
 ABAddressBookExamples >> exampleSearchNames: aName in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples>
+	<given: #name ofType: #String in: #input>
+	<given: #book ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #search>
+	<return: #ABAddressBook>
+	| result |
+	result := aBook searchNames: aName.
+	^ result
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBookExamples >> exampleSearchNames: aName inMany: aBook [
+	<gtParametrizedExample>
+	<gtExample>
 	<given: #aName ofType: #String in: #input>
+	<given: #books ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #multipleSearch>
 	<return: #ABAddressBook>
 	| result |
 	result := aBook searchNames: aName.
@@ -263,7 +278,8 @@ ABAddressBookExamples >> exampleSearchPhones: aPhone in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
 	<given: #'Phone number' ofType: #String in: #input>
-	<given: #'Address book' ofType: #ABAddressBook in: #ABAddressBookExamples>
+	<given: #'Address book' ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #dropdown>
 	<return: #ABAddressBook>
 	^ aBook searchPhones: aPhone
 ]

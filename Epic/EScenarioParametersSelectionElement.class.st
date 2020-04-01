@@ -44,7 +44,25 @@ EScenarioParametersSelectionElement >> generateElementFor: widget atIndex: index
 			gtExamplesForClass := widget object gtExamples.
 			methodDictionary := self parametrizedExample
 				createMapFromCompiledMethodList: gtExamplesForClass.
-			result := "EScenarioSelectionDropdownWidget "EScenarioSelectionSpotterWidget new
+			result := EScenarioSelectionDropdownWidget new
+				parameterIndex: index;
+				parameterName: widget parameterName;
+				examples: methodDictionary values ].
+	widgetName = 'search'
+		ifTrue: [ | gtExamplesForClass methodDictionary |
+			gtExamplesForClass := widget object gtExamples.
+			methodDictionary := self parametrizedExample
+				createMapFromCompiledMethodList: gtExamplesForClass.
+			result := EScenarioSelectionSpotterWidget new
+				parameterIndex: index;
+				parameterName: widget parameterName;
+				examples: methodDictionary values ].
+	widgetName = 'multipleSearch'
+		ifTrue: [ | gtExamplesForClass methodDictionary |
+			gtExamplesForClass := widget object gtExamples.
+			methodDictionary := self parametrizedExample
+				createMapFromCompiledMethodList: gtExamplesForClass.
+			result := EScenarioSelectionSpotterMultipleSelectionWidget new
 				parameterIndex: index;
 				parameterName: widget parameterName;
 				examples: methodDictionary values ].

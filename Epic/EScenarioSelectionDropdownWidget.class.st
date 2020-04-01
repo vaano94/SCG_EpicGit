@@ -5,7 +5,8 @@ Class {
 		'exampleList',
 		'toggleButton',
 		'toggleButtonLabel',
-		'initialButtonElement'
+		'initialButtonElement',
+		'dropDownLook'
 	],
 	#category : #'Epic-Model'
 }
@@ -17,19 +18,19 @@ EScenarioSelectionDropdownWidget >> examples: aListOfExamples [
 
 { #category : #examples }
 EScenarioSelectionDropdownWidget >> initialize [
-	| buttonWithList list button |
+	| list |
 	super initialize.
 	list := self simpleListElement.
 	initialButtonElement := self toggleButton
 		look:
 			BrGlamorousButtonWithLabelAndIconLook
 				+
-					(BrGlamorousWithDropdownLook
+					(dropDownLook := BrGlamorousWithDropdownLook
 						handle: [ self toggleButton
 								look: BrGlamorousButtonWithLabelAndIconLook - BrGlamorousButtonExteriorLook;
 								yourself ]
 						content: [ list ]);
-			margin: (BlInsets all: 8).
+		margin: (BlInsets all: 8).
 	self addChild: initialButtonElement
 ]
 
@@ -43,6 +44,12 @@ EScenarioSelectionDropdownWidget >> parameterValue [
 EScenarioSelectionDropdownWidget >> simpleListElement [
 	exampleList := BrSimpleList new.
 	exampleList
+		addShortcut:
+			(BlShortcut new
+				combination: BlKeyCombination builder return build;
+				action: [ 
+					initialButtonElement label: toggleButtonLabel.
+					dropDownLook hide ]);
 		stencil: [ :anExample :index | 
 			BrLabel new
 				text: anExample label asRopedText;
@@ -50,13 +57,15 @@ EScenarioSelectionDropdownWidget >> simpleListElement [
 				constraintsDo: [ :c | c horizontal matchParent ];
 				padding: (BlInsets all: 6);
 				when: BlClickEvent
-					do: [ :anEvent | 
-					"text: anExample label asRopedText;"
-					self inform: 'Selected: ' , anExample label.
-					initialButtonElement label: anExample label.
-					toggleButtonLabel := anExample label.
-					anEvent consumed: true.
-					exampleList selectOne: index ] ];
+					do:
+						[ :anEvent | exampleList selectOne: index ] ];
+		when: BrSelectionChanged
+			do: [ :anEvent | 
+			anEvent
+				selectedDo: [ :anInterval | 
+					| selectedExample |
+					selectedExample := exampleList items at: anInterval first.
+					toggleButtonLabel := selectedExample label ] ];
 		fitContent;
 		margin:
 			(BlInsets

@@ -23,7 +23,7 @@ EScenarioInputWidget >> initialize [
 		background: Color white;
 		layout: (BlLinearLayout horizontal cellSpacing: 10);
 		constraintsDo: [ :c | 
-			c horizontal fitContent.
+			c horizontal matchParent.
 			c vertical fitContent ].
 	"border: (BlBorder paint: Color red)."
 	label := BrLabel new

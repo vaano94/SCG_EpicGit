@@ -20,7 +20,7 @@ EScenarioParametersSelectionElement >> drawnElements: anObject [
 	drawnElements := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'generate widget' }
 EScenarioParametersSelectionElement >> generateElementFor: widget atIndex: index [
 	"I accept a widget and return its representation"
 
@@ -44,7 +44,7 @@ EScenarioParametersSelectionElement >> generateElementFor: widget atIndex: index
 			gtExamplesForClass := widget object gtExamples.
 			methodDictionary := self parametrizedExample
 				createMapFromCompiledMethodList: gtExamplesForClass.
-			result := EScenarioSelectionDropdownWidget new
+			result := "EScenarioSelectionDropdownWidget "EScenarioSelectionSpotterWidget new
 				parameterIndex: index;
 				parameterName: widget parameterName;
 				examples: methodDictionary values ].
@@ -58,7 +58,7 @@ EScenarioParametersSelectionElement >> initialize [
 		layout: BlFrameLayout new;
 		constraintsDo: [ :c | 
 			c vertical fitContent.
-			c horizontal fitContent ]
+			c horizontal matchParent ]
 ]
 
 { #category : #initialization }
@@ -119,10 +119,10 @@ EScenarioParametersSelectionElement >> selectedParameterValues [
 EScenarioParametersSelectionElement >> updateWidget [
 	| container argumentAmount |
 	container := BlElement new
-		layout: BlFlowLayout horizontal;
+		layout: BlFlowLayout vertical;
 		margin: (BlInsets all: 5);
 		constraintsDo: [ :c | 
-			c horizontal fitContent.
+			c horizontal matchParent.
 			c vertical fitContent ];
 		background: Color white.
 	self drawnElements

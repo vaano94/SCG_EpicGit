@@ -12,20 +12,24 @@ EScenarioTextInputWidget >> initialize [
 	| editorLook interactiveLook |
 	super initialize.
 	editorLook := BrGlamorousRegularEditorLook new fontSize: 15.
-	"editorLook
+	"	editorLook
 		add:
 			(BrInteractiveCommonLook new
-				default: [ editorLook foreground: Color red ];
-				hovered: [ editorLook foreground: Color blue ];
+				default: [ BlBorder paint: Color red ];
+				hovered: [ BlBorder paint: Color green ];
 				pressed: [ editorLook foreground: Color black ])."
 	editor := BrEditor new
 		text: '';
-		look: editorLook;
+		look:
+			editorLook;
 		border: (BlBorder paint: BrGlamorousColors editorBorderColor width: 1);
 		geometry: (BlRectangle cornerRadius: 10);
-		hExact: 120;
+		"hFitContent;"
+			hMatchParent;
 		vExact: 40;
-		constraintsDo: [ :c | 
+		"vExact: 40;"
+			constraintsDo: [ :c | 
+			c minWidth: 100.
 			c padding: (BlInsets all: 10).
 			c linear horizontal alignLeft.
 			c vertical matchParent.

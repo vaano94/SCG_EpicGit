@@ -21,6 +21,20 @@ EScenarioParametersSelectionElement >> drawnElements: anObject [
 ]
 
 { #category : #'generate widget' }
+EScenarioParametersSelectionElement >> generateElement2For: widget atIndex: index [
+	"I accept a widget and return its representation"
+	EScenarioInputWidget subclasses 
+		detect: [ :aSubclass |
+			aSubclass widgetType = widget name ]
+		ifFound: [ :aWidgetClass |
+			^ aWidgetClass 
+				forIndex: index 
+				widgetModel: widget
+				parametrizedExample: self parametrizedExample ]
+		ifNone: [ Error signal: 'Widget not found' ]
+]
+
+{ #category : #'generate widget' }
 EScenarioParametersSelectionElement >> generateElementFor: widget atIndex: index [
 	"I accept a widget and return its representation"
 
@@ -81,17 +95,17 @@ EScenarioParametersSelectionElement >> initialize [
 
 { #category : #initialization }
 EScenarioParametersSelectionElement >> initializeForParametrizedExample: aParametrizedExample [
-	| widgetElements  |
+	| widgetModels  |
 	"I receive parametrized example and initialize values for widget view"
 	parametrizedExample := aParametrizedExample.
 	self drawnElements: OrderedCollection new.
 
 	"an array of widgets(name, object)"
-	widgetElements := aParametrizedExample recognizeWidgetElements.
-	widgetElements
+	widgetModels := aParametrizedExample recognizeWidgetElements.
+	widgetModels
 		doWithIndex: [ :we :index | 
 			| element |
-			element := self generateElementFor: we atIndex: index.
+			element := self generateElement2For: we atIndex: index.
 			drawnElements add: element ].
 	self updateWidget
 ]

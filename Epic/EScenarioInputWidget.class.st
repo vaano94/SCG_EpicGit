@@ -9,6 +9,16 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'instance creation' }
+EScenarioInputWidget class >> forIndex: anIndex widgetModel: aParameterName parametrizedExample: aParametrizedExample [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+EScenarioInputWidget class >> widgetType [
+	self subclassResponsibility
+]
+
 { #category : #initialization }
 EScenarioInputWidget >> initialize [
 	super initialize.
@@ -63,4 +73,9 @@ EScenarioInputWidget >> parameterName: anObject [
 { #category : #'grammar - Parameter' }
 EScenarioInputWidget >> parameterValue [ 
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+EScenarioInputWidget >> widgetType [
+	self subclassResponsibility
 ]

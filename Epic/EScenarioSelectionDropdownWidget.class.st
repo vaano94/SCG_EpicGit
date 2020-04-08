@@ -11,6 +11,23 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'instance creation' }
+EScenarioSelectionDropdownWidget class >> forIndex: anIndex widgetModel: aWidget parametrizedExample: aParametrizedExample [
+	| gtExamplesForClass methodDictionary |
+	gtExamplesForClass := aWidget object gtExamples.
+	methodDictionary := aParametrizedExample
+		createMapFromCompiledMethodList: gtExamplesForClass.
+	^  self new
+			parameterIndex: anIndex;
+			parameterName: aWidget parameterName;
+			examples: methodDictionary values
+]
+
+{ #category : #accessing }
+EScenarioSelectionDropdownWidget class >> widgetType [
+	^ 'dropdown'
+]
+
 { #category : #initialization }
 EScenarioSelectionDropdownWidget >> examples: aListOfExamples [
 	exampleList display: aListOfExamples
@@ -97,4 +114,9 @@ EScenarioSelectionDropdownWidget >> toggleButton [
 				constraintsDo: [ :c | c linear vertical alignCenter ]).
 	toggleButton := buttonInstance.
 	^ buttonInstance
+]
+
+{ #category : #accessing }
+EScenarioSelectionDropdownWidget >> widgetType [
+	^ 'dropdown'
 ]

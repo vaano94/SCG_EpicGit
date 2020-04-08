@@ -7,6 +7,18 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'instance creation' }
+EScenarioTextInputWidget class >> forIndex: anIndex widgetModel: aWidget parametrizedExample: aParametrizedExample [
+	^ self new
+			parameterIndex: anIndex;
+			parameterName: aWidget name
+]
+
+{ #category : #accessing }
+EScenarioTextInputWidget class >> widgetType [
+	^ 'input'
+]
+
 { #category : #'as yet unclassified' }
 EScenarioTextInputWidget >> initialize [
 	| editorLook interactiveLook |

@@ -147,13 +147,13 @@ EParametrizedExample >> recognizeWidgetElements [
 				ifTrue: [ widgets
 						add:
 							(widget
-								name: 'classDropdown';
+								name: 'dropdown';
 								object: (self class environment at: val)) ].
 			elementType = 'list'
 				ifTrue: [ widgets
 						add:
 							(widget
-								name: 'class';
+								name: 'list';
 								object: (self class environment at: val)) ] ].
 	^ widgets
 ]

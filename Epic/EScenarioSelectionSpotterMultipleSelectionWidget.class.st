@@ -10,6 +10,23 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'instance creation' }
+EScenarioSelectionSpotterMultipleSelectionWidget class >> forIndex: anIndex widgetModel: aWidget parametrizedExample: aParametrizedExample [
+	| gtExamplesForClass methodDictionary |
+	gtExamplesForClass := aWidget object gtExamples.
+	methodDictionary := aParametrizedExample
+		createMapFromCompiledMethodList: gtExamplesForClass.
+	^  self new
+			parameterIndex: anIndex;
+			parameterName: aWidget parameterName;
+			examples: methodDictionary values
+]
+
+{ #category : #accessing }
+EScenarioSelectionSpotterMultipleSelectionWidget class >> widgetType [
+	^ 'multipleSearch'
+]
+
 { #category : #'as yet unclassified' }
 EScenarioSelectionSpotterMultipleSelectionWidget >> actOnExampleDeleted: aChild [
 	selectedExamples removeKey: aChild.
@@ -36,15 +53,18 @@ EScenarioSelectionSpotterMultipleSelectionWidget >> createLabelForExample: anExa
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ];
+		background: (Color fromHexString: 'eaeaea');
 		geometry: (BlRectangle cornerRadius: 5);
 		margin: (BlInsets top: 2 bottom: 2).
 	generatedlabel := BrLabel new
 		text: anExample label;
 		padding: (BlInsets all: 3);
+		
 		background: (Color fromHexString: 'eaeaea');
 		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	crossBox:= self getCrossedBox.
+	crossBox:= self getRemoveExampleButton
+		constraintsDo: [ :c | c linear vertical alignCenter ].
 		
 	clickHandler := BlEventHandler
 		on: BlClickEvent
@@ -143,6 +163,18 @@ EScenarioSelectionSpotterMultipleSelectionWidget >> getCrossedBox [
 	container addChild: secondLine.
 		
 	^ container
+]
+
+{ #category : #'as yet unclassified' }
+EScenarioSelectionSpotterMultipleSelectionWidget >> getRemoveExampleButton [
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
+		icon: BrGlamorousIcons close asElement;
+		beTiny;
+		label: 'Remove example';
+		margin: (BlInsets left: 5)";
+		action: [ :button | self class gtBrowseFrom: button ]"
+
 ]
 
 { #category : #examples }

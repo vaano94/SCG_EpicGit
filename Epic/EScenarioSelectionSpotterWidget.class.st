@@ -10,6 +10,23 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'instance creation' }
+EScenarioSelectionSpotterWidget class >> forIndex: anIndex widgetModel: aWidget parametrizedExample: aParametrizedExample [
+	| gtExamplesForClass methodDictionary |
+	gtExamplesForClass := aWidget object gtExamples.
+	methodDictionary := aParametrizedExample
+		createMapFromCompiledMethodList: gtExamplesForClass.
+	^  self new
+			parameterIndex: anIndex;
+			parameterName: aWidget parameterName;
+			examples: methodDictionary values
+]
+
+{ #category : #accessing }
+EScenarioSelectionSpotterWidget class >> widgetType [
+	^ 'search'
+]
+
 { #category : #examples }
 EScenarioSelectionSpotterWidget >> actOnExampleSelected:  anExample [
 	selectedExample := anExample.

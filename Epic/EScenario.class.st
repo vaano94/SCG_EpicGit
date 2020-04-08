@@ -15,11 +15,6 @@ Class {
 	#category : #'Epic-Model'
 }
 
-{ #category : #'as yet unclassified' }
-EScenario >> aViewFor: scenario [
-	<gtView>
-]
-
 { #category : #adding }
 EScenario >> addParametrizedExample: anExample [
 	self parametrizedExamples add: anExample.
@@ -56,25 +51,26 @@ EScenario >> exampleMethods: list [
 ]
 
 { #category : #'as yet unclassified' }
-EScenario >> gtListOfMethodsFor: aView [
+EScenario >> gtListOfExamplesFor: aView [
 	<gtView>
 	^ aView columnedList
-		title: 'Methods';
+		title: 'Examples';
 		priority: 2;
 		items: [ self exampleMethods asOrderedCollection];
-		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 40;
-		column: 'Method' item: [ :anElement | '${method:anElement|expanded}$' ] width: 400
+		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 30;
+		column: 'Method' item: [ :anElement | anElement label ]
 ]
 
 { #category : #'as yet unclassified' }
 EScenario >> gtListOfParametrizedExamplesFor: aView [
 	<gtView>
 	^ aView columnedList
-		title: 'Parametrized';
-		priority: 2;
+		title: 'Parametrized examples';
+		priority: 3;
 		items: [ self parametrizedExamples ];
-		column: 'Index' item: [ :anElement :anIndex| anIndex ];
-		column: 'Method' item: [ :anElement | anElement toString ].
+		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 30;
+		column: 'Method'
+			item: [ :anElement | anElement exampleMethod gtParametrizedExample label ]
 ]
 
 { #category : #'as yet unclassified' }

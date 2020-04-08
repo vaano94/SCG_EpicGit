@@ -59,7 +59,7 @@ EEpic >> gtUseCaseColumnsFor: aView [
 		title: 'Use Cases';
 		priority: 2;
 		items: [ self use_cases ];
-		column: 'Index' item: [ :anElement :anIndex | anIndex ];
+		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 20;
 		column: 'Name' item: [ :anElement | anElement title ]
 ]
 

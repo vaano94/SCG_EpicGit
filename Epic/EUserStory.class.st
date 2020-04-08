@@ -70,18 +70,6 @@ EUserStory >> goal: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-EUserStory >> gtComponentsColumnsFor: aView [
-	<gtView>
-	^ aView columnedList
-		title: 'Elements';
-		priority: 2;
-		items: [ self component asArray ];
-		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 50;
-		column: 'Components' item: [ :anElement :anIndex | anElement name ];
-		column: 'Type' item: [ :anElement | anElement class ]
-]
-
-{ #category : #'as yet unclassified' }
 EUserStory >> gtDocumentFor: aView [
     <gtView>
     | aDocument |
@@ -98,18 +86,17 @@ Under scenarios, you can see a list and view each of the scenarios used to suppo
 { #category : #'as yet unclassified' }
 EUserStory >> gtStoryInfoFor: aView [
 	<gtView>
-	|aDocument|
+"	|aDocument|
 	aDocument := GtDocument new.
 	aDocument editor useSyncStylerStrategy.
-	self assert: aDocument text asString equals: self emptyContent.
 	self assert: aDocument isSubscribedToSystem not.
 	self assert: (SystemAnnouncer uniqueInstance hasSubscriber: aDocument) not.
 	^ aDocument
-	
-	"^ aView textEditor
+	"
+	^ aView textEditor
 		title: 'Information';
 		priority: 0;
-		text: [ 'As a ', user name, ', I want to ', action, '.', String cr]"
+		text: [ 'As a ', user name, ', I want to ', action, '.', String cr]
 ]
 
 { #category : #'as yet unclassified' }

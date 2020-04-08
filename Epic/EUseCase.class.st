@@ -149,10 +149,9 @@ EUseCase >> gtUserStoryColumnsFor: aView [
 		title: 'User Stories';
 		priority: 3;
 		items: [ self userStories asArray ];
-		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 50;
-		column: 'User' item: [ :anElement :anIndex | anElement user name ];
-		column: 'Action' item: [ :anElement :anIndex | anElement action ];
-		column: 'Class' item: [ :anElement :anIndex | anElement class ]
+		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 30;
+		column: 'User' item: [ :anElement :anIndex | anElement user name ] width: 100;
+		column: 'Action' item: [ :anElement :anIndex | anElement action ].
 ]
 
 { #category : #initialization }

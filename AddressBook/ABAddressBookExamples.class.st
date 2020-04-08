@@ -42,7 +42,7 @@ ABAddressBookExamples >> addressBookAddContact [
 { #category : #'examples - AddAddressBook' }
 ABAddressBookExamples >> addressBookAddTwoContactsWithSameName [
 	<gtExample>
-	<label: 'Book with one contact'>
+	<label: 'Book add same name results in one contact example'>
 	<description: 'Verify that adding same contact merges them'>
 	| addressBook contactWithSameName email |
 	addressBook := self addressBookWithFullTestContact.
@@ -138,11 +138,27 @@ ABAddressBookExamples >> emptyAddressBook [
 ABAddressBookExamples >> exampleAddContact: aContact toAddressBook: anAddressBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #aContact ofType: #ABContact in: #ABContactExamples>
-	<given: #anAddressBook ofType: #ABAddressBook in: #ABAddressBookExamples>
+	<given: #aContact ofType: #ABContact in: #ABContactExamples elementType: #dropdown>
+	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #list>
 	<return: #ABAddressBook>
+	<label: 'Add a given contact to an address book'>
 	anAddressBook addContact: aContact.
 	^ anAddressBook
+]
+
+{ #category : #'as yet unclassified' }
+ABAddressBookExamples >> exampleSearchAddress: aWord in: aBook [
+	<gtParametrizedExample>
+	<gtExample>
+	<given: #aWord ofType: #String in: #input>
+	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #list>
+	<return: #ABContact>
+	<label: 'Parametrized search of an address in an address book'>
+	| result |
+	result := aBook searchAddresses: aWord.
+	^ result
 ]
 
 { #category : #search }
@@ -188,6 +204,7 @@ ABAddressBookExamples >> exampleSearchCompany: aCompany in: aBook [
 	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #list>
 	<return: #ABAddressBook>
+	<label: 'Parametrized search of a company in an address book'>
 	| result |
 	result := aBook searchCompanies: aCompany.
 	^ result
@@ -225,23 +242,26 @@ ABAddressBookExamples >> exampleSearchNames: aName in: aBook [
 	<gtExample>
 	<given: #name ofType: #String in: #input>
 	<given: #book ofType: #ABAddressBook in: #ABAddressBookExamples
-	elementType: #search>
+	elementType: #dropdown>
 	<return: #ABAddressBook>
+	<label: 'Parametrized search of a name in an address book'>
 	| result |
 	result := aBook searchNames: aName.
 	^ result
 ]
 
 { #category : #'as yet unclassified' }
-ABAddressBookExamples >> exampleSearchNames: aName inMany: aBook [
+ABAddressBookExamples >> exampleSearchNames: aName inMany: books [
 	<gtParametrizedExample>
 	<gtExample>
 	<given: #aName ofType: #String in: #input>
 	<given: #books ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #multipleSearch>
 	<return: #ABAddressBook>
+	<label: 'Parametrized search of a name in many address books'>
 	| result |
-	result := aBook searchNames: aName.
+	result := IdentitySet new.
+	books do: [ :book | result addAll: (book searchNames: aName) ].
 	^ result
 ]
 
@@ -281,6 +301,7 @@ ABAddressBookExamples >> exampleSearchPhones: aPhone in: aBook [
 	<given: #'Address book' ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #dropdown>
 	<return: #ABAddressBook>
+	<label: 'Parametrized search of a phone in an address book'>
 	^ aBook searchPhones: aPhone
 ]
 
@@ -333,21 +354,12 @@ ABAddressBookExamples >> filterSearchByFilter [
 	^ book
 ]
 
-{ #category : #'as yet unclassified' }
-ABAddressBookExamples >> getSearchResultForWord: aWord withFilter: filter inBook: aBook [
-	<gtParametrizedExample>
-	<label: 'Search with given filter'>
-	<description: 'Verify search for given filter'>
-	| result |
-	result := aBook search: aWord withFilter: filter.
-	^ result
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #removing }
 ABAddressBookExamples >> removeContact [
+	<gtParametrizedExample>
 	<gtExample>
-	<label: 'Book with removed contact'>
-	<description: 'removes contacts from one contact book and then two contact book'>
+	<return: #ABAddressBook>
+	<label: 'Book with one deleted contact'>
 	| addressBook contact |
 	addressBook := self addressBookWithFullTestContact.
 	contact := addressBook contacts at: 1.
@@ -360,14 +372,27 @@ ABAddressBookExamples >> removeContact [
 	^ addressBook
 ]
 
+{ #category : #removing }
+ABAddressBookExamples >> removeContact: aContact fromBook: aBook [
+	<gtParametrizedExample>
+	<gtExample>
+	<given: #contact ofType: #ABContact in: #ABContactExamples elementType: #dropdown>
+	<given: #'address Book' ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #search>
+	<return: #ABAddressBook>
+	<label: 'Parametrized removal of a contact in address book'>
+	aBook removeContact: aContact.
+	^ aBook
+]
+
 { #category : #'as yet unclassified' }
 ABAddressBookExamples >> searchResultForFilter: filter inBook: aBook word: word [
 	<gtExample>
 	<gtParametrizedExample>
 	<label: 'Search with given filter'>
 	<description: 'Verify search for given filter'>
-	<given: #filter ofType: #ContactFilter in: #ABFilterExamples>
-	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples>
+	<given: #filter ofType: #ContactFilter in: #ABFilterExamples elementType: #dropdown>
+	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples elementType: #dropdown>
 	<given: #word ofType: #String in: #input>
 	<return: #ABAddressBook>
 	| result |

@@ -43,7 +43,6 @@ EScenarioInputWidget >> initialize [
 				glamorousRegularFontAndSize;
 				foreground: Color gray);
 		constraintsDo: [ :c | 
-			"look: BrLabelLook new."
 			c linear horizontal alignLeft.
 			c linear vertical alignCenter ].
 	self addChild: label

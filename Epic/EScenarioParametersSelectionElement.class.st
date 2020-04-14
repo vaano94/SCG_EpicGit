@@ -10,6 +10,19 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'as yet unclassified' }
+EScenarioParametersSelectionElement >> createScenarioLabelForText: text [
+	^ BrLabel new
+		text: text;
+		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
+		padding: (BlInsets all: 3);
+		geometry: (BlRectangle cornerRadius: 5);
+		look: (BrGlamorousLabelLook new glamorousRegularFontAndSize; fontSize: 20); 
+		constraintsDo: [ :c | 
+			c linear vertical alignCenter.
+			c linear horizontal alignLeft ].
+]
+
 { #category : #accessing }
 EScenarioParametersSelectionElement >> drawnElements [
 	^ drawnElements
@@ -34,63 +47,13 @@ EScenarioParametersSelectionElement >> generateElement2For: widget atIndex: inde
 		ifNone: [ Error signal: 'Widget not found' ]
 ]
 
-{ #category : #'generate widget' }
-EScenarioParametersSelectionElement >> generateElementFor: widget atIndex: index [
-	"I accept a widget and return its representation"
-
-	| widgetName result |
-	widgetName := widget name.
-	widgetName = 'input'
-		ifTrue: [ result := EScenarioTextInputWidget new
-				parameterIndex: index;
-				parameterName: widget parameterName ].
-	widgetName = 'class'
-		ifTrue: [ | gtExamplesForClass methodDictionary |
-			gtExamplesForClass := widget object gtExamples.
-			methodDictionary := self parametrizedExample
-				createMapFromCompiledMethodList: gtExamplesForClass.
-			result := EScenarioSelectionWidget new
-				parameterIndex: index;
-				parameterName: widget parameterName;
-				examples: methodDictionary values ].
-	widgetName = 'classDropdown'
-		ifTrue: [ | gtExamplesForClass methodDictionary |
-			gtExamplesForClass := widget object gtExamples.
-			methodDictionary := self parametrizedExample
-				createMapFromCompiledMethodList: gtExamplesForClass.
-			result := EScenarioSelectionDropdownWidget new
-				parameterIndex: index;
-				parameterName: widget parameterName;
-				examples: methodDictionary values ].
-	widgetName = 'search'
-		ifTrue: [ | gtExamplesForClass methodDictionary |
-			gtExamplesForClass := widget object gtExamples.
-			methodDictionary := self parametrizedExample
-				createMapFromCompiledMethodList: gtExamplesForClass.
-			result := EScenarioSelectionSpotterWidget new
-				parameterIndex: index;
-				parameterName: widget parameterName;
-				examples: methodDictionary values ].
-	widgetName = 'multipleSearch'
-		ifTrue: [ | gtExamplesForClass methodDictionary |
-			gtExamplesForClass := widget object gtExamples.
-			methodDictionary := self parametrizedExample
-				createMapFromCompiledMethodList: gtExamplesForClass.
-			result := EScenarioSelectionSpotterMultipleSelectionWidget new
-				parameterIndex: index;
-				parameterName: widget parameterName;
-				examples: methodDictionary values ].
-	^ result
-]
-
 { #category : #initialization }
 EScenarioParametersSelectionElement >> initialize [
 	super initialize.
-	self
-		layout: BlFrameLayout new;
-		constraintsDo: [ :c | 
-			c vertical fitContent.
-			c horizontal matchParent ]
+	self layout: BlLinearLayout vertical;
+		constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ]
 ]
 
 { #category : #initialization }
@@ -149,7 +112,7 @@ EScenarioParametersSelectionElement >> selectedParameterValues [
 
 { #category : #updating }
 EScenarioParametersSelectionElement >> updateWidget [
-	| container argumentAmount |
+	| container argumentAmount aScrollPane scenarioLabel|
 	container := BlElement new
 		layout: BlFlowLayout vertical;
 		margin: (BlInsets all: 5);
@@ -157,14 +120,28 @@ EScenarioParametersSelectionElement >> updateWidget [
 			c horizontal matchParent.
 			c vertical fitContent ];
 		background: Color white.
+		
+	self parametrizedExample boundScenario
+			ifNil: [ 
+					self addChild: (self createScenarioLabelForText: 'scenario text is not specified') ] 
+			ifNotNil: [
+					self addChild: (self createScenarioLabelForText: (self parametrizedExample boundScenario description))].
+	
+	aScrollPane := BlScrollableElement new.
+	aScrollPane constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
+		
+	container addChild: aScrollPane.	
 	self drawnElements
 		do: [ :de | 
 			de margin: (BlInsets all: 10).
 			container addChild: de ].
+		
 	argumentAmount := self parametrizedExample exampleMethod
 		gtParametrizedExample numberOfRequieredArguments.
 	methodParams := Array new: argumentAmount.
-	self addChild: container
+	self addChild: (container asScrollableElement)
 ]
 
 { #category : #widgetWrap }

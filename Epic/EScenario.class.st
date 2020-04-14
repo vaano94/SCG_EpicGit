@@ -17,6 +17,7 @@ Class {
 
 { #category : #adding }
 EScenario >> addParametrizedExample: anExample [
+	anExample boundScenario: self.
 	self parametrizedExamples add: anExample.
 ]
 

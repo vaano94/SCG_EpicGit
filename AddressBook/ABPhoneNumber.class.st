@@ -77,3 +77,8 @@ ABPhoneNumber >> type [
 ABPhoneNumber >> type: aType [
 	type := aType
 ]
+
+{ #category : #accessing }
+ABPhoneNumber >> typeName [
+	^ type type
+]

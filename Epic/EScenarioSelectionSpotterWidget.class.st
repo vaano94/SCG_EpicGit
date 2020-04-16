@@ -131,6 +131,6 @@ EScenarioSelectionSpotterWidget >> parameterValue [
 { #category : #examples }
 EScenarioSelectionSpotterWidget >> spotterStartModel [
 	^ (ESearchableExamplesSpotterStartModel new
-										viewSelector: #gtViewContactsList:;
-										examplesGroup: self examplesGroup)
+			viewSelector: #gtViewSpotterPreview:;
+			examplesGroup: self examplesGroup)
 ]

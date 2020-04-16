@@ -112,7 +112,7 @@ ABAddressBook >> emptyAddressBook [
 	^addressBook.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-extensions' }
 ABAddressBook >> gtViewContactsList: aView [
 	<gtView>
 	^ aView columnedList
@@ -120,6 +120,11 @@ ABAddressBook >> gtViewContactsList: aView [
 		priority: 0;
 		items: [ contacts ];
 		column: 'Name' item: [ :aContact | aContact fullName  ]
+]
+
+{ #category : #'gt-extensions' }
+ABAddressBook >> gtViewSpotterPreview: aView [
+	^ self gtViewContactsList: aView
 ]
 
 { #category : #initialization }

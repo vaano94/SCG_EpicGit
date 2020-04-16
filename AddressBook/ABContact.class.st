@@ -112,7 +112,7 @@ ABContact >> fullName [
 	^ firstName, ' ', lastName.
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extension' }
 ABContact >> gtViewAddresses: aView [
 	<gtView>
 	^ aView columnedList
@@ -123,22 +123,17 @@ ABContact >> gtViewAddresses: aView [
 		column: 'Address' item: #fullAddress
 ]
 
-{ #category : #accessing }
-ABContact >> gtViewDetails: aView [
+{ #category : #'gt-extension' }
+ABContact >> gtViewDetailsCardFor: aView [
 	<gtView>
-	^ aView columnedList
+	^ aView explicit
 		title: 'Details';
-		priority: 0;
-		items: [ {
-			('Name' -> self fullName).
-			('Description' -> self description).} ];
-		column: 'Detail' 
-			item: [ :anAssociation | anAssociation key ];
-		column: 'Value' 
-			item: [ :anAssociation | anAssociation value ]
+		priority: 1;
+		stencil: [ ABContactElement new
+			contact: self ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-extension' }
 ABContact >> gtViewEmails: aView [
 	<gtView>
 	^ aView columnedList
@@ -149,7 +144,7 @@ ABContact >> gtViewEmails: aView [
 		column: 'Email' item: [ :anEmail | anEmail toString ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-extension' }
 ABContact >> gtViewPhones: aView [
 	<gtView>
 	^ aView columnedList
@@ -158,6 +153,11 @@ ABContact >> gtViewPhones: aView [
 		items: [ phoneNumber ];
 		column: 'Type' item: [ :aPhoneNumber | aPhoneNumber type ];
 		column: 'Number' item: [ :aPhoneNumber | aPhoneNumber toString ]
+]
+
+{ #category : #'gt-extension' }
+ABContact >> gtViewSpotterPreview: aView [
+	^ self gtViewDetailsCardFor: aView
 ]
 
 { #category : #initialization }

@@ -115,6 +115,11 @@ ABEmail >> type: aType [
 ]
 
 { #category : #accessing }
+ABEmail >> typeName [ 
+	^ type name
+]
+
+{ #category : #accessing }
 ABEmail >> username [
 	^ username
 ]

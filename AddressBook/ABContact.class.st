@@ -10,6 +10,7 @@ Class {
 		'phoneNumber',
 		'address',
 		'email',
+		'description',
 		'notes',
 		'company',
 		'lastUpdated'
@@ -25,6 +26,12 @@ ABContact >> addAddress: anAddress [
 ]
 
 { #category : #adding }
+ABContact >> addAddresses: aCollectionOfAddress [
+	aCollectionOfAddress do: [ :anAddress |
+		self addAddress: anAddress ]
+]
+
+{ #category : #adding }
 ABContact >> addEmail: anEmail [
 	self email do: [ :e | e type = anEmail type ifTrue: [ 
 			^ Error signal: 'Can not add repetitive email type' ] ].
@@ -32,10 +39,22 @@ ABContact >> addEmail: anEmail [
 ]
 
 { #category : #adding }
+ABContact >> addEmails: aCollectionOfEmails [
+	aCollectionOfEmails do: [ :anEmail |
+		self addAddress: anEmail ]
+]
+
+{ #category : #adding }
 ABContact >> addPhoneNumber: aPhoneNumber [
 		self phoneNumber do: [ :num | num type = aPhoneNumber type ifTrue: [ 
 			^ Error signal: 'Can not add repetitive phone phone Number type' ] ].
 	phoneNumber add: aPhoneNumber.
+]
+
+{ #category : #adding }
+ABContact >> addPhoneNumbers: aCollectionOfPhoneNumbers [
+	aCollectionOfPhoneNumbers do: [ :aPhoneNumber |
+		self addPhoneNumber: aPhoneNumber ]
 ]
 
 { #category : #accessing }
@@ -56,6 +75,16 @@ ABContact >> company [
 { #category : #accessing }
 ABContact >> company: aString [
 	company := aString
+]
+
+{ #category : #accessing }
+ABContact >> description [
+	^ description
+]
+
+{ #category : #accessing }
+ABContact >> description: anObject [
+	description := anObject
 ]
 
 { #category : #accessing }
@@ -83,27 +112,30 @@ ABContact >> fullName [
 	^ firstName, ' ', lastName.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ABContact >> gtViewAddresses: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Addresses';
 		priority: 1;
 		items: [ address ];
-		column: 'Type' item: [ :aPhoneNumber | aPhoneNumber type ] width: 200;
-		column: 'Address' item: [ :aPhoneNumber | aPhoneNumber fullAddress ]
+		column: 'Type' item: #typeName width: 200;
+		column: 'Address' item: #fullAddress
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ABContact >> gtViewDetails: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Details';
 		priority: 0;
-		items: [ {('Name' -> self fullName).
-			('Notes' -> notes).} ];
-		column: 'Detail' item: [ :anAssociation | anAssociation key ];
-		column: 'Value' item: [ :anAssociation | anAssociation value ]
+		items: [ {
+			('Name' -> self fullName).
+			('Description' -> self description).} ];
+		column: 'Detail' 
+			item: [ :anAssociation | anAssociation key ];
+		column: 'Value' 
+			item: [ :anAssociation | anAssociation value ]
 ]
 
 { #category : #'as yet unclassified' }

@@ -5,6 +5,7 @@ Class {
 	#name : #ABAddressBook,
 	#superclass : #Object,
 	#instVars : [
+		'label',
 		'contacts',
 		'filter'
 	],
@@ -125,6 +126,16 @@ ABAddressBook >> gtViewContactsList: aView [
 ABAddressBook >> initialize [
 	super initialize.
 	contacts := OrderedCollection new.
+]
+
+{ #category : #accessing }
+ABAddressBook >> label [
+	^ label
+]
+
+{ #category : #accessing }
+ABAddressBook >> label: anObject [
+	label := anObject
 ]
 
 { #category : #'as yet unclassified' }

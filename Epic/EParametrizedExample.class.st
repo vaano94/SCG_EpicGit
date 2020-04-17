@@ -3,8 +3,11 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'exampleMethod',
+		'propertyTests',
 		'selectorElement',
-		'boundScenario'
+		'boundScenario',
+		'documentView',
+		'description'
 	],
 	#category : #'Epic-Model'
 }
@@ -15,11 +18,21 @@ EParametrizedExample >> addGenerateButton [
 		look: BrGlamorousButtonWithLabelLook new;
 		label: 'Generate';
 		action: [ :button |
-			| coder |
+			| coder saveAction block|
 			coder := GtMethodCoder 
 				forClass: exampleMethod methodClass 
 				source: self generateMethodString.
 			coder expanded: true.
+			block:= [
+				|s|
+				coder save.
+				self inform: 'SAVED'.
+				coder compile. 
+				"s:= (exampleMethod methodClass name), '>>#' , coder selector."
+				self propertyTests add: coder compiledMethod.
+				].
+			saveAction:= (coder addOns mainActions detect: [:act | act asString = 'a GtCoderAction(Save)']).
+			saveAction action: block.
 
 			button phlow spawnObject: coder ];
 		margin: (BlInsets top: 10 left: 10 bottom: 10 right: 0);
@@ -46,6 +59,26 @@ EParametrizedExample >> createMapFromCompiledMethodList: listOfMethods [
 	listOfMethods do: [ :compiledMethod |
 		dict at: (compiledMethod selector asString) put: compiledMethod ].
 	^ dict
+]
+
+{ #category : #accessing }
+EParametrizedExample >> description [
+	^ description
+]
+
+{ #category : #accessing }
+EParametrizedExample >> description: anObject [
+	description := anObject
+]
+
+{ #category : #accessing }
+EParametrizedExample >> documentView [
+	^ documentView
+]
+
+{ #category : #accessing }
+EParametrizedExample >> documentView: anObject [
+	documentView := anObject
 ]
 
 { #category : #accessing }
@@ -100,7 +133,7 @@ EParametrizedExample >> generateMethodString [
 	methodDescription:= ''.
 	parameterValues:= selectorElement selectedParameterValues.
 	
-	parameterNames:= ((ABAddressBookExamples >> #exampleAddContact:toAddressBook:) pragmas
+	parameterNames:= (exampleMethod pragmas
 		select: [ :p | 
 			p selector == #given:ofType:in:
 				| (p selector == #given:ofType:in:elementType:) ])
@@ -186,6 +219,20 @@ EParametrizedExample >> getGtExamplesAsParametersFor: aParamTest [
 ]
 
 { #category : #'as yet unclassified' }
+EParametrizedExample >> gtViewDocumentFor: aView [
+	<gtView>
+	| container docView |
+	
+	docView:= EParametrizedExampleDocumentView new.
+	self documentView: docView.
+	container := docView initializeForParametrizedExample: self.
+	
+	^ aView explicit
+		title: 'Description';
+		stencil: [ container ].
+]
+
+{ #category : #'as yet unclassified' }
 EParametrizedExample >> gtViewParameters2For: aView [
 	<gtView>
 	| selElement |
@@ -206,6 +253,11 @@ EParametrizedExample >> gtViewParameters2For: aView [
 						withParams: selElement selectedParameterValues) ]
 ]
 
+{ #category : #initialization }
+EParametrizedExample >> initialize [
+	propertyTests:= OrderedCollection new.
+]
+
 { #category : #'as yet unclassified' }
 EParametrizedExample >> prepareReturnValuesArrayFor: aCollectionOfExamples [
 	"I accept methods declared with <gtExample> , execute them and return an array with returned values"
@@ -216,6 +268,16 @@ EParametrizedExample >> prepareReturnValuesArrayFor: aCollectionOfExamples [
 				ifTrue: [ anExample run returnValue ]
 				ifFalse: [ anExample ].
 			]
+]
+
+{ #category : #accessing }
+EParametrizedExample >> propertyTests [
+	^ propertyTests
+]
+
+{ #category : #accessing }
+EParametrizedExample >> propertyTests: anObject [
+	propertyTests := anObject
 ]
 
 { #category : #'as yet unclassified' }

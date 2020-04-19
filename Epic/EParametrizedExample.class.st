@@ -218,18 +218,17 @@ EParametrizedExample >> getGtExamplesAsParametersFor: aParamTest [
 	^ examplesDividedByClasses
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EParametrizedExample >> gtViewDocumentFor: aView [
 	<gtView>
-	| container docView |
-	
-	docView:= EParametrizedExampleDocumentView new.
-	self documentView: docView.
-	container := docView initializeForParametrizedExample: self.
-	
 	^ aView explicit
 		title: 'Description';
-		stencil: [ container ].
+		stencil: [ 
+			| container docView |
+	
+			docView:= EParametrizedExampleDocumentView new.
+			self documentView: docView.
+			container := docView initializeForParametrizedExample: self. ].
 ]
 
 { #category : #'as yet unclassified' }

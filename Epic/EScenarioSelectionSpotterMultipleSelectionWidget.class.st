@@ -200,7 +200,7 @@ EScenarioSelectionSpotterMultipleSelectionWidget >> initialize [
 
 { #category : #'grammar - Parameter' }
 EScenarioSelectionSpotterMultipleSelectionWidget >> parameterValue [
-	^ selectedExamples collect: [ :ex | ex run returnValue ]
+	^ selectedExamples values collect: [ :ex | ex run returnValue ]
 ]
 
 { #category : #examples }

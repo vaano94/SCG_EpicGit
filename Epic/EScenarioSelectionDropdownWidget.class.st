@@ -53,8 +53,9 @@ EScenarioSelectionDropdownWidget >> initialize [
 
 { #category : #'grammar - Parameter' }
 EScenarioSelectionDropdownWidget >> parameterValue [
-	exampleList selectedItemDo: [ :selectedElement | ^ selectedElement ].
-	^ nil
+	^ exampleList selectedIndices 
+		ifEmpty: [ nil ]
+		ifNotEmpty: [ :selectedIndexes | exampleList items at: selectedIndexes first ]. 
 ]
 
 { #category : #list }

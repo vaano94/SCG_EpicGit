@@ -140,11 +140,25 @@ ABMyContactsAddressBookExamples >> exampleAddContact: aContact toAddressBook: an
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Add a given contact to an address book'>
-	<given: #aContact ofType: #ABContact in: #ABMyContactsAddressBookExamples elementType: #multipleSearch>
+	<given: #aContact ofType: #ABContact in: #ABMyContactsAddressBookExamples elementType: #search>
 	<given: #anAddressBook ofType: #ABAddressBook in: #ABMyContactsAddressBookExamples elementType: #list>
 	<return: #ABAddressBook>
 	
 	anAddressBook addContact: aContact.
+	^ anAddressBook
+]
+
+{ #category : #search }
+ABMyContactsAddressBookExamples >> exampleAddContacts: aCollectionOfContacts toAddressBook: anAddressBook [
+	<gtParametrizedExample>
+	<gtExample>
+	<label: 'Add a given contact to an address book'>
+	<given: #contacts ofType: #ABContact in: #ABMyContactsAddressBookExamples elementType: #multipleSearch>
+	<given: #addressBook ofType: #ABAddressBook in: #ABMyContactsAddressBookExamples elementType: #list>
+	<return: #ABAddressBook>
+	
+	aCollectionOfContacts do: [ : aContact | 
+		anAddressBook addContact: aContact ].
 	^ anAddressBook
 ]
 

@@ -59,7 +59,7 @@ EParametrizedExampleDocumentView >> createLabelForExampleText: aParametrizedExam
 	^ container.	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EParametrizedExampleDocumentView >> createLabelForPropertyTests: aParametrizedExample [
 	| label aDocument textElement resultString |
 	
@@ -71,15 +71,15 @@ EParametrizedExampleDocumentView >> createLabelForPropertyTests: aParametrizedEx
 		layout: BlLinearLayout vertical;
 		padding: (BlInsets all: 6);
 		constraintsDo: [ :c | 
-			c vertical fitContent.
+			c vertical matchParent.
 			c horizontal matchParent ].
 	
 	aDocument := GtDocument new.
 	aDocument editor useSyncStylerStrategy.
 	aDocument text: (resultString asRopedText fontSize: 50).
 	textElement := aDocument asElementWithoutSaveAction constraintsDo: [  :c | 
-			c vertical fitContent.
-			c horizontal fitContent ].
+			c vertical matchParent.
+			c horizontal matchParent ].
 		
 	label := BrLabel new
 		padding: (BlInsets right: 0);
@@ -305,12 +305,13 @@ EParametrizedExampleDocumentView >> initializeForParametrizedExample: aParametri
 	
 	whenElement:= self createLabelForWhen: aParametrizedExample.
 	self addChild: whenElement.
-	
-	propertyTestsElement:= self createLabelForPropertyTests: aParametrizedExample.
-	self addChild: propertyTestsElement.
 			
 	returnElement:= self createLabelForReturn: aParametrizedExample.
 	self addChild: returnElement.
+	
+	propertyTestsElement:= self createLabelForPropertyTests: aParametrizedExample.
+	self addChild: propertyTestsElement.
+
 	^ self
 ]
 

@@ -53,13 +53,9 @@ EScenarioSelectionDropdownWidget >> initialize [
 
 { #category : #'grammar - Parameter' }
 EScenarioSelectionDropdownWidget >> parameterValue [
-	exampleList selection isEmpty
-		ifTrue: [ ^ self ].
-	(exampleList selection from between: 1 and: exampleList viewModel itemCount)
-		ifFalse: [ ^ exampleList ].
-	[ :selectedElement | ^ selectedElement ] value: (exampleList viewModel itemAt: exampleList selection from).
-	"exampleList selectedItemDo: [ :selectedElement | ^ selectedElement ]."
-	^ nil
+	^ exampleList selectedIndices 
+		ifEmpty: [ nil ]
+		ifNotEmpty: [ :selectedIndexes | exampleList items at: selectedIndexes first ]. 
 ]
 
 { #category : #list }

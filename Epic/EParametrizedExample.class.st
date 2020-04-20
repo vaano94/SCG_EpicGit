@@ -165,9 +165,8 @@ EParametrizedExample >> generateMethodString [
 			methodDescription:= methodDescription , (parameterNames at: index), ' := '.
 			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
-				ifTrue: [ methodDescription:= methodDescription , 'self' ]
+				ifTrue: [ methodDescription:= methodDescription , 'self ' ]
 				ifFalse: [ methodDescription:= methodDescription , item classLabel ].
-			methodDescription:= methodDescription , ' new '.
 			methodDescription:= methodDescription , item method selector.
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 
@@ -188,7 +187,7 @@ EParametrizedExample >> generateMethodString [
 	
 	methodDescription:= methodDescription , String cr.
 	
-	parameterSetSentence:= 'result := ', 'self new '.
+	parameterSetSentence:= 'result := ', 'self '.
 	(exampleMethod selector substrings: ':') doWithIndex: [ :paramName :index | 
 		parameterSetSentence := parameterSetSentence , paramName, ':', (parameterNames at: index), ' ' ].
 	parameterSetSentence:= parameterSetSentence , '.'.
@@ -229,6 +228,20 @@ EParametrizedExample >> gtViewDocumentFor: aView [
 			docView:= EParametrizedExampleDocumentView new.
 			self documentView: docView.
 			container := docView initializeForParametrizedExample: self. ].
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExample >> gtViewDocumentFor: aView [
+	<gtView>
+	| container docView |
+	
+	docView:= EParametrizedExampleDocumentView new.
+	self documentView: docView.
+	container := docView initializeForParametrizedExample: self.
+	
+	^ aView explicit
+		title: 'Description';
+		stencil: [ container ].
 ]
 
 { #category : #'as yet unclassified' }

@@ -311,7 +311,7 @@ EParametrizedExampleDocumentView >> initializeForParametrizedExample: aParametri
 	
 	propertyTestsElement:= self createLabelForPropertyTests: aParametrizedExample.
 	self addChild: propertyTestsElement.
-	
+
 	^ self
 ]
 

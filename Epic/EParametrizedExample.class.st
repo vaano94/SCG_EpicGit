@@ -7,7 +7,8 @@ Class {
 		'selectorElement',
 		'boundScenario',
 		'documentView',
-		'description'
+		'description',
+		'editView'
 	],
 	#category : #'Epic-Model'
 }
@@ -79,6 +80,16 @@ EParametrizedExample >> documentView [
 { #category : #accessing }
 EParametrizedExample >> documentView: anObject [
 	documentView := anObject
+]
+
+{ #category : #accessing }
+EParametrizedExample >> editView [
+	^ editView
+]
+
+{ #category : #accessing }
+EParametrizedExample >> editView: anObject [
+	editView := anObject
 ]
 
 { #category : #accessing }
@@ -231,17 +242,16 @@ EParametrizedExample >> gtViewDocumentFor: aView [
 ]
 
 { #category : #'as yet unclassified' }
-EParametrizedExample >> gtViewDocumentFor: aView [
+EParametrizedExample >> gtViewEditFor: aView [
 	<gtView>
-	| container docView |
-	
-	docView:= EParametrizedExampleDocumentView new.
-	self documentView: docView.
-	container := docView initializeForParametrizedExample: self.
-	
 	^ aView explicit
-		title: 'Description';
-		stencil: [ container ].
+		title: 'Edit';
+		stencil: [ 
+			| container |
+	
+			editView:= EParametrizedExampleEditView new.
+			self editView: editView.
+			container := editView initializeForParametrizedExample: self ].
 ]
 
 { #category : #'as yet unclassified' }

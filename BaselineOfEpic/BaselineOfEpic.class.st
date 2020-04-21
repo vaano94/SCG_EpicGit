@@ -15,6 +15,6 @@ BaselineOfEpic >> baseline: spec [
 		do: [
 			"spec baseline: 'GToolkit' with: [ spec repository: 'github://feenkcom/gtoolkit/src' ]."
 			"Packages"
-			spec package: 'Epic' with: [ spec requires: #('GToolkit') ];
-				  package: 'AddressBook' with: [ spec requires: #('GToolkit') ] ]
+			spec package: 'Epic' ;
+			     package: 'AddressBook' ]
 ]

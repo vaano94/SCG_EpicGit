@@ -320,7 +320,7 @@ EParametrizedExample >> recognizeWidgetElements [
 				on: Error
 				do: [ elementType := '' ].
 			val := e argumentNamed: #in.
-			val = 'input'
+			elementType = 'input'
 				ifTrue: [ "determine search"
 					"determine drag and drop"
 					"else determine class"

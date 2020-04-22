@@ -10,6 +10,11 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> actOnExampleDeleted: aChild [
+	self methodParametersElement removeChild: aChild.
+]
+
 { #category : #accessing }
 EParametrizedExampleEditView >> container [
 	^ container
@@ -54,7 +59,9 @@ EParametrizedExampleEditView >> createApplyChangesElement [
 		button:= BrButton new
 					look: BrGlamorousButtonWithLabelLook new;
 					label: 'Apply';
-					action: [ self inform: 'Clicked' ];
+					action: [ self inform: 'Clicked'.
+								self refactorExistingMethod.
+						  ];
 					constraintsDo: [ :c | 
 						c linear horizontal alignCenter. ].
 		cont addChild: button.
@@ -137,7 +144,7 @@ EParametrizedExampleEditView >> createLabelForParametrizedExample: aParametrized
 EParametrizedExampleEditView >> createParametersChoiceForParametrizedExample: aParametrizedExample [
 	| label aDocument textElement pragmas |
 				
-	container := BlElement new
+	methodParametersElement := BlElement new
 		layout: BlLinearLayout vertical;
 		padding: (BlInsets all: 4);
 		constraintsDo: [ :c | 
@@ -148,36 +155,38 @@ EParametrizedExampleEditView >> createParametersChoiceForParametrizedExample: aP
 			p selector == #given:ofType:in:
 				| (p selector == #given:ofType:in:elementType:) ].
    pragmas doWithIndex: [ :p :index | 
-		|childContainer parameterWidget|
+		|childContainer parameterWidget removeButton clickHandler|
 		childContainer := BlElement new
 		layout: BlLinearLayout horizontal;
 		padding: (BlInsets all: 10);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ].	
-			
+						
 			parameterWidget:= EParametrizedExampleParameterWidget new 
 			editView: self;
 			order: index;
 			widgetsDict: self widgetsDict;
 			parameterName: (p argumentNamed:#given) ; 
 			classname: (p argumentNamed:#ofType);
+			insideClass: (p argumentNamed:#in);
 			widgetType: (p argumentNamed:#elementType);
 			build.
 			childContainer addChild: parameterWidget.
 			
-		container addChild: childContainer.
-		 ].
-	
+			removeButton:= self getRemoveExampleButton.
+			clickHandler := BlEventHandler
+				on: BlClickEvent
+				do: [
+					self actOnExampleDeleted: childContainer
+			 	].
+				removeButton addEventHandler: clickHandler.
+			childContainer addChild: removeButton.
 			
-	label := BrLabel new
-		padding: (BlInsets right: 0);
-		text: 'Parameters: ';
-		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
-		constraintsDo: [ :c | 
-			c linear horizontal alignLeft. ].
+		methodParametersElement addChild: childContainer.
+		 ].
 		
-	^ container.	
+	^ methodParametersElement.	
 ]
 
 { #category : #'as yet unclassified' }
@@ -207,6 +216,18 @@ EParametrizedExampleEditView >> createReturnElementForParametrizedExample: aPara
 	childContainer addChild: label.
 	childContainer addChild: spotterClassWidget .
 	^ childContainer
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> getRemoveExampleButton [
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
+		icon: BrGlamorousIcons close asElement;
+		beTiny;
+		label: 'Remove example';
+		margin: (BlInsets left: 5);
+		action: [ :button | self inform: 'remove triggered' ]
+
 ]
 
 { #category : #initialization }
@@ -289,27 +310,51 @@ EParametrizedExampleEditView >> parametrizedExample: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> refactorExistingMethod [
+	|pragmaStrings labelText descriptionText returnText|
+	self inform: 'Inside refactor existing method'.
+	pragmaStrings:= OrderedCollection new.
+	self methodParametersElement children do: [ :paramElement | pragmaStrings add: ((paramElement children at: 1) composePragmaString)].
+	labelText:= ((self children at: 1) children at: 2) document editor text asString.
+	descriptionText:= ((self children at: 2) children at: 2) document editor text asString.
+	returnText:= ((self children at: 5) children at: 2) parameterValue asString.
+	self inform: 'label: ', labelText.
+	self inform: 'description: ', descriptionText.
+	self inform: 'pragmas: ', pragmaStrings asString.
+	self inform: 'return: ', returnText.
+	^ nil
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
 EParametrizedExampleEditView >> spawnEmptyParameterChoiceContainer [
-	| childContainer parameterContainerSize emptyParameterWidget |
+	| childContainer parameterContainerSize emptyParameterWidget removeButton clickHandler |
 	childContainer := BlElement new
 		layout: BlLinearLayout horizontal;
 		padding: (BlInsets all: 10);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
-			c horizontal fitContent ].	
-			
-			parameterContainerSize:= self methodParametersElement children size.
-			self inform: 'parameterContainser size : ', (parameterContainerSize + 1) asString.
-			emptyParameterWidget:= EParametrizedExampleParameterWidget new 
-			editView: self;
-			order: parameterContainerSize;
-			widgetsDict: self widgetsDict;
-			build.
 
-			childContainer addChild: emptyParameterWidget.	
-			
-^ childContainer
-]
+			c horizontal fitContent ].
+	parameterContainerSize := self methodParametersElement children size.
+	self
+		inform: 'parameterContainser size : ' , (parameterContainerSize + 1) asString.
+	emptyParameterWidget := EParametrizedExampleParameterWidget new
+		editView: self;
+		insideClass: '';
+		order: parameterContainerSize;
+		widgetsDict: self widgetsDict;
+		build.
+	removeButton := self getRemoveExampleButton.
+	clickHandler := BlEventHandler
+		on: BlClickEvent
+		do: [ self actOnExampleDeleted: childContainer ].
+	removeButton addEventHandler: clickHandler.
+	childContainer addChild: emptyParameterWidget.
+	childContainer addChild: removeButton.
+	^ childContainer
+
 
 { #category : #accessing }
 EParametrizedExampleEditView >> widgetsDict [

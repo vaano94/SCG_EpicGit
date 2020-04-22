@@ -7,28 +7,47 @@ Class {
 		'widgetsDict',
 		'parameterName',
 		'classname',
+		'insideClass',
 		'widgetType'
 	],
 	#category : #'Epic-Model'
 }
 
+
+{ #category : #building }
+EParametrizedExampleParameterWidget >> build [
+	|removeButton clickHandler parentContainer firstLineContainer secondLineContainer|
+	
+	parentContainer:= BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c vertical fitContentLimited .
+			c horizontal matchParent. ].
+	
+	firstLineContainer:= self defaultHorizontalLayoutElementForChoice.
+	parameterName 
+		ifNil: [ firstLineContainer addChild: (self editorForParameter: ''). ] 
+		ifNotNil: [ firstLineContainer addChild: (self editorForParameter: parameterName) ]. 
+	classname 
+		ifNil: [ firstLineContainer addChild: (self searchWidgetForClass: '') ] 
+		ifNotNil: [ firstLineContainer addChild: (self searchWidgetForClass: classname) ].
+	parentContainer addChild: firstLineContainer.
+	
+	secondLineContainer:= self defaultHorizontalLayoutElementForChoice.
+	insideClass	
+		ifNil: [secondLineContainer addChild: (self choiceWidgetForParameter: '')] 
+		ifNotNil: [ secondLineContainer addChild: (self searchWidgetForInside: insideClass) ].	
+	widgetType 
+		ifNil: [secondLineContainer addChild: (self choiceWidgetForParameter: '')] 
+		ifNotNil: [ secondLineContainer addChild: (self choiceWidgetForParameter: widgetType) ].
+	parentContainer addChild: secondLineContainer.	
+	self addChild: parentContainer.
+	
 { #category : #'as yet unclassified' }
 EParametrizedExampleParameterWidget >> actOnExampleDeleted: aChild [
 	self editView methodParametersElement removeChild: aChild.
 ]
 
-{ #category : #building }
-EParametrizedExampleParameterWidget >> build [
-	parameterName 
-		ifNil: [ self addChild: (self editorForParameter: ''). ] 
-		ifNotNil: [ self addChild: (self editorForParameter: parameterName) ]. 
-	classname 
-		ifNil: [ self addChild: (self searchWidgetForClass: '') ] 
-		ifNotNil: [ self addChild: (self searchWidgetForClass: classname) ].
-	widgetType 
-		ifNil: [self addChild: (self choiceWidgetForParameter: '')] 
-		ifNotNil: [ self addChild: (self choiceWidgetForParameter: widgetType) ].
-]
 
 { #category : #'parameter widgets' }
 EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
@@ -102,13 +121,24 @@ EParametrizedExampleParameterWidget >> classname: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+EParametrizedExampleParameterWidget >> composePragmaString [
+	|pragmaString exampleMethodClassName |
+	pragmaString:= '<given: #{1} ofType: #{2} in: #{3} elementType: #{4}>'.
+	"<given: #book ofType: #ABAddressBook in: #ABAddressBookExamples	elementType: #dropdown>"
+	exampleMethodClassName:= editView parametrizedExample exampleMethod classBinding value.
+	pragmaString:= pragmaString format: {parameterName . classname . insideClass . widgetType}.
+	self inform: pragmaString.
+	^ pragmaString.
+]
+
+{ #category : #'as yet unclassified' }
 EParametrizedExampleParameterWidget >> defaultHorizontalLayoutElementForChoice [
 	^ BlElement new
 		layout: BlLinearLayout horizontal;
 		padding:
-			(BlInsets top: 5 left: 10 bottom: 5 right: 5);
+			(BlInsets top: 3 left: 3 bottom: 3 right: 3);
 		background: Color white;
-		layout: (BlLinearLayout horizontal cellSpacing: 8);
+		layout: (BlLinearLayout horizontal cellSpacing: 3);
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
@@ -173,6 +203,15 @@ EParametrizedExampleParameterWidget >> initialize [
 			c horizontal matchParent. ].
 ]
 
+{ #category : #accessing }
+EParametrizedExampleParameterWidget >> insideClass [
+	^ insideClass
+]
+
+{ #category : #accessing }
+EParametrizedExampleParameterWidget >> insideClass: anObject [
+	insideClass := anObject
+]
 { #category : #'as yet unclassified' }
 EParametrizedExampleParameterWidget >> labelWith: aText [
 ^ BrLabel new
@@ -209,6 +248,23 @@ EParametrizedExampleParameterWidget >> searchWidgetForClass: className [
 	| childContainer label spotterClassWidget |
 	childContainer:= self defaultHorizontalLayoutElementForChoice.
 	label:= self labelWith: 'Class: '.
+	spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
+	className ifNotNil: [ 
+			className ifNotEmpty: [  
+					spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
+		 			spotterClassWidget defaultValue: (self class environment at: className). ].
+	 			 ]. 
+						
+	childContainer addChild: label.
+	childContainer addChild: spotterClassWidget .
+	^ childContainer
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExampleParameterWidget >> searchWidgetForInside: className [
+	| childContainer label spotterClassWidget |
+	childContainer:= self defaultHorizontalLayoutElementForChoice.
+	label:= self labelWith: 'Examples in: '.
 	spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
 	className ifNotNil: [ 
 			className ifNotEmpty: [  

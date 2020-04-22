@@ -8,6 +8,11 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'as yet unclassified' }
+ESearchableClassSpotterStartModel >> actOnExampleDeleted: child [
+	^ nil
+]
+
 { #category : #'gt-spotter' }
 ESearchableClassSpotterStartModel >> gtSpotterForEmptyPlayBookFor: aStep [
 	<gtSearch>

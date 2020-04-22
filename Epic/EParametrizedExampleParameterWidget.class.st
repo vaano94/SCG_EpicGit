@@ -42,6 +42,7 @@ EParametrizedExampleParameterWidget >> build [
 		ifNotNil: [ secondLineContainer addChild: (self choiceWidgetForParameter: widgetType) ].
 	parentContainer addChild: secondLineContainer.	
 	self addChild: parentContainer.
+]	
 	
 { #category : #'as yet unclassified' }
 EParametrizedExampleParameterWidget >> actOnExampleDeleted: aChild [

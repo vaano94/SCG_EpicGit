@@ -3,71 +3,16 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'parametrizedExample',
+		'methodParametersElement',
 		'container',
 		'widgetsDict'
 	],
 	#category : #'Epic-Model'
 }
 
-{ #category : #'parameter widgets' }
-EParametrizedExampleEditView >> choiceWidgetForParameter: param [
-	| exampleList initialButtonElement toggleButtonLabel dropDownLook childContainer label buttonInstance | 
-	
-	childContainer:= self defaultHorizontalLayoutElementForChoice.
-	label:= self labelWith: 'Widget: '.
-	
-	toggleButtonLabel = ''.
-	exampleList := BrSimpleList new.
-	exampleList
-		stencil: [ :anExample :index | 
-			BrLabel new
-				text: anExample asRopedText;
-				look: (BrLabelLook new fontSize: 16);
-				constraintsDo: [ :c | c horizontal matchParent ];
-				padding: (BlInsets all: 6);
-				when: BlClickEvent
-					do:
-						[ :anEvent | exampleList selectOne: index ] ];
-		when: BrSelectionChanged
-			do: [ :anEvent | 
-			anEvent
-				selectedDo: [ :anInterval | 
-					| widget |
-					widget := exampleList items at: anInterval first.
-					toggleButtonLabel := widget ] ];
-		fitContent;
-		margin:
-			(BlInsets
-				left: 0;
-				right: 0);
-		border: (BlBorder paint: (Color fromHexString: 'D9D9D9') width: 0.5).
-
-	exampleList display: self widgetsDict keys.
-	
-	buttonInstance := (self toggleButton: param).
-				
-	initialButtonElement := buttonInstance
-		look:
-			BrGlamorousButtonWithLabelAndIconLook
-				+
-					(dropDownLook := BrGlamorousWithDropdownLook
-						handle: [ (self toggleButton: param)
-								look: BrGlamorousButtonWithLabelAndIconLook - BrGlamorousButtonExteriorLook;
-								yourself ]
-						content: [ exampleList ]);
-		margin: (BlInsets all: 8).
-		
-	exampleList
-		addShortcut:
-			(BlShortcut new
-				combination: BlKeyCombination builder return build;
-				action: [ 
-					initialButtonElement label: toggleButtonLabel.
-					dropDownLook hide ]).
-				
-				
-	childContainer addChildren: { label. initialButtonElement }.
-	^ childContainer
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> actOnExampleDeleted: aChild [
+	self methodParametersElement removeChild: aChild.
 ]
 
 { #category : #accessing }
@@ -78,6 +23,49 @@ EParametrizedExampleEditView >> container [
 { #category : #accessing }
 EParametrizedExampleEditView >> container: anObject [
 	container := anObject
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> createAddParameterButton: aParametrizedExample [
+		| cont button |
+		cont := BlElement new
+		layout: BlLinearLayout horizontal;
+		padding: (BlInsets all: 6);
+		constraintsDo: [ :c | 
+			c vertical fitContentLimited .
+			c horizontal matchParent. ].
+		
+		button:= BrButton new
+					look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
+					icon: BrGlamorousIcons add asElement;
+					action: [ self inform: 'Clicked add parameter.'.
+								self methodParametersElement addChild: self spawnEmptyParameterChoiceContainer ];
+					constraintsDo: [ :c | 
+						c linear horizontal alignCenter. ].
+		cont addChild: button.
+		^ cont.			
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> createApplyChangesElement [
+      | cont button |
+		cont := BlElement new
+		layout: BlLinearLayout horizontal;
+		padding: (BlInsets all: 6);
+		constraintsDo: [ :c | 
+			c vertical fitContentLimited .
+			c horizontal matchParent. ].
+		
+		button:= BrButton new
+					look: BrGlamorousButtonWithLabelLook new;
+					label: 'Apply';
+					action: [ self inform: 'Clicked'.
+								self refactorExistingMethod.
+						  ];
+					constraintsDo: [ :c | 
+						c linear horizontal alignCenter. ].
+		cont addChild: button.
+		^ cont.	
 ]
 
 { #category : #'as yet unclassified' }
@@ -156,7 +144,7 @@ EParametrizedExampleEditView >> createLabelForParametrizedExample: aParametrized
 EParametrizedExampleEditView >> createParametersChoiceForParametrizedExample: aParametrizedExample [
 	| label aDocument textElement pragmas |
 				
-	container := BlElement new
+	methodParametersElement := BlElement new
 		layout: BlLinearLayout vertical;
 		padding: (BlInsets all: 4);
 		constraintsDo: [ :c | 
@@ -167,30 +155,38 @@ EParametrizedExampleEditView >> createParametersChoiceForParametrizedExample: aP
 			p selector == #given:ofType:in:
 				| (p selector == #given:ofType:in:elementType:) ].
    pragmas doWithIndex: [ :p :index | 
-		|childContainer editorWidget widgetChoiceWidget spotterClassWidget|
+		|childContainer parameterWidget removeButton clickHandler|
 		childContainer := BlElement new
 		layout: BlLinearLayout horizontal;
 		padding: (BlInsets all: 10);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ].	
-			 
-			childContainer addChild: (self editorForParameter: (p argumentNamed:#given)). 
-			childContainer addChild: (self searchWidgetForClass: (p argumentNamed:#ofType)).
-			childContainer addChild: (self choiceWidgetForParameter: (p argumentNamed:#elementType)).
 			
-		container addChild: childContainer.
+			parameterWidget:= EParametrizedExampleParameterWidget new 
+			editView: self;
+			order: index;
+			widgetsDict: self widgetsDict;
+			parameterName: (p argumentNamed:#given) ; 
+			classname: (p argumentNamed:#ofType);
+			insideClass: (p argumentNamed:#in);
+			widgetType: (p argumentNamed:#elementType);
+			build.
+			childContainer addChild: parameterWidget.
+			
+			removeButton:= self getRemoveExampleButton.
+			clickHandler := BlEventHandler
+				on: BlClickEvent
+				do: [
+					self actOnExampleDeleted: childContainer
+			 	].
+				removeButton addEventHandler: clickHandler.
+			childContainer addChild: removeButton.
+			
+		methodParametersElement addChild: childContainer.
 		 ].
-	
-			
-	label := BrLabel new
-		padding: (BlInsets right: 0);
-		text: 'Parameters: ';
-		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
-		constraintsDo: [ :c | 
-			c linear horizontal alignLeft. ].
 		
-	^ container.	
+	^ methodParametersElement.	
 ]
 
 { #category : #'as yet unclassified' }
@@ -223,54 +219,15 @@ EParametrizedExampleEditView >> createReturnElementForParametrizedExample: aPara
 ]
 
 { #category : #'as yet unclassified' }
-EParametrizedExampleEditView >> defaultHorizontalLayoutElementForChoice [
-	^ BlElement new
-		layout: BlLinearLayout horizontal;
-		padding:
-			(BlInsets top: 5 left: 10 bottom: 5 right: 5);
-		background: Color white;
-		layout: (BlLinearLayout horizontal cellSpacing: 8);
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
-]
+EParametrizedExampleEditView >> getRemoveExampleButton [
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
+		icon: BrGlamorousIcons close asElement;
+		beTiny;
+		label: 'Remove example';
+		margin: (BlInsets left: 5);
+		action: [ :button | self inform: 'remove triggered' ]
 
-{ #category : #'parameter widgets' }
-EParametrizedExampleEditView >> editorForParameter: parameter [
-	|editor label childContainer|
-	childContainer:= self defaultHorizontalLayoutElementForChoice.
-	
-	label:= self labelWith: 'Parameter: '.
-	editor:= self editorWithEmptyText.
-	editor text: parameter.
-	
-	childContainer addChildren: { label. editor }.
-	^ childContainer
-]
-
-{ #category : #'parameter widgets' }
-EParametrizedExampleEditView >> editorWithEmptyText [
-	^ BrEditor new
-	constraintsDo: [ :c | 
-			c minWidth: 100.
-			c padding: (BlInsets all: 10).
-			c linear horizontal alignLeft.
-			c vertical fitContent.
-			c horizontal fitContent.
-			c linear weight: 0.3 ];
-	geometry: (BlRectangle cornerRadius: 6);	
-	look: (BrGlamorousRegularEditorLook new
-			glamorousCodeFont;
-			fontSize: 16);	
-		hFitContent;
-		vExact: 35;			
-	inputFilter: BrTextEditorAlphaNumericInputFilter new;
-				text: '';
-				padding: (BlInsets all: 6);
-				constraintsDo: [ :c | 
-				c horizontal matchParent.
-				c vertical matchParent ];
-	border: (BlBorder paint: (Color fromHexString: 'D9D9D9') width: 0.5)
 ]
 
 { #category : #initialization }
@@ -288,7 +245,7 @@ EParametrizedExampleEditView >> initialize [
 
 { #category : #initialization }
 EParametrizedExampleEditView >> initializeForParametrizedExample: aParametrizedExample [
-	| scenarioName labelElement descriptionElement parametersElement returnsElement wDict|
+	| scenarioName labelElement descriptionElement parametersElement addParameterButtonElement returnsElement applyChangesElement wDict|
 	self parametrizedExample: aParametrizedExample.
 	
 	aParametrizedExample boundScenario
@@ -306,10 +263,17 @@ EParametrizedExampleEditView >> initializeForParametrizedExample: aParametrizedE
 	self addChild: descriptionElement.
 	
 	parametersElement:= self createParametersChoiceForParametrizedExample: aParametrizedExample.	
+	self methodParametersElement: parametersElement.
 	self addChild: parametersElement.
+	
+	addParameterButtonElement:= self createAddParameterButton: aParametrizedExample.	
+	self addChild: addParameterButtonElement.
 	
 	returnsElement:= self createReturnElementForParametrizedExample: aParametrizedExample.	
 	self addChild: returnsElement.
+	
+	applyChangesElement:= self createApplyChangesElement.	
+	self addChild: applyChangesElement.
 
 	^ self
 ]
@@ -326,6 +290,16 @@ EParametrizedExampleEditView >> labelWith: aText [
 ]
 
 { #category : #accessing }
+EParametrizedExampleEditView >> methodParametersElement [
+	^ methodParametersElement
+]
+
+{ #category : #accessing }
+EParametrizedExampleEditView >> methodParametersElement: anObject [
+	methodParametersElement := anObject
+]
+
+{ #category : #accessing }
 EParametrizedExampleEditView >> parametrizedExample [
 	^ parametrizedExample
 ]
@@ -335,43 +309,50 @@ EParametrizedExampleEditView >> parametrizedExample: anObject [
 	parametrizedExample := anObject
 ]
 
-{ #category : #'parameter widgets' }
-EParametrizedExampleEditView >> searchWidgetForClass: className [
-	| childContainer label spotterClassWidget |
-	childContainer:= self defaultHorizontalLayoutElementForChoice.
-	label:= self labelWith: 'Class: '.
-	className ifNotNil: [ spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
-							self inform: 'oppa'.
-		 					spotterClassWidget defaultValue: (self class environment at: className). ]
-	 			 ifNil: [ spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new ]. 
-						
-	childContainer addChild: label.
-	childContainer addChild: spotterClassWidget .
-	^ childContainer
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> refactorExistingMethod [
+	|pragmaStrings labelText descriptionText returnText|
+	self inform: 'Inside refactor existing method'.
+	pragmaStrings:= OrderedCollection new.
+	self methodParametersElement children do: [ :paramElement | pragmaStrings add: ((paramElement children at: 1) composePragmaString)].
+	labelText:= ((self children at: 1) children at: 2) document editor text asString.
+	descriptionText:= ((self children at: 2) children at: 2) document editor text asString.
+	returnText:= ((self children at: 5) children at: 2) parameterValue asString.
+	self inform: 'label: ', labelText.
+	self inform: 'description: ', descriptionText.
+	self inform: 'pragmas: ', pragmaStrings asString.
+	self inform: 'return: ', returnText.
+	^ nil
+	
+	
 ]
 
 { #category : #'as yet unclassified' }
-EParametrizedExampleEditView >> toggleButton: param [
-	^ BrButton new
-		label:
-			(param
-				ifNotNil: [ param ]
-				ifNil: [ 'Choose an element' ]);
-		look: (BrGlamorousRegularEditorLook new
-			glamorousCodeFont;
-			fontSize: 20);	
-		icon:
-			(BlElement new
-				size: 10 @ 10;
-				geometry:
-					(BlPolygon
-						vertices:
-							{(0 @ 0).
-							(8 @ 0).
-							((10 / 3) rounded @ 10)});
-				background: Color lightGray;
-				margin: (BlInsets left: 10);
-				constraintsDo: [ :c | c linear vertical alignCenter ]).
+EParametrizedExampleEditView >> spawnEmptyParameterChoiceContainer [
+	| childContainer parameterContainerSize emptyParameterWidget removeButton clickHandler |
+	childContainer := BlElement new
+		layout: BlLinearLayout horizontal;
+		padding: (BlInsets all: 10);
+		constraintsDo: [ :c | 
+			c vertical fitContent.
+			c horizontal fitContent ].
+	parameterContainerSize := self methodParametersElement children size.
+	self
+		inform: 'parameterContainser size : ' , (parameterContainerSize + 1) asString.
+	emptyParameterWidget := EParametrizedExampleParameterWidget new
+		editView: self;
+		insideClass: '';
+		order: parameterContainerSize;
+		widgetsDict: self widgetsDict;
+		build.
+	removeButton := self getRemoveExampleButton.
+	clickHandler := BlEventHandler
+		on: BlClickEvent
+		do: [ self actOnExampleDeleted: childContainer ].
+	removeButton addEventHandler: clickHandler.
+	childContainer addChild: emptyParameterWidget.
+	childContainer addChild: removeButton.
+	^ childContainer
 ]
 
 { #category : #accessing }

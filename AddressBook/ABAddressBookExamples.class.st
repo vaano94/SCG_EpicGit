@@ -240,7 +240,7 @@ ABAddressBookExamples >> exampleSearchCompanyWithTwoContacts [
 ABAddressBookExamples >> exampleSearchNames: aName in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #name ofType: #String in: #input elementType: #input>
+	<given: #name ofType: #String in: #'' elementType: #input>
 	<given: #book ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #dropdown>
 	<return: #ABAddressBook>

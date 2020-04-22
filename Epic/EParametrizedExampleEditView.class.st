@@ -162,7 +162,7 @@ EParametrizedExampleEditView >> createParametersChoiceForParametrizedExample: aP
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ].	
-			
+						
 			parameterWidget:= EParametrizedExampleParameterWidget new 
 			editView: self;
 			order: index;
@@ -335,6 +335,7 @@ EParametrizedExampleEditView >> spawnEmptyParameterChoiceContainer [
 		padding: (BlInsets all: 10);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
+
 			c horizontal fitContent ].
 	parameterContainerSize := self methodParametersElement children size.
 	self
@@ -353,7 +354,7 @@ EParametrizedExampleEditView >> spawnEmptyParameterChoiceContainer [
 	childContainer addChild: emptyParameterWidget.
 	childContainer addChild: removeButton.
 	^ childContainer
-]
+
 
 { #category : #accessing }
 EParametrizedExampleEditView >> widgetsDict [

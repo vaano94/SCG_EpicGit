@@ -13,6 +13,7 @@ Class {
 	#category : #'Epic-Model'
 }
 
+
 { #category : #building }
 EParametrizedExampleParameterWidget >> build [
 	|removeButton clickHandler parentContainer firstLineContainer secondLineContainer|
@@ -42,7 +43,11 @@ EParametrizedExampleParameterWidget >> build [
 	parentContainer addChild: secondLineContainer.	
 	self addChild: parentContainer.
 	
+{ #category : #'as yet unclassified' }
+EParametrizedExampleParameterWidget >> actOnExampleDeleted: aChild [
+	self editView methodParametersElement removeChild: aChild.
 ]
+
 
 { #category : #'parameter widgets' }
 EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
@@ -207,7 +212,6 @@ EParametrizedExampleParameterWidget >> insideClass [
 EParametrizedExampleParameterWidget >> insideClass: anObject [
 	insideClass := anObject
 ]
-
 { #category : #'as yet unclassified' }
 EParametrizedExampleParameterWidget >> labelWith: aText [
 ^ BrLabel new

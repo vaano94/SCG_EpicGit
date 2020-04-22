@@ -354,7 +354,7 @@ EParametrizedExampleEditView >> spawnEmptyParameterChoiceContainer [
 	childContainer addChild: emptyParameterWidget.
 	childContainer addChild: removeButton.
 	^ childContainer
-
+]
 
 { #category : #accessing }
 EParametrizedExampleEditView >> widgetsDict [

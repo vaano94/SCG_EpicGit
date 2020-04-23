@@ -8,7 +8,11 @@ Class {
 		'parameterName',
 		'classname',
 		'insideClass',
-		'widgetType'
+		'widgetType',
+		'parameterNameWidget',
+		'inClassWidget',
+		'exampleInWidget',
+		'widgetTypeWidget'
 	],
 	#category : #'Epic-Model'
 }
@@ -39,7 +43,7 @@ EParametrizedExampleParameterWidget >> build [
 	
 	secondLineContainer:= self defaultHorizontalLayoutElementForChoice.
 	insideClass	
-		ifNil: [secondLineContainer addChild: (self choiceWidgetForParameter: '')] 
+		ifNil: [secondLineContainer addChild: (self searchWidgetForInside: '')] 
 		ifNotNil: [ secondLineContainer addChild: (self searchWidgetForInside: insideClass) ].	
 	widgetType 
 		ifNil: [secondLineContainer addChild: (self choiceWidgetForParameter: '')] 
@@ -73,7 +77,8 @@ EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
 				selectedDo: [ :anInterval | 
 					| widget |
 					widget := exampleList items at: anInterval first.
-					toggleButtonLabel := widget ] ];
+					toggleButtonLabel := widget.
+					widgetType:= widget. ] ];
 		fitContent;
 		margin:
 			(BlInsets
@@ -104,7 +109,7 @@ EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
 					initialButtonElement label: toggleButtonLabel.
 					dropDownLook hide ]).
 				
-				
+	widgetTypeWidget:= initialButtonElement.			
 	childContainer addChildren: { label. initialButtonElement }.
 	^ childContainer
 ]
@@ -121,11 +126,21 @@ EParametrizedExampleParameterWidget >> classname: anObject [
 
 { #category : #'as yet unclassified' }
 EParametrizedExampleParameterWidget >> composePragmaString [
-	|pragmaString exampleMethodClassName |
-	pragmaString:= '<given: #{1} ofType: #{2} in: #{3} elementType: #{4}>'.
+	|pragmaString exampleMethodClassName parameterNameWithArticle |
+	pragmaString:= '<given: #''{1}'' ofType: #{2} in: #{3} elementType: #{4}>'.
 	"<given: #book ofType: #ABAddressBook in: #ABAddressBookExamples	elementType: #dropdown>"
 	exampleMethodClassName:= editView parametrizedExample exampleMethod classBinding value.
-	pragmaString:= pragmaString format: {parameterName . classname . insideClass . widgetType}.
+	parameterNameWithArticle := ((parameterNameWidget editor text value asString) copyReplaceAll: ' ' with: '').
+	parameterNameWithArticle at: 1 put: (parameterNameWithArticle first asUppercase).
+	parameterNameWithArticle first isVowel 
+		ifTrue: [ parameterNameWithArticle:= 'an', parameterNameWithArticle]  
+		ifFalse: [ parameterNameWithArticle:= 'a' , parameterNameWithArticle ].
+	pragmaString:= pragmaString format: {
+		parameterNameWithArticle . 
+		(inClassWidget parameterValue asString) . 
+		(exampleInWidget parameterValue asString) .
+	 	(widgetTypeWidget label asString)
+	}.
 	self inform: pragmaString.
 	^ pragmaString.
 ]
@@ -161,6 +176,7 @@ EParametrizedExampleParameterWidget >> editorForParameter: parameter [
 	label:= self labelWith: 'Parameter: '.
 	editor:= self editorWithEmptyText.
 	editor text: parameter.
+	parameterNameWidget:= editor.
 	
 	childContainer addChildren: { label. editor }.
 	^ childContainer
@@ -254,7 +270,7 @@ EParametrizedExampleParameterWidget >> searchWidgetForClass: className [
 					spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
 		 			spotterClassWidget defaultValue: (self class environment at: className). ].
 	 			 ]. 
-						
+	inClassWidget:= spotterClassWidget.
 	childContainer addChild: label.
 	childContainer addChild: spotterClassWidget .
 	^ childContainer
@@ -271,7 +287,7 @@ EParametrizedExampleParameterWidget >> searchWidgetForInside: className [
 					spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
 		 			spotterClassWidget defaultValue: (self class environment at: className). ].
 	 			 ]. 
-						
+	exampleInWidget:= spotterClassWidget.					
 	childContainer addChild: label.
 	childContainer addChild: spotterClassWidget .
 	^ childContainer

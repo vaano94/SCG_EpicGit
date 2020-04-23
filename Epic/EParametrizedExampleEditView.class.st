@@ -336,9 +336,6 @@ EParametrizedExampleEditView >> refactorExistingMethod [
 	self methodParametersElement children do: [ :paramElement |
 		| str |
 		str:= ((paramElement children at: 1) composePragmaString).
-		self inform: 'pragma String: ', str.
-		Transcript show: 'pragma String: ', str.
-		Transcript show: '11111111111111111'.
 		 pragmaStrings add: str].
 	labelText:= ((self children at: 1) children at: 2) document editor text asString.
 	descriptionText:= ((self children at: 2) children at: 2) document editor text asString.

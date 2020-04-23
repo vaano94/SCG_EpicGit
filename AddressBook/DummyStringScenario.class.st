@@ -36,8 +36,10 @@ DummyStringScenario >> d [
 DummyStringScenario >> dummyExample: one and: two [
 	<gtExample>
 	<gtParametrizedExample>
-	<label: '123'>
-	<description: '123'>
+	<label: 'ggggg'>
+	<description: 'ggggg'>
+	<given: #aB ofType: #String in: #DummyStringScenario elementType: #input>
+	<given: #aC ofType: #String in: #DummyStringScenario elementType: #multipleSearch>
 	<return: #String>
 	| strStream |
 	strStream := WriteStream on: String new.

@@ -7,7 +7,8 @@ Class {
 		'selectorElement',
 		'boundScenario',
 		'documentView',
-		'description'
+		'description',
+		'editView'
 	],
 	#category : #'Epic-Model'
 }
@@ -79,6 +80,16 @@ EParametrizedExample >> documentView [
 { #category : #accessing }
 EParametrizedExample >> documentView: anObject [
 	documentView := anObject
+]
+
+{ #category : #accessing }
+EParametrizedExample >> editView [
+	^ editView
+]
+
+{ #category : #accessing }
+EParametrizedExample >> editView: anObject [
+	editView := anObject
 ]
 
 { #category : #accessing }
@@ -165,9 +176,8 @@ EParametrizedExample >> generateMethodString [
 			methodDescription:= methodDescription , (parameterNames at: index), ' := '.
 			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
-				ifTrue: [ methodDescription:= methodDescription , 'self' ]
+				ifTrue: [ methodDescription:= methodDescription , 'self ' ]
 				ifFalse: [ methodDescription:= methodDescription , item classLabel ].
-			methodDescription:= methodDescription , ' new '.
 			methodDescription:= methodDescription , item method selector.
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 
@@ -188,7 +198,7 @@ EParametrizedExample >> generateMethodString [
 	
 	methodDescription:= methodDescription , String cr.
 	
-	parameterSetSentence:= 'result := ', 'self new '.
+	parameterSetSentence:= 'result := ', 'self '.
 	(exampleMethod selector substrings: ':') doWithIndex: [ :paramName :index | 
 		parameterSetSentence := parameterSetSentence , paramName, ':', (parameterNames at: index), ' ' ].
 	parameterSetSentence:= parameterSetSentence , '.'.
@@ -229,6 +239,19 @@ EParametrizedExample >> gtViewDocumentFor: aView [
 			docView:= EParametrizedExampleDocumentView new.
 			self documentView: docView.
 			container := docView initializeForParametrizedExample: self. ].
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExample >> gtViewEditFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Edit';
+		stencil: [ 
+			| container |
+	
+			editView:= EParametrizedExampleEditView new.
+			self editView: editView.
+			container := editView initializeForParametrizedExample: self ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -297,7 +320,7 @@ EParametrizedExample >> recognizeWidgetElements [
 				on: Error
 				do: [ elementType := '' ].
 			val := e argumentNamed: #in.
-			val = 'input'
+			elementType = 'input'
 				ifTrue: [ "determine search"
 					"determine drag and drop"
 					"else determine class"
@@ -306,8 +329,6 @@ EParametrizedExample >> recognizeWidgetElements [
 							(widget
 								name: 'input';
 								object: 'String') ].
-			(val = 'self') ifTrue: [
-				val := self exampleMethod methodClass name ].
 			elementType = 'search'
 				ifTrue: [ widgets
 						add:

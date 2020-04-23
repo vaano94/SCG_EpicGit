@@ -120,15 +120,15 @@ EParametrizedExampleDocumentView >> createLabelForProviding: aParametrizedExampl
 		layout: BlGridLayout new;
 		padding: (BlInsets all: 6);
 		constraintsDo: [ :c | 
-			c vertical fitContent.
-			c horizontal fitContent ].
+			c vertical matchParent.
+			c horizontal matchParent ].
 	
 	aDocument := GtDocument new.
 	aDocument editor useSyncStylerStrategy.
 	aDocument text: (resultString asRopedText fontSize: 50).
 	textElement := aDocument asElementWithoutSaveAction constraintsDo: [  :c | 
-			c vertical fitContent.
-			c horizontal fitContent ].
+			c vertical matchParent.
+			c horizontal matchParent ].
 		
 	label := BrLabel new
 		padding: (BlInsets right: 0);
@@ -311,7 +311,7 @@ EParametrizedExampleDocumentView >> initializeForParametrizedExample: aParametri
 	
 	propertyTestsElement:= self createLabelForPropertyTests: aParametrizedExample.
 	self addChild: propertyTestsElement.
-	
+
 	^ self
 ]
 

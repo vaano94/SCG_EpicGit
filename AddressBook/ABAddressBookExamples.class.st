@@ -202,7 +202,7 @@ ABAddressBookExamples >> exampleSearchCompany: aCompany in: aBook [
 	<gtExample>
 	<given: #aCompany ofType: #String in: #input>
 	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
-	elementType: #list>
+	elementType: #search>
 	<return: #ABAddressBook>
 	<label: 'Parametrized search of a company in an address book'>
 	| result |
@@ -236,15 +236,16 @@ ABAddressBookExamples >> exampleSearchCompanyWithTwoContacts [
 	^ book
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ABAddressBookExamples >> exampleSearchNames: aName in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #name ofType: #String in: #input>
+	<given: #name ofType: #String in: #'' elementType: #input>
 	<given: #book ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #dropdown>
 	<return: #ABAddressBook>
 	<label: 'Parametrized search of a name in an address book'>
+	<description: 'User enters any symbol in a search field. The given book of any size then uses given search filter for names and returns a set of unique contacts. Returns zero-size set when no results will be found.'>
 	| result |
 	result := aBook searchNames: aName.
 	^ result

@@ -2,8 +2,8 @@ Class {
 	#name : #ESearchableExamplesSpotterStartModel,
 	#superclass : #Object,
 	#instVars : [
-		'examplesGroup',
-		'viewSelector'
+		'viewSelector',
+		'examplesGroup'
 	],
 	#category : #'Epic-Model'
 }

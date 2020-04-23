@@ -28,6 +28,11 @@ EScenarioSelectionDropdownWidget class >> widgetType [
 	^ 'dropdown'
 ]
 
+{ #category : #accessing }
+EScenarioSelectionDropdownWidget >> exampleList [
+	^ exampleList
+]
+
 { #category : #initialization }
 EScenarioSelectionDropdownWidget >> examples: aListOfExamples [
 	exampleList display: aListOfExamples
@@ -115,6 +120,11 @@ EScenarioSelectionDropdownWidget >> toggleButton [
 				constraintsDo: [ :c | c linear vertical alignCenter ]).
 	toggleButton := buttonInstance.
 	^ buttonInstance
+]
+
+{ #category : #accessing }
+EScenarioSelectionDropdownWidget >> toggleButtonLabel: anObject [
+	^ toggleButtonLabel := anObject
 ]
 
 { #category : #accessing }

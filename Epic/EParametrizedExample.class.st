@@ -102,7 +102,7 @@ EParametrizedExample >> exampleMethod: anObject [
 	exampleMethod := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EParametrizedExample >> executeExample: anExampleMethod withParams: params [
 	"I execute a given example scenario with given compiled methods"
 
@@ -320,6 +320,8 @@ EParametrizedExample >> recognizeWidgetElements [
 				on: Error
 				do: [ elementType := '' ].
 			val := e argumentNamed: #in.
+			(val = 'self') ifTrue: [
+				val := self exampleMethod methodClass name ].
 			elementType = 'input'
 				ifTrue: [ "determine search"
 					"determine drag and drop"

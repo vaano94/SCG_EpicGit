@@ -15,6 +15,25 @@ EParametrizedExampleEditView >> actOnExampleDeleted: aChild [
 	self methodParametersElement removeChild: aChild.
 ]
 
+{ #category : #adding }
+EParametrizedExampleEditView >> addPragmaToExample: pragmaString [
+	|trans|
+	trans := (RBAddPragmaTransformation new
+		pragma: pragmaString
+		inMethod: parametrizedExample exampleMethod method selector asString
+		inClass: parametrizedExample exampleMethod methodClass)
+		transform.
+	trans changes execute.
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> collectConsecutivePragmaStrings [
+	"exclude gtExample or gtParametrizedExample from pragma list and return string representation of other pragmas"
+	^ (self parametrizedExample exampleMethod pragmas 
+		select: [ :p | ((p selector =  'gtExample' or: p selector = 'gtParametrizedExample') not ) ])
+		collect: [ :p | p asString ].
+]
+
 { #category : #accessing }
 EParametrizedExampleEditView >> container [
 	^ container
@@ -209,7 +228,7 @@ EParametrizedExampleEditView >> createReturnElementForParametrizedExample: aPara
 			c minWidth: 100.
 			c linear horizontal alignLeft.
 			c linear vertical alignTop. ].
-	returnClass := (aParametrizedExample exampleMethod pragmas detect: [ :p | p selector = #return: ] ) argumentNamed: #return.
+	returnClass := (aParametrizedExample exampleMethod pragmas detect: [ :p | p selector = #return: ])  argumentNamed: #return.
 	spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
 		 					spotterClassWidget defaultValue: (self class environment at: returnClass). 
 						
@@ -311,20 +330,48 @@ EParametrizedExampleEditView >> parametrizedExample: anObject [
 
 { #category : #'as yet unclassified' }
 EParametrizedExampleEditView >> refactorExistingMethod [
-	|pragmaStrings labelText descriptionText returnText|
+	|pragmaStrings labelText descriptionText returnText pragmasConsecutiveStrings|
 	self inform: 'Inside refactor existing method'.
 	pragmaStrings:= OrderedCollection new.
-	self methodParametersElement children do: [ :paramElement | pragmaStrings add: ((paramElement children at: 1) composePragmaString)].
+	self methodParametersElement children do: [ :paramElement |
+		| str |
+		str:= ((paramElement children at: 1) composePragmaString).
+		self inform: 'pragma String: ', str.
+		Transcript show: 'pragma String: ', str.
+		Transcript show: '11111111111111111'.
+		 pragmaStrings add: str].
 	labelText:= ((self children at: 1) children at: 2) document editor text asString.
 	descriptionText:= ((self children at: 2) children at: 2) document editor text asString.
 	returnText:= ((self children at: 5) children at: 2) parameterValue asString.
+	
 	self inform: 'label: ', labelText.
 	self inform: 'description: ', descriptionText.
 	self inform: 'pragmas: ', pragmaStrings asString.
 	self inform: 'return: ', returnText.
+	
+	"collect and remove all pragmas"
+	pragmasConsecutiveStrings:= self collectConsecutivePragmaStrings.
+	pragmasConsecutiveStrings do: [ :pragmaString |  self removePragmaFromExample: pragmaString ].
+	
+	"sequentially add new pragmas"
+	self addPragmaToExample: ('<label: ''', labelText , '''>').
+	self addPragmaToExample: ('<description: ''', labelText , '''>').
+	pragmaStrings do: [ :ps | self addPragmaToExample: ps ].
+	self addPragmaToExample: ('<return: #', returnText , '>').
 	^ nil
 	
 	
+]
+
+{ #category : #removing }
+EParametrizedExampleEditView >> removePragmaFromExample: pragmaString [
+	|trans|
+	trans := (RBRemovePragmaTransformation new
+		pragma: pragmaString
+		inMethod: parametrizedExample exampleMethod method selector asString
+		inClass: parametrizedExample exampleMethod methodClass)
+		transform.
+	trans changes execute.
 ]
 
 { #category : #'as yet unclassified' }

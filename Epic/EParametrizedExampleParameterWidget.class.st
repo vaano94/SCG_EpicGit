@@ -13,6 +13,10 @@ Class {
 	#category : #'Epic-Model'
 }
 
+{ #category : #'as yet unclassified' }
+EParametrizedExampleParameterWidget >> actOnExampleDeleted: aChild [
+	self editView methodParametersElement removeChild: aChild.
+]
 
 { #category : #building }
 EParametrizedExampleParameterWidget >> build [
@@ -42,13 +46,7 @@ EParametrizedExampleParameterWidget >> build [
 		ifNotNil: [ secondLineContainer addChild: (self choiceWidgetForParameter: widgetType) ].
 	parentContainer addChild: secondLineContainer.	
 	self addChild: parentContainer.
-]	
-	
-{ #category : #'as yet unclassified' }
-EParametrizedExampleParameterWidget >> actOnExampleDeleted: aChild [
-	self editView methodParametersElement removeChild: aChild.
 ]
-
 
 { #category : #'parameter widgets' }
 EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
@@ -213,6 +211,7 @@ EParametrizedExampleParameterWidget >> insideClass [
 EParametrizedExampleParameterWidget >> insideClass: anObject [
 	insideClass := anObject
 ]
+
 { #category : #'as yet unclassified' }
 EParametrizedExampleParameterWidget >> labelWith: aText [
 ^ BrLabel new

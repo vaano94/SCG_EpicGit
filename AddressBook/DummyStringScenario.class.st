@@ -32,6 +32,20 @@ DummyStringScenario >> d [
 	^ 'd'
 ]
 
+{ #category : #'as yet unclassified' }
+DummyStringScenario >> dummyExample: one and: two [
+	<gtExample>
+	<gtParametrizedExample>
+	<label: '123'>
+	<description: '123'>
+	<return: #String>
+	| strStream |
+	strStream := WriteStream on: String new.
+	one do: [ :s | strStream nextPutAll: s asString ].
+	two do: [ :s | strStream nextPutAll: s asString ].
+	^ strStream contents
+]
+
 { #category : #'keys - letters' }
 DummyStringScenario >> e [
 	<gtExample>

@@ -320,6 +320,8 @@ EParametrizedExample >> recognizeWidgetElements [
 				on: Error
 				do: [ elementType := '' ].
 			val := e argumentNamed: #in.
+			(val = 'self') ifTrue: [
+				val := self exampleMethod methodClass name ].
 			elementType = 'input'
 				ifTrue: [ "determine search"
 					"determine drag and drop"

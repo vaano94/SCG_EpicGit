@@ -21,7 +21,7 @@ Class {
 { #category : #adding }
 ABContact >> addAddress: anAddress [
 	self address do: [ :e | (e type = anAddress type) ifTrue: [ 
-			^ Error signal: 'Can not add repetitive address type' ] ].
+		^ Error signal: 'Can not add repetitive address type' ] ].
 	address add: anAddress.
 ]
 
@@ -41,7 +41,7 @@ ABContact >> addEmail: anEmail [
 { #category : #adding }
 ABContact >> addEmails: aCollectionOfEmails [
 	aCollectionOfEmails do: [ :anEmail |
-		self addAddress: anEmail ]
+		self addEmail: anEmail ]
 ]
 
 { #category : #adding }
@@ -117,7 +117,7 @@ ABContact >> gtViewAddresses: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Addresses';
-		priority: 1;
+		priority: 5;
 		items: [ address ];
 		column: 'Type' item: #typeName width: 200;
 		column: 'Address' item: #fullAddress

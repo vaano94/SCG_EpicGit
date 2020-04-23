@@ -52,6 +52,7 @@ ABJohnDoeContactExamples >> johnDoeContactWithAddresses: contactAddressses email
 	<given: #contactDescription ofType: #String in: #input>
 	<return: #ABContact>
 	| contact |
+	
 	contact := ABContact new
 		firstName: 'John';
 		lastName: 'Doe';

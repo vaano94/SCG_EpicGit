@@ -152,7 +152,7 @@ ABMyContactsAddressBookExamples >> exampleAddContact: aContact toAddressBook: an
 ABMyContactsAddressBookExamples >> exampleAddContacts: aCollectionOfContacts toAddressBook: anAddressBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<label: 'Add a given contact to an address book'>
+	<label: 'Add the given contacts to an address book'>
 	<given: #contacts ofType: #ABContact in: #ABMyContactsAddressBookExamples elementType: #multipleSearch>
 	<given: #addressBook ofType: #ABAddressBook in: #ABMyContactsAddressBookExamples elementType: #list>
 	<return: #ABAddressBook>

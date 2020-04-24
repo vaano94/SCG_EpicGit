@@ -329,8 +329,21 @@ EParametrizedExampleEditView >> parametrizedExample: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> refactorDecreaseArguments: parametersNames withPrefix: old_prefix [
+	|parametersString changedNameString refactoring|
+	parametersString:=''.
+	changedNameString:= old_prefix , '_' , parametersString.
+	refactoring := RBRemoveParameterRefactoring 
+		removeParameter: parametrizedExample exampleMethod selector
+		in: parametrizedExample exampleMethod methodClass name
+		selector: changedNameString.
+	refactoring execute.	
+	^ nil
+]
+
+{ #category : #'as yet unclassified' }
 EParametrizedExampleEditView >> refactorExistingMethod [
-	|pragmaStrings labelText descriptionText returnText pragmasConsecutiveStrings|
+	|pragmaStrings labelText descriptionText returnText pragmasConsecutiveStrings parametersNames |
 	self inform: 'Inside refactor existing method'.
 	pragmaStrings:= OrderedCollection new.
 	self methodParametersElement children do: [ :paramElement |
@@ -355,9 +368,61 @@ EParametrizedExampleEditView >> refactorExistingMethod [
 	self addPragmaToExample: ('<description: ''', labelText , '''>').
 	pragmaStrings do: [ :ps | self addPragmaToExample: ps ].
 	self addPragmaToExample: ('<return: #', returnText , '>').
+	
+	self refactorMethodName.
+	
 	^ nil
 	
 	
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> refactorIncreaseArguments: parametersNames withPrefix: old_prefix [
+	|parametersString changedNameString refactoring|
+	parametersString:=''.
+	(1 to: (parametersNames size)) do: [ :e |parametersString:= parametersString, (parametersNames at: e) , ':'. ].
+	changedNameString:= old_prefix , '_' , parametersString.
+	refactoring := RBAddParameterRefactoring 
+		addParameterToMethod: parametrizedExample exampleMethod selector
+		in: parametrizedExample exampleMethod methodClass name
+		newSelector: changedNameString
+		initializer: 'x:=newObject'.
+	refactoring execute.
+]
+
+{ #category : #'as yet unclassified' }
+EParametrizedExampleEditView >> refactorMethodName [
+	|parametersNames oldMethodArgumentsSize oldPrefix numOfReworkedArgs|
+	
+	oldPrefix:= (parametrizedExample exampleMethod selector splitOn: '_') at: 1.
+	
+	parametersNames:= OrderedCollection new. 
+	self methodParametersElement children do: [ :child | 
+		|parameterWidget| 
+			parameterWidget:= child children at: 1.
+			parametersNames add: (parameterWidget parameterNameWidget editor text asString).
+		].
+	oldMethodArgumentsSize:= parametrizedExample exampleMethod argumentNames size.
+	
+	numOfReworkedArgs:= (parametersNames size) - oldMethodArgumentsSize.
+	numOfReworkedArgs > 0 ifTrue: [
+			(1 + oldMethodArgumentsSize) to: (parametersNames size) do: [ :index |
+				|tmp|
+				tmp:= parametersNames at: index.
+				tmp at: 1 put: (tmp first asUppercase).
+				tmp first isVowel 
+						ifTrue: [ tmp:= 'an', tmp]  
+						ifFalse: [ tmp:= 'a' , tmp ].
+				parametersNames at: index put: tmp.		
+				 ].
+		 ].
+	
+	parametersNames size > oldMethodArgumentsSize 
+		ifTrue: [ self refactorIncreaseArguments: parametersNames withPrefix: oldPrefix ] 
+		ifFalse: [ 
+			"figure out deleted argument names"
+			self parametrizedExample exampleMethod argumentNames.
+			self refactorDecreaseArguments: parametersNames  withPrefix: oldPrefix ].
 ]
 
 { #category : #removing }

@@ -32,22 +32,6 @@ DummyStringScenario >> d [
 	^ 'd'
 ]
 
-{ #category : #'as yet unclassified' }
-DummyStringScenario >> dummyExample: one and: two [
-	<gtExample>
-	<gtParametrizedExample>
-	<label: 'ggggg'>
-	<description: 'ggggg'>
-	<given: #aB ofType: #String in: #DummyStringScenario elementType: #input>
-	<given: #aC ofType: #String in: #DummyStringScenario elementType: #multipleSearch>
-	<return: #String>
-	| strStream |
-	strStream := WriteStream on: String new.
-	one do: [ :s | strStream nextPutAll: s asString ].
-	two do: [ :s | strStream nextPutAll: s asString ].
-	^ strStream contents
-]
-
 { #category : #'keys - letters' }
 DummyStringScenario >> e [
 	<gtExample>
@@ -94,5 +78,55 @@ DummyStringScenario >> joinMultipleStrings: strings and: strings2 [
 	strStream := WriteStream on: String new.
 	strings do: [ :s | strStream nextPutAll: s asString ].
 	strings2 do: [ :s | strStream nextPutAll: s asString ].
+	^ strStream contents
+]
+
+{ #category : #'as yet unclassified' }
+DummyStringScenario >> methodName_a: one b: two [
+	<gtExample>
+	<gtParametrizedExample>
+	<label: '123'>
+	<description: '123'>
+	<given: #anA ofType: #String in: #DummyStringScenario elementType: #multipleSearch>
+	<given: #aB ofType: #String in: #DummyStringScenario elementType: #multipleSearch>
+	<given: #anAaaaaaa ofType: #ABCustomAddressBookExamples in: #ABEmailType
+	elementType: #multipleSearch>
+	<return: #String>
+	| strStream |
+	strStream := WriteStream on: String new.
+	one do: [ :s | strStream nextPutAll: s asString ].
+	two do: [ :s | strStream nextPutAll: s asString ].
+	^ strStream contents
+]
+
+{ #category : #'as yet unclassified' }
+DummyStringScenario >> method_aaaNew: aaa bb: anObject [
+	<gtExample>
+	<gtParametrizedExample>
+	<label: '123'>
+	<description: '123'>
+	<given: #anA ofType: #String in: #DummyStringScenario elementType: #multipleSearch>
+	<given: #aB ofType: #String in: #DummyStringScenario elementType: #multipleSearch>
+	<given: #anAaaaaaa ofType: #ABCustomAddressBookExamples in: #ABEmailType
+	elementType: #multipleSearch>
+	<return: #String>
+	| strStream |
+	strStream := WriteStream on: String new.
+	^ strStream contents
+]
+
+{ #category : #'as yet unclassified' }
+DummyStringScenario >> method_aaaNew: aaa bb: anObject aaaaa: something [
+	<gtExample>
+	<gtParametrizedExample>
+	<label: '123'>
+	<description: '123'>
+	<given: #anA ofType: #String in: #DummyStringScenario elementType: #multipleSearch>
+	<given: #aB ofType: #String in: #DummyStringScenario elementType: #multipleSearch>
+	<given: #anAaaaaaa ofType: #ABCustomAddressBookExamples in: #ABEmailType
+	elementType: #multipleSearch>
+	<return: #String>
+	| strStream |
+	strStream := WriteStream on: String new.
 	^ strStream contents
 ]

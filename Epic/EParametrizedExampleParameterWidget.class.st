@@ -259,6 +259,11 @@ EParametrizedExampleParameterWidget >> parameterName: anObject [
 	parameterName := anObject
 ]
 
+{ #category : #accessing }
+EParametrizedExampleParameterWidget >> parameterNameWidget [
+	^ parameterNameWidget
+]
+
 { #category : #'parameter widgets' }
 EParametrizedExampleParameterWidget >> searchWidgetForClass: className [
 	| childContainer label spotterClassWidget |

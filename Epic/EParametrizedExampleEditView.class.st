@@ -174,21 +174,24 @@ EParametrizedExampleEditView >> createParametersChoiceForParametrizedExample: aP
 			p selector == #given:ofType:in:
 				| (p selector == #given:ofType:in:elementType:) ].
    pragmas doWithIndex: [ :p :index | 
-		|childContainer parameterWidget removeButton clickHandler|
+		|childContainer parameterWidget removeButton clickHandler insideClass|
 		childContainer := BlElement new
 		layout: BlLinearLayout horizontal;
 		padding: (BlInsets all: 10);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ].	
-						
-			parameterWidget:= EParametrizedExampleParameterWidget new 
+		insideClass := p argumentNamed:#in.
+		insideClass = 'self' ifTrue: [
+			insideClass := aParametrizedExample exampleMethod methodClass name
+		].
+		parameterWidget:= EParametrizedExampleParameterWidget new 
 			editView: self;
 			order: index;
 			widgetsDict: self widgetsDict;
 			parameterName: (p argumentNamed:#given) ; 
 			classname: (p argumentNamed:#ofType);
-			insideClass: (p argumentNamed:#in);
+			insideClass: insideClass;
 			widgetType: (p argumentNamed:#elementType);
 			build.
 			childContainer addChild: parameterWidget.

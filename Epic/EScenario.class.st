@@ -51,15 +51,15 @@ EScenario >> exampleMethods: list [
 	list do: [ :item | self exampleMethods add: item ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EScenario >> gtListOfExamplesFor: aView [
 	<gtView>
-	^ aView columnedList
+	^ aView forward
 		title: 'Examples';
-		priority: 2;
-		items: [ self exampleMethods asOrderedCollection];
-		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 30;
-		column: 'Method' item: [ :anElement | anElement label ]
+		priority: 1;
+		object: [ GtExampleGroup withAll: self exampleMethods asArray ];
+		view: #gtExamplesFor:
+	
 ]
 
 { #category : #'as yet unclassified' }

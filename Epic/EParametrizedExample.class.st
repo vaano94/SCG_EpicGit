@@ -233,6 +233,7 @@ EParametrizedExample >> gtViewDocumentFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Description';
+		priority: 10;
 		stencil: [ 
 			| container docView |
 	
@@ -241,11 +242,12 @@ EParametrizedExample >> gtViewDocumentFor: aView [
 			container := docView initializeForParametrizedExample: self. ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EParametrizedExample >> gtViewEditFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Edit';
+		priority: 5;
 		stencil: [ 
 			| container |
 	
@@ -254,7 +256,7 @@ EParametrizedExample >> gtViewEditFor: aView [
 			container := editView initializeForParametrizedExample: self ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EParametrizedExample >> gtViewParameters2For: aView [
 	<gtView>
 	| selElement |
@@ -264,6 +266,7 @@ EParametrizedExample >> gtViewParameters2For: aView [
 	self selectorElement: selElement.
 	^ aView explicit
 		title: 'Pick Examples';
+		priority: 1;
 		stencil: [ selElement ];
 		actionButtonIcon: BrGlamorousIcons play
 			label: 'Run'

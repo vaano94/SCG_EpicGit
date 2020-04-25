@@ -30,7 +30,7 @@ TABAddressBookParametrizedExamples >> exampleAddressBookLabeled: aLabel withCont
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create address book.'>
-	<given: #'Label' ofType: #String in: #input>
+	<given: #'Label' ofType: #String in: '' elementType: #input>
 	<given: #'Contacts' ofType: #ABContact in: #self elementType: #multipleSearch>
 	<return: #ABAddressBook>
 	| addressBook |
@@ -45,11 +45,11 @@ TABAddressBookParametrizedExamples >> exampleAddressStreet: aStreetName number: 
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create a new address'>
-	<given: #'Street Name' ofType: #String in: #input>
-	<given: #'Street Number' ofType: #String in: #input>
-	<given: #'Postal Code' ofType: #String in: #input>
-	<given: #'City' ofType: #String in: #input>
-	<given: #'Country' ofType: #String in: #input>
+	<given: #'Street Name' ofType: #String in: '' elementType: #input>
+	<given: #'Street Number' ofType: #String in: '' elementType: #input>
+	<given: #'Postal Code' ofType: #String in: '' elementType: #input>
+	<given: #'City' ofType: #String in: '' elementType: #input>
+	<given: #'Country' ofType: #String in: '' elementType: #input>
 	<given: #'Adddress Type' 
 		ofType: #ABAddressType 
 		in: #self 
@@ -69,12 +69,12 @@ TABAddressBookParametrizedExamples >> exampleContactFirstName: aFirstName lastNa
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create a new contact'>
-	<given: #'First Name' ofType: #String in: #input>
-	<given: #'Last Name' ofType: #String in: #input>
+	<given: #'First Name' ofType: #String in: '' elementType: #input>
+	<given: #'Last Name' ofType: #String in: '' elementType: #input>
 	<given: #'Addresses' ofType: #ABAddress in: #ABJohnDoeContactExamples elementType: #multipleSearch>
 	<given: #'Emails' ofType: #ABEmail in: #ABJohnDoeContactExamples elementType: #multipleSearch>
 	<given: #'Phone nummbers' ofType: #ABPhoneNumber in: #ABJohnDoeContactExamples elementType: #multipleSearch>
-	<given: #'Description' ofType: #String in: #input>
+	<given: #'Description' ofType: #String in: '' elementType: #input>
 	<return: #ABContact>
 	| contact |
 	
@@ -94,9 +94,9 @@ TABAddressBookParametrizedExamples >> exampleEmailUser: aUserName host: aHost ex
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create a new email'>
-	<given: #'User' ofType: #String in: #input>
-	<given: #'Host' ofType: #String in: #input>
-	<given: #'Extension' ofType: #String in: #input>
+	<given: #'User' ofType: #String in: '' elementType: #input>
+	<given: #'Host' ofType: #String in: '' elementType: #input>
+	<given: #'Extension' ofType: #String in: '' elementType: #input>
 	<given: #'Email Type' 
 		ofType: #ABEmailType 
 		in: #self 
@@ -114,12 +114,9 @@ TABAddressBookParametrizedExamples >> examplePhoneNumberCountryCode: aCountryCod
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create a new Phone Number'>
-	<given: #'Country Code' ofType: #String in: #input>
-	<given: #'Number Code' ofType: #String in: #input>
-	<given: #'Number Type' 
-		ofType: #ABPhoneType 
-		in: #self 
-		elementType: #list>
+	<given: #'Country Code' ofType: #String in: '' elementType: #input>
+	<given: #'Number Code' ofType: #String in: '' elementType: #input>
+	<given: #'Number Type' ofType: #ABPhoneType in: #self elementType: #list>
 	<return: #ABPhoneNumber>
 	^ ABPhoneNumber new
 		countryCode: aCountryCode;

@@ -177,7 +177,7 @@ EParametrizedExample >> generateMethodString [
 			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
 				ifTrue: [ methodDescription:= methodDescription , 'self ' ]
-				ifFalse: [ methodDescription:= methodDescription , item classLabel ].
+				ifFalse: [ methodDescription:= methodDescription, ' ' , item classLabel ].
 			methodDescription:= methodDescription , item method selector.
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 

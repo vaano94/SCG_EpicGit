@@ -1,8 +1,8 @@
 Class {
 	#name : #ABCustomAddressBookExamples,
 	#superclass : #Object,
-	#traits : 'TABAddressBookModelBuilder + TEParametrizedExamplesListExtension + TABAddressBookParametrizedExamples',
-	#classTraits : 'TABAddressBookModelBuilder classTrait + TEParametrizedExamplesListExtension classTrait + TABAddressBookParametrizedExamples classTrait',
+	#traits : 'TABCreateAddressBookParametrizedExamples + TABAddContactsParametrizedExamples + TABCreateContactParametrizedExamples + TEParametrizedExamplesListExtension',
+	#classTraits : 'TABCreateAddressBookParametrizedExamples classTrait + TABAddContactsParametrizedExamples classTrait + TABCreateContactParametrizedExamples classTrait + TEParametrizedExamplesListExtension classTrait',
 	#category : #'AddressBook-Scenarios'
 }
 

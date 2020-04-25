@@ -1,5 +1,5 @@
 Class {
-	#name : #ABModelsBuilder,
+	#name : #ABScenarioModelsBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'announcer'
@@ -8,17 +8,17 @@ Class {
 }
 
 { #category : #accessing }
-ABModelsBuilder >> announcer [
+ABScenarioModelsBuilder >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
 { #category : #actions }
-ABModelsBuilder >> createScenarioBuilderNamed: aScenarioName [
+ABScenarioModelsBuilder >> createScenarioBuilderNamed: aScenarioName [
 	| className newClass |
 	className := 'AB', (aScenarioName copyReplaceAll: ' ' with: ''), 'Examples'.
 	(Smalltalk hasClassNamed: className) ifTrue: [ ^ self ].
 	newClass := Object subclass: className
-		uses: TABAddressBookModelBuilder + TEParametrizedExamplesListExtension + TABAddressBookParametrizedExamples
+		uses: TABCreateAddressBookParametrizedExamples + TEParametrizedExamplesListExtension + TABAddContactsParametrizedExamples
 		instanceVariableNames: ''
 		classVariableNames: ''
 		package: 'AddressBook-Scenarios'.
@@ -29,11 +29,11 @@ ABModelsBuilder >> createScenarioBuilderNamed: aScenarioName [
 ]
 
 { #category : #'gt-extensions' }
-ABModelsBuilder >> gtViewModelBuildersFor: aView [
+ABScenarioModelsBuilder >> gtViewModelBuildersFor: aView [
 	<gtView>
 	^ aView list 
 		title: 'Scenarios';
-		items: [ TABAddressBookModelBuilder users asArray ];
+		items: [ TABCreateAddressBookParametrizedExamples users asArray ];
 		itemFormat: #label;
 		send: [ :aClass | aClass new ];
 		updateWhen: Announcement in: [ self announcer ];

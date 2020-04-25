@@ -1,11 +1,11 @@
 Class {
-	#name : #ABModelBuildersSection,
+	#name : #ABModelScenarioBuildersSection,
 	#superclass : #GtHomeSection,
 	#category : #'AddressBook-Scenarios'
 }
 
 { #category : #'api - instantiation' }
-ABModelBuildersSection >> create [
+ABModelScenarioBuildersSection >> create [
 	| sectionContainer cardsContainer |
 	sectionContainer := self newSectionContainer.
 	sectionContainer addChild: (self newSectionTitle: 'Models').
@@ -19,7 +19,7 @@ ABModelBuildersSection >> create [
 ]
 
 { #category : #'api - instantiation' }
-ABModelBuildersSection >> newShowCardWithTitle: aTitle modelBuilder: haba description: aDescription [
+ABModelScenarioBuildersSection >> newShowCardWithTitle: aTitle modelBuilder: haba description: aDescription [
 	^ self
 		newHeaderCardWithTitle: 'Model'
 		description: aDescription
@@ -37,6 +37,6 @@ ABModelBuildersSection >> newShowCardWithTitle: aTitle modelBuilder: haba descri
 		action: [ :card | self
 				showSpaceWithTitle: aTitle
 				with: (GtInspector
-					createOn: ABModelsBuilder new)
+					createOn: ABScenarioModelsBuilder new)
 				from: card ]
 ]

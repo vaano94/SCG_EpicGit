@@ -28,6 +28,26 @@ ABScenarioModelsBuilder >> createScenarioBuilderNamed: aScenarioName [
 		classified: 'accessing'
 ]
 
+{ #category : #actions }
+ABScenarioModelsBuilder >> createScenarioBuilderNamed: aScenarioName withTraits: selectedTraits [
+	| className newClass classTraits |
+	className := 'AB', (aScenarioName copyReplaceAll: ' ' with: ''), 'Examples'.
+	(Smalltalk hasClassNamed: className) ifTrue: [ ^ self ].
+	
+	classTraits := TEParametrizedExamplesListExtension.
+	selectedTraits do: [ :aTrait |  
+		classTraits := classTraits + aTrait ].
+	newClass := Object subclass: className
+		uses: classTraits
+		instanceVariableNames: ''
+		classVariableNames: ''
+		package: 'AddressBook-Scenarios'.
+	newClass classSide 
+		compile:  'label
+	^  ', aScenarioName printString
+		classified: 'accessing'
+]
+
 { #category : #'gt-extensions' }
 ABScenarioModelsBuilder >> gtViewModelBuildersFor: aView [
 	<gtView>
@@ -43,8 +63,13 @@ ABScenarioModelsBuilder >> gtViewModelBuildersFor: aView [
 			icon: BrGlamorousIcons add;
 			content: [ 
 				EScenarioBuilderCreationElement new 
-					creationAction: [ :className :creationElement |
+					functionsTraits: { 
+						TABAddContactsParametrizedExamples.
+						TABCreateAddressBookParametrizedExamples.
+						TABCreateContactParametrizedExamples };
+					creationAction: [ :className :selectedTraits :creationElement |
 							self announcer announce: Announcement.
 							creationElement parent parent look hide.
-							self createScenarioBuilderNamed: className ] ]  ]
+							self createScenarioBuilderNamed: className withTraits: selectedTraits ];
+					buildWidget ]  ]
 ]

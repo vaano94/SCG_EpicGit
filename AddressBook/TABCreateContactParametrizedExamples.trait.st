@@ -1,10 +1,10 @@
 Trait {
-	#name : #TABAddressBookParametrizedExamples,
+	#name : #TABCreateContactParametrizedExamples,
 	#category : #'AddressBook-Scenarios'
 }
 
 { #category : #'examples - phone types' }
-TABAddressBookParametrizedExamples >> companyPhoneType [
+TABCreateContactParametrizedExamples >> companyPhoneType [
 	<gtExample>
 	<label: 'Company phone Type'>
 	<return: #ABPhoneType>
@@ -12,36 +12,7 @@ TABAddressBookParametrizedExamples >> companyPhoneType [
 ]
 
 { #category : #'examples - parametrized' }
-TABAddressBookParametrizedExamples >> exampleAddContacts: aCollectionOfContacts toAddressBook: anAddressBook [
-	<gtParametrizedExample>
-	<gtExample>
-	<label: 'Add contacts to an address book.'>
-	<given: #'Contacts' ofType: #ABContact in: #self elementType: #multipleSearch>
-	<given: #'Address book' ofType: #ABAddressBook in: #self elementType: #list>
-	<return: #ABAddressBook>
-	
-	aCollectionOfContacts do: [ : aContact | 
-		anAddressBook addContact: aContact ].
-	^ anAddressBook
-]
-
-{ #category : #'examples - parametrized' }
-TABAddressBookParametrizedExamples >> exampleAddressBookLabeled: aLabel withContacts: aCollectionOfContacts [
-	<gtParametrizedExample>
-	<gtExample>
-	<label: 'Create address book.'>
-	<given: #'Label' ofType: #String in: '' elementType: #input>
-	<given: #'Contacts' ofType: #ABContact in: #self elementType: #multipleSearch>
-	<return: #ABAddressBook>
-	| addressBook |
-	addressBook := ABAddressBook new.
-	aCollectionOfContacts do: [ : aContact | 
-		addressBook addContact: aContact ].
-	^ addressBook
-]
-
-{ #category : #'examples - parametrized' }
-TABAddressBookParametrizedExamples >> exampleAddressStreet: aStreetName number: aNumber postalCode: aPostalCode city: aCity country: aCountry type: anAddressType [
+TABCreateContactParametrizedExamples >> exampleAddressStreet: aStreetName number: aNumber postalCode: aPostalCode city: aCity country: aCountry type: anAddressType [
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create a new address'>
@@ -65,7 +36,7 @@ TABAddressBookParametrizedExamples >> exampleAddressStreet: aStreetName number: 
 ]
 
 { #category : #'examples - parametrized' }
-TABAddressBookParametrizedExamples >> exampleContactFirstName: aFirstName lastName: aLastName Addresses: contactAddressses emails: contactEmails phones: contactPhones description: contactDescription [
+TABCreateContactParametrizedExamples >> exampleContactFirstName: aFirstName lastName: aLastName Addresses: contactAddressses emails: contactEmails phones: contactPhones description: contactDescription [
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create a new contact'>
@@ -90,7 +61,7 @@ TABAddressBookParametrizedExamples >> exampleContactFirstName: aFirstName lastNa
 ]
 
 { #category : #'examples - parametrized' }
-TABAddressBookParametrizedExamples >> exampleEmailUser: aUserName host: aHost extension: anExtension type: anEmailType [
+TABCreateContactParametrizedExamples >> exampleEmailUser: aUserName host: aHost extension: anExtension type: anEmailType [
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create a new email'>
@@ -110,7 +81,7 @@ TABAddressBookParametrizedExamples >> exampleEmailUser: aUserName host: aHost ex
 ]
 
 { #category : #'examples - parametrized' }
-TABAddressBookParametrizedExamples >> examplePhoneNumberCountryCode: aCountryCode number: aNumber type: aPhoneType [
+TABCreateContactParametrizedExamples >> examplePhoneNumberCountryCode: aCountryCode number: aNumber type: aPhoneType [
 	<gtParametrizedExample>
 	<gtExample>
 	<label: 'Create a new Phone Number'>
@@ -125,7 +96,7 @@ TABAddressBookParametrizedExamples >> examplePhoneNumberCountryCode: aCountryCod
 ]
 
 { #category : #'examples - address type' }
-TABAddressBookParametrizedExamples >> homeAddressType [
+TABCreateContactParametrizedExamples >> homeAddressType [
 	<gtExample>
 	<label: 'Home email Type'>
 	<return: #ABAddressType>
@@ -133,7 +104,7 @@ TABAddressBookParametrizedExamples >> homeAddressType [
 ]
 
 { #category : #'examples - email types' }
-TABAddressBookParametrizedExamples >> homeEmailType [
+TABCreateContactParametrizedExamples >> homeEmailType [
 	<gtExample>
 	<label: 'Home email Type'>
 	<return: #ABEmailType>
@@ -141,7 +112,7 @@ TABAddressBookParametrizedExamples >> homeEmailType [
 ]
 
 { #category : #'examples - phone types' }
-TABAddressBookParametrizedExamples >> homePhoneType [
+TABCreateContactParametrizedExamples >> homePhoneType [
 	<gtExample>
 	<label: 'Home phone Type'>
 	<return: #ABPhoneType>
@@ -149,7 +120,7 @@ TABAddressBookParametrizedExamples >> homePhoneType [
 ]
 
 { #category : #'examples - address type' }
-TABAddressBookParametrizedExamples >> otherAddressType [
+TABCreateContactParametrizedExamples >> otherAddressType [
 	<gtExample>
 	<label: 'Other email Type'>
 	<return: #ABAddressType>
@@ -157,7 +128,7 @@ TABAddressBookParametrizedExamples >> otherAddressType [
 ]
 
 { #category : #'examples - email types' }
-TABAddressBookParametrizedExamples >> otherEmailType [
+TABCreateContactParametrizedExamples >> otherEmailType [
 	<gtExample>
 	<label: 'Other email Type'>
 	<return: #ABEmailType>
@@ -165,7 +136,7 @@ TABAddressBookParametrizedExamples >> otherEmailType [
 ]
 
 { #category : #'examples - phone types' }
-TABAddressBookParametrizedExamples >> pagerPhoneType [
+TABCreateContactParametrizedExamples >> pagerPhoneType [
 	<gtExample>
 	<label: 'Pager phone Type'>
 	<return: #ABPhoneType>
@@ -173,7 +144,7 @@ TABAddressBookParametrizedExamples >> pagerPhoneType [
 ]
 
 { #category : #'examples - address type' }
-TABAddressBookParametrizedExamples >> workAddressType [
+TABCreateContactParametrizedExamples >> workAddressType [
 	<gtExample>
 	<label: 'Work email Type'>
 	<return: #ABAddressType>
@@ -181,7 +152,7 @@ TABAddressBookParametrizedExamples >> workAddressType [
 ]
 
 { #category : #'examples - email types' }
-TABAddressBookParametrizedExamples >> workEmailType [
+TABCreateContactParametrizedExamples >> workEmailType [
 	<gtExample>
 	<label: 'Work email Type'>
 	<return: #ABEmailType>
@@ -189,7 +160,7 @@ TABAddressBookParametrizedExamples >> workEmailType [
 ]
 
 { #category : #'examples - phone types' }
-TABAddressBookParametrizedExamples >> workPhoneType [
+TABCreateContactParametrizedExamples >> workPhoneType [
 	<gtExample>
 	<label: 'Work phone Type'>
 	<return: #ABPhoneType>

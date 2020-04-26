@@ -1,7 +1,12 @@
 Class {
 	#name : #ABCustomAddressBookExamples,
 	#superclass : #Object,
-	#traits : 'TEParametrizedExamplesListExtension + TABAddressBookParametrizedExamples',
-	#classTraits : 'TEParametrizedExamplesListExtension classTrait + TABAddressBookParametrizedExamples classTrait',
+	#traits : 'TABCreateAddressBookParametrizedExamples + TABAddContactsParametrizedExamples + TABCreateContactParametrizedExamples + TEParametrizedExamplesListExtension',
+	#classTraits : 'TABCreateAddressBookParametrizedExamples classTrait + TABAddContactsParametrizedExamples classTrait + TABCreateContactParametrizedExamples classTrait + TEParametrizedExamplesListExtension classTrait',
 	#category : #'AddressBook-Scenarios'
 }
+
+{ #category : #accessing }
+ABCustomAddressBookExamples class >> label [
+	^  'Custom Address Book'
+]

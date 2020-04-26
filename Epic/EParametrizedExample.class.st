@@ -168,23 +168,23 @@ EParametrizedExample >> generateMethodString [
 	methodDescription := methodDescription ,  '<label: ''Generated example for ', generatedMethodName ,'''>', String cr.
 	
 	methodDescription := methodDescription , '| result '.
-	1 to: (parameterValues size) do: [:ind | methodDescription:= methodDescription , ' ', (parameterNames at: ind) , ' ' ].
+	1 to: (parameterValues size) do: [:ind | methodDescription:= methodDescription , ' ', ((parameterNames at: ind) copyReplaceAll: ' ' with: '') , ' ' ].
 	methodDescription := methodDescription , '|', String cr.
 			
 	parameterValues doWithIndex: [ :item :index | 
 			[ item gtExample ifNotNil: [ self inform: 'have a gtExample here'.
-			methodDescription:= methodDescription , (parameterNames at: index), ' := '.
+			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
 			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
 				ifTrue: [ methodDescription:= methodDescription , 'self ' ]
-				ifFalse: [ methodDescription:= methodDescription, ' ' , item classLabel ].
+				ifFalse: [ methodDescription:= methodDescription, ' ' , item classLabel  ].
 			methodDescription:= methodDescription , item method selector.
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 
 			] on: Error do: [ 
 			
 			self inform: 'not a gtExample'.
-			methodDescription:= methodDescription , (parameterNames at: index), ' := '.
+			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
 			methodDescription:= methodDescription , ((parameterValues at: index) printString).
 			methodDescription:= methodDescription , ' as: '.
 			methodDescription:= methodDescription , ((parameterValues at: index) class asString).
@@ -200,7 +200,7 @@ EParametrizedExample >> generateMethodString [
 	
 	parameterSetSentence:= 'result := ', 'self '.
 	(exampleMethod selector substrings: ':') doWithIndex: [ :paramName :index | 
-		parameterSetSentence := parameterSetSentence , paramName, ':', (parameterNames at: index), ' ' ].
+		parameterSetSentence := parameterSetSentence , paramName, ':', ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' ' ].
 	parameterSetSentence:= parameterSetSentence , '.'.
 	
 	methodDescription:= methodDescription , parameterSetSentence, String cr.

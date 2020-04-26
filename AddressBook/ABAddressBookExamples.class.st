@@ -298,7 +298,7 @@ ABAddressBookExamples >> exampleSearchNamesWithTwoContacts [
 ABAddressBookExamples >> exampleSearchPhones: aPhone in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #'Phone number' ofType: #String in: #input>
+	<given: #'Phone number' ofType: #String in: #'' elementType:#input>
 	<given: #'Address book' ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #dropdown>
 	<return: #ABAddressBook>
@@ -332,6 +332,18 @@ ABAddressBookExamples >> exampleSearchPhonesWithTwoContacts [
 	resultOneRecord := self exampleSearchPhones: 99999 in: book.
 	self assert: resultOneRecord size equals: 1.
 	^ book
+]
+
+{ #category : #accessing }
+ABAddressBookExamples >> exampleSearchPhones_CHANGE_ME_inBookOnecontactsearchnames [
+<gtExample>
+<label: 'Generated example for exampleSearchPhones_CHANGE_ME_inBookOnecontactsearchnames'>
+| result  Phonenumber  Addressbook |
+Phonenumber := 'ff' as: ByteString.
+Addressbook := self exampleSearchNamesWithOneContact.
+
+result := self exampleSearchPhones:Phonenumber in:Addressbook .
+^ result
 ]
 
 { #category : #'as yet unclassified' }

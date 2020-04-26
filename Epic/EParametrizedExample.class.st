@@ -166,6 +166,7 @@ EParametrizedExample >> generateMethodString [
 	methodDescription:= methodDescription , generatedMethodName, String cr.
 	methodDescription := methodDescription , '<gtExample>', String cr.
 	methodDescription := methodDescription ,  '<label: ''Generated example for ', generatedMethodName ,'''>', String cr.
+	methodDescription := methodDescription ,  '<return: #', ((self exampleMethod pragmaAt: #return:) argumentAt: 1)  ,'>', String cr.
 	
 	methodDescription := methodDescription , '| result '.
 	1 to: (parameterValues size) do: [:ind | methodDescription:= methodDescription , ' ', ((parameterNames at: ind) copyReplaceAll: ' ' with: '') , ' ' ].
@@ -178,7 +179,7 @@ EParametrizedExample >> generateMethodString [
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
 				ifTrue: [ methodDescription:= methodDescription , 'self ' ]
 				ifFalse: [ methodDescription:= methodDescription, ' ' , item classLabel  ].
-			methodDescription:= methodDescription , item method selector.
+			methodDescription:= methodDescription, ' ' , item method selector.
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 
 			] on: Error do: [ 

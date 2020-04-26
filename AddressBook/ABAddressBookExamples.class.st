@@ -24,8 +24,8 @@ ABAddressBookExamples >> addressBookAddContact [
 	addressBook := ABAddressBook emptyAddressBook.
 	b := ABContact new.
 	b
-		firstName: 'b';
-		lastName: 'b'.
+		firstName: 'FirstName';
+		lastName: 'LastName'.
 	phn := ABPhoneNumber testPhone.
 	phones := OrderedCollection new.
 	phones add: phn.
@@ -35,7 +35,7 @@ ABAddressBookExamples >> addressBookAddContact [
 	addresses add: adr.
 	b address: addresses.
 	addressBook addContact: b.
-	self assert: b firstName equals: 'b'.
+	self assert: b firstName equals: 'FirstName'.
 	^ addressBook
 ]
 
@@ -151,7 +151,7 @@ ABAddressBookExamples >> exampleAddContact: aContact toAddressBook: anAddressBoo
 ABAddressBookExamples >> exampleSearchAddress: aWord in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #aWord ofType: #String in: #input>
+	<given: #aWord ofType: #String in:#'' elementType:#input>
 	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #list>
 	<return: #ABContact>
@@ -200,7 +200,7 @@ ABAddressBookExamples >> exampleSearchCompany [
 ABAddressBookExamples >> exampleSearchCompany: aCompany in: aBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #aCompany ofType: #String in: #input>
+	<given: #aCompany ofType: #String in:#'' elementType:#input>
 	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #search>
 	<return: #ABAddressBook>
@@ -255,7 +255,7 @@ ABAddressBookExamples >> exampleSearchNames: aName in: aBook [
 ABAddressBookExamples >> exampleSearchNames: aName inMany: books [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #aName ofType: #String in: #input>
+	<given: #aName ofType: #String in:#'' elementType:#input>
 	<given: #books ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #multipleSearch>
 	<return: #ABAddressBook>

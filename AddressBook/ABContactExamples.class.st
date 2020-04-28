@@ -4,56 +4,6 @@ Class {
 	#category : #'AddressBook-Examples'
 }
 
-{ #category : #'examples - contacts' }
-ABContactExamples class >> janeDoeClass [
-	<gtExample>
-	| contact |
-	contact := ABContact new.
-	contact firstName: 'Jane'.
-	contact lastName: 'Doe'.
-	^ contact
-]
-
-{ #category : #'examples - contacts' }
-ABContactExamples class >> janeSmith [
-	<gtExample>
-	| contact |
-	contact := ABContact new.
-	contact firstName: 'Jane'.
-	contact lastName: 'Smith'.
-	^ contact
-]
-
-{ #category : #'examples - contacts' }
-ABContactExamples class >> johnDoe [
-	<gtExample>
-	| contact |
-	contact := ABContact new.
-	contact firstName: 'John'.
-	contact lastName: 'Doe'.
-	^ contact
-]
-
-{ #category : #'examples - contacts' }
-ABContactExamples class >> johnSmith [
-	<gtExample>
-	| contact |
-	contact := ABContact new.
-	contact firstName: 'John'.
-	contact lastName: 'Smith'.
-	^ contact
-]
-
-{ #category : #tests }
-ABContactExamples class >> test [
-	<gtExample>
-	| contact |
-	contact := ABContact new.
-	contact firstName: 'Test'.
-	contact lastName: 'Test'.
-	^ contact
-]
-
 { #category : #tests }
 ABContactExamples class >> testFullContact [
 	| contact phn phones adr addresses emailInstance |

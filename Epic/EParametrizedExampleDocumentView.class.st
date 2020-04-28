@@ -291,7 +291,13 @@ EParametrizedExampleDocumentView >> initializeForParametrizedExample: aParametri
 	self addChild: aScrollPane.	"
 	
 	self parametrizedExample boundScenario
-			ifNil: [ 	scenarioName:= 'scenario text is not specified'] 
+			ifNil: [ 	
+					(parametrizedExample exampleMethod pragmaAt: #label:) 
+						ifNil: [ scenarioName:= 'scenario text is not specified' ]
+						ifNotNil: [ :pragma |
+						scenarioName:= pragma arguments first. 
+						 ].
+					]
 			ifNotNil: [ scenarioName:= self parametrizedExample boundScenario description].
 	
 	scenarioElement:= self createLabelForScenario: aParametrizedExample.

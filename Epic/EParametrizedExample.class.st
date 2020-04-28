@@ -115,22 +115,6 @@ EParametrizedExample >> executeExample: anExampleMethod withParams: params [
 ]
 
 { #category : #'as yet unclassified' }
-EParametrizedExample >> extractCompiledMethodsFrom: methodDictionaries byNames: anArrayOfNames [
-	"methodDictionaries is an orderedCollection, anArrayOfNames is an Array"
-	| compiledMethods |
-	compiledMethods := Array new: anArrayOfNames size.
-	methodDictionaries
-		doWithIndex: [ :elem :index | 
-			| methodDictionary m methodName |
-			m := ''.
-			methodDictionary := methodDictionaries at: index.
-			methodName := anArrayOfNames at: index.
-			m := methodDictionary at: methodName.
-			compiledMethods at: index put: m ].
-	^ compiledMethods
-]
-
-{ #category : #'as yet unclassified' }
 EParametrizedExample >> generateMethod [
 	|methodDescription|
 	methodDescription:= self generateMethodString.
@@ -173,18 +157,18 @@ EParametrizedExample >> generateMethodString [
 	methodDescription := methodDescription , '|', String cr.
 			
 	parameterValues doWithIndex: [ :item :index | 
-			[ item gtExample ifNotNil: [ self inform: 'have a gtExample here'.
+			[ item gtExample ifNotNil: [ "self inform: 'have a gtExample here'."
 			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
 			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
 				ifTrue: [ methodDescription:= methodDescription , 'self ' ]
 				ifFalse: [ methodDescription:= methodDescription, ' ' , item classLabel  ].
-			methodDescription:= methodDescription, ' ' , item method selector.
+			methodDescription:= methodDescription, ' new ' , item method selector.
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 
 			] on: Error do: [ 
 			
-			self inform: 'not a gtExample'.
+			"self inform: 'not a gtExample'."
 			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
 			methodDescription:= methodDescription , ((parameterValues at: index) printString).
 			methodDescription:= methodDescription , ' as: '.
@@ -208,25 +192,6 @@ EParametrizedExample >> generateMethodString [
 	methodDescription:= methodDescription , '^ result'.
 	
 	^ methodDescription
-]
-
-{ #category : #'as yet unclassified' }
-EParametrizedExample >> getGtExamplesAsParametersFor: aParamTest [
-	"I return an Array of <gtExample> methods for given parametrized method,
-	provided, that compiled method has pragma <given:ofType:in>"
-
-	| pragmas searchParams foundClasses examplesDividedByClasses |
-	pragmas := aParamTest pragmas.
-	searchParams := pragmas
-		select: [ :p | p selector == #given:ofType:in: ].
-	foundClasses := OrderedCollection new.
-	searchParams
-		do:
-			[ :e | foundClasses add: (self class environment at: (e argumentNamed: #in)) ].
-	examplesDividedByClasses := OrderedCollection new.
-	foundClasses
-		do: [ :aClass | examplesDividedByClasses add: aClass gtExamples ].
-	^ examplesDividedByClasses
 ]
 
 { #category : #accessing }

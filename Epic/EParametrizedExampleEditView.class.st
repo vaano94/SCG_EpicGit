@@ -57,7 +57,7 @@ EParametrizedExampleEditView >> createAddParameterButton: aParametrizedExample [
 		button:= BrButton new
 					look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
 					icon: BrGlamorousIcons add asElement;
-					action: [ self inform: 'Clicked add parameter.'.
+					action: [ "self inform: 'Clicked add parameter.'."
 								self methodParametersElement addChild: self spawnEmptyParameterChoiceContainer ];
 					constraintsDo: [ :c | 
 						c linear horizontal alignCenter. ].
@@ -78,7 +78,7 @@ EParametrizedExampleEditView >> createApplyChangesElement [
 		button:= BrButton new
 					look: BrGlamorousButtonWithLabelLook new;
 					label: 'Apply';
-					action: [ self inform: 'Clicked'.
+					action: [ "self inform: 'Clicked'."
 								self refactorExistingMethod.
 						  ];
 					constraintsDo: [ :c | 
@@ -248,7 +248,7 @@ EParametrizedExampleEditView >> getRemoveExampleButton [
 		beTiny;
 		label: 'Remove example';
 		margin: (BlInsets left: 5);
-		action: [ :button | self inform: 'remove triggered' ]
+		action: [ :button | "self inform: 'remove triggered'" ]
 
 ]
 
@@ -271,7 +271,13 @@ EParametrizedExampleEditView >> initializeForParametrizedExample: aParametrizedE
 	self parametrizedExample: aParametrizedExample.
 	
 	aParametrizedExample boundScenario
-			ifNil: [ 	scenarioName:= 'scenario text is not specified'] 
+			ifNil: [ 	
+					(parametrizedExample exampleMethod pragmaAt: #label:) 
+						ifNil: [ scenarioName:= 'scenario text is not specified' ]
+						ifNotNil: [ :pragma |
+						scenarioName:= pragma arguments first. 
+						 ].
+					]
 			ifNotNil: [ scenarioName:= aParametrizedExample boundScenario description].
 	
 	wDict:= SmallDictionary new.
@@ -357,10 +363,10 @@ EParametrizedExampleEditView >> refactorExistingMethod [
 	descriptionText:= ((self children at: 2) children at: 2) document editor text asString.
 	returnText:= ((self children at: 5) children at: 2) parameterValue asString.
 	
-	self inform: 'label: ', labelText.
+	"self inform: 'label: ', labelText.
 	self inform: 'description: ', descriptionText.
 	self inform: 'pragmas: ', pragmaStrings asString.
-	self inform: 'return: ', returnText.
+	self inform: 'return: ', returnText."
 	
 	"collect and remove all pragmas"
 	pragmasConsecutiveStrings:= self collectConsecutivePragmaStrings.
@@ -373,8 +379,6 @@ EParametrizedExampleEditView >> refactorExistingMethod [
 	self addPragmaToExample: ('<return: #', returnText , '>').
 	
 	self refactorMethodName.
-	
-	^ nil
 	
 	
 ]
@@ -421,8 +425,9 @@ EParametrizedExampleEditView >> refactorMethodName [
 		 ].
 	
 	parametersNames size > oldMethodArgumentsSize 
-		ifTrue: [ self refactorIncreaseArguments: parametersNames withPrefix: oldPrefix ] 
-		ifFalse: [ 
+		ifTrue: [ self refactorIncreaseArguments: parametersNames withPrefix: oldPrefix ].
+	parametersNames size < oldMethodArgumentsSize 	
+		ifTrue: [ 
 			"figure out deleted argument names"
 			self parametrizedExample exampleMethod argumentNames.
 			self refactorDecreaseArguments: parametersNames  withPrefix: oldPrefix ].
@@ -450,8 +455,8 @@ EParametrizedExampleEditView >> spawnEmptyParameterChoiceContainer [
 
 			c horizontal fitContent ].
 	parameterContainerSize := self methodParametersElement children size.
-	self
-		inform: 'parameterContainser size : ' , (parameterContainerSize + 1) asString.
+"	self
+		inform: 'parameterContainser size : ' , (parameterContainerSize + 1) asString."
 	emptyParameterWidget := EParametrizedExampleParameterWidget new
 		editView: self;
 		insideClass: '';

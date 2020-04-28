@@ -11,7 +11,7 @@ Class {
 EScenarioTextInputWidget class >> forIndex: anIndex widgetModel: aWidget parametrizedExample: aParametrizedExample [
 	^ self new
 			parameterIndex: anIndex;
-			parameterName: aWidget name
+			parameterName: aWidget parameterName
 ]
 
 { #category : #accessing }
@@ -24,12 +24,6 @@ EScenarioTextInputWidget >> initialize [
 	| editorLook interactiveLook |
 	super initialize.
 	editorLook := BrGlamorousRegularEditorLook new fontSize: 15.
-	"	editorLook
-		add:
-			(BrInteractiveCommonLook new
-				default: [ BlBorder paint: Color red ];
-				hovered: [ BlBorder paint: Color green ];
-				pressed: [ editorLook foreground: Color black ])."
 	editor := BrEditor new
 		text: '';
 		look:
@@ -50,7 +44,7 @@ EScenarioTextInputWidget >> initialize [
 		in: [ :e | 
 			e editor
 				when: BrTextEditorInsertedEvent
-				do: [ self inform: 'Target ' , e editor text ] ].
+				do: [" self inform: 'Target ' , e editor text "] ].
 	self addChild: editor
 ]
 

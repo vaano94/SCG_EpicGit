@@ -120,10 +120,14 @@ EScenarioParametersSelectionElement >> updateWidget [
 			c horizontal matchParent.
 			c vertical fitContent ];
 		background: Color white.
-		
+			
 	self parametrizedExample boundScenario
 			ifNil: [ 
-					self addChild: (self createScenarioLabelForText: 'scenario text is not specified') ] 
+					(self parametrizedExample exampleMethod pragmaAt: #label:) 
+						ifNil: [ self addChild: (self createScenarioLabelForText: 'scenario text is not specified') ] 
+						ifNotNil: [ :pragma |
+						self addChild: (self createScenarioLabelForText: (pragma arguments first)). 
+						 ]]
 			ifNotNil: [
 					self addChild: (self createScenarioLabelForText: (self parametrizedExample boundScenario description))].
 	

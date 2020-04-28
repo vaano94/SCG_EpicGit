@@ -138,13 +138,28 @@ ABAddressBookExamples >> emptyAddressBook [
 ABAddressBookExamples >> exampleAddContact: aContact toAddressBook: anAddressBook [
 	<gtParametrizedExample>
 	<gtExample>
-	<given: #aContact ofType: #ABContact in: #ABContactExamples elementType: #dropdown>
-	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
-	elementType: #list>
-	<return: #ABAddressBook>
 	<label: 'Add a given contact to an address book'>
+	<description: 'Add a given contact to an address book'>
+	<given: #aContact ofType: #ABContact in: #ABContactExamples
+	elementType: #list>
+	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #dropdown>
+	<return: #ABAddressBook>
 	anAddressBook addContact: aContact.
 	^ anAddressBook
+]
+
+{ #category : #accessing }
+ABAddressBookExamples >> exampleAddContactEmptyJohnDoetoAddressBookBookwithtwocontacts [
+<gtExample>
+<label: 'Generated example for exampleAddContactEmptyJohnDoetoAddressBookBookwithtwocontacts'>
+<return: #ABAddressBook>
+| result  aContact  aBook |
+aContact :=  ABContactExamples new janeDoeInstance.
+aBook := self  exampleSearchPhonesWithTwoContacts.
+
+result := self exampleAddContact:aContact toAddressBook:aBook .
+^ result
 ]
 
 { #category : #'as yet unclassified' }

@@ -130,3 +130,13 @@ DummyStringScenario >> method_aaaNew: aaa bb: anObject aaaaa: something [
 	strStream := WriteStream on: String new.
 	^ strStream contents
 ]
+
+{ #category : #public }
+DummyStringScenario >> openFile: file [
+	<gtExample>
+	<gtParametrizedExample>
+	<given: #aFile ofType: #File in:#'' elementType:#input>
+	<return: #String>
+	self inform: file exists asString.
+	^ file
+]

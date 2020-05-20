@@ -161,9 +161,9 @@ EParametrizedExample >> generateMethodString [
 			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
 			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
-				ifTrue: [ methodDescription:= methodDescription , 'self ' ]
-				ifFalse: [ methodDescription:= methodDescription, ' ' , item classLabel  ].
-			methodDescription:= methodDescription, ' new ' , item method selector.
+				ifTrue: [ methodDescription:= methodDescription , 'self '. methodDescription:= methodDescription, item method selector. ]
+				ifFalse: [ methodDescription:= methodDescription, ' ' , item classLabel. methodDescription:= methodDescription, ' new ' , item method selector.  ].
+			
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 
 			] on: Error do: [ 
@@ -292,14 +292,22 @@ EParametrizedExample >> recognizeWidgetElements [
 			(val = 'self') ifTrue: [
 				val := self exampleMethod methodClass name ].
 			elementType = 'input'
-				ifTrue: [ "determine search"
-					"determine drag and drop"
-					"else determine class"
-					widgets
-						add:
-							(widget
-								name: 'input';
-								object: 'String') ].
+				ifTrue: [ 
+					|ofType|
+					ofType:= e argumentNamed: #ofType.
+					ofType = 'String' ifTrue: [ 
+						widgets
+						add: (widget
+								name: 'StringInput';
+								object: 'String') 
+						 ].
+					ofType = 'File' ifTrue: [ 
+						widgets
+						add: (widget
+								name: 'FileInput';
+								object: 'File') 
+						 ].
+					].
 			elementType = 'search'
 				ifTrue: [ widgets
 						add:

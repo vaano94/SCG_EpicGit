@@ -16,7 +16,7 @@ EScenarioTextInputWidget class >> forIndex: anIndex widgetModel: aWidget paramet
 
 { #category : #accessing }
 EScenarioTextInputWidget class >> widgetType [
-	^ 'input'
+	^ 'StringInput'
 ]
 
 { #category : #'as yet unclassified' }

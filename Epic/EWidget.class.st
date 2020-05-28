@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'name',
 		'object',
+		'returnClass',
 		'parameterName'
 	],
 	#category : #'Epic-Model'
@@ -37,4 +38,14 @@ EWidget >> parameterName [
 { #category : #accessing }
 EWidget >> parameterName: anObject [
 	parameterName := anObject
+]
+
+{ #category : #accessing }
+EWidget >> returnClass [
+	^ returnClass
+]
+
+{ #category : #accessing }
+EWidget >> returnClass: anObject [
+	returnClass := anObject
 ]

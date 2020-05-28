@@ -259,7 +259,7 @@ EParametrizedExampleEditView >> initialize [
 	self
 		layout: BlLinearLayout vertical ;
 		"padding: (BlInsets all: 6);"
-		border: (BlBorder paint: (Color red ) width: 3);
+		"border: (BlBorder paint: (Color red ) width: 3);"
 		constraintsDo: [ :c | 
 			c vertical matchParent.
 			c horizontal matchParent ]

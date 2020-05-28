@@ -1,6 +1,7 @@
 Class {
 	#name : #EScenarioSelectionWidget,
 	#superclass : #EScenarioInputWidget,
+	#classTraits : 'TypeFieldDependentChoice classTrait',
 	#instVars : [
 		'exampleList'
 	],
@@ -10,7 +11,7 @@ Class {
 { #category : #'instance creation' }
 EScenarioSelectionWidget class >> forIndex: anIndex widgetModel: aWidget parametrizedExample: aParametrizedExample [
 	| gtExamplesForClass methodDictionary |
-	gtExamplesForClass := aWidget object gtExamples.
+	gtExamplesForClass:= self examplesForParametrizedExample: aParametrizedExample widgetModel: aWidget index: anIndex.
 	methodDictionary := aParametrizedExample
 		createMapFromCompiledMethodList: gtExamplesForClass.
 	^  self new

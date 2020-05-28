@@ -21,7 +21,7 @@ TABCreateContactParametrizedExamples >> exampleAddressStreet: aStreetName number
 	<given: #'Postal Code' ofType: #String in: '' elementType: #input>
 	<given: #'City' ofType: #String in: '' elementType: #input>
 	<given: #'Country' ofType: #String in: '' elementType: #input>
-	<given: #'Adddress Type' 
+	<given: #'Address Type' 
 		ofType: #ABAddressType 
 		in: #self 
 		elementType: #list>
@@ -42,9 +42,9 @@ TABCreateContactParametrizedExamples >> exampleContactFirstName: aFirstName last
 	<label: 'Create a new contact'>
 	<given: #'First Name' ofType: #String in: '' elementType: #input>
 	<given: #'Last Name' ofType: #String in: '' elementType: #input>
-	<given: #'Addresses' ofType: #ABAddress in: #ABJohnDoeContactExamples elementType: #multipleSearch>
-	<given: #'Emails' ofType: #ABEmail in: #ABJohnDoeContactExamples elementType: #multipleSearch>
-	<given: #'Phone nummbers' ofType: #ABPhoneNumber in: #ABJohnDoeContactExamples elementType: #multipleSearch>
+	<given: #'Addresses' ofType: #ABAddress in: #self elementType: #multipleSearch>
+	<given: #'Emails' ofType: #ABEmail in: #self elementType: #multipleSearch>
+	<given: #'Phone numbers' ofType: #ABPhoneNumber in: #self elementType: #multipleSearch>
 	<given: #'Description' ofType: #String in: '' elementType: #input>
 	<return: #ABContact>
 	| contact |
@@ -87,7 +87,7 @@ TABCreateContactParametrizedExamples >> examplePhoneNumberCountryCode: aCountryC
 	<label: 'Create a new Phone Number'>
 	<given: #'Country Code' ofType: #String in: '' elementType: #input>
 	<given: #'Number Code' ofType: #String in: '' elementType: #input>
-	<given: #'Number Type' ofType: #ABPhoneType in: #self elementType: #list>
+	<given: #'Number Type' ofType: #ABPhoneType in: #self elementType: #dropdown>
 	<return: #ABPhoneNumber>
 	^ ABPhoneNumber new
 		countryCode: aCountryCode;

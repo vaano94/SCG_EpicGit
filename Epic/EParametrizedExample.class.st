@@ -232,7 +232,7 @@ EParametrizedExample >> gtViewParameters2For: aView [
 	self selectorElement: selElement.
 	^ aView explicit
 		title: 'Pick Examples';
-		priority: 1;
+		priority: 9099;
 		stencil: [ selElement ];
 		actionButtonIcon: BrGlamorousIcons play
 			label: 'Run'
@@ -282,19 +282,18 @@ EParametrizedExample >> recognizeWidgetElements [
 				| (p selector == #given:ofType:in:elementType:) ].
 	searchParams
 		do: [ :e | 
-			| val elementType widget |
+			| val elementType widget ofType |
 			widget := EWidget new parameterName: (e argumentNamed: #given).
 			"determine input"
 			[ elementType := e argumentNamed: #elementType ]
 				on: Error
 				do: [ elementType := '' ].
 			val := e argumentNamed: #in.
+			ofType:= e argumentNamed: #ofType.
 			(val = 'self') ifTrue: [
 				val := self exampleMethod methodClass name ].
 			elementType = 'input'
 				ifTrue: [ 
-					|ofType|
-					ofType:= e argumentNamed: #ofType.
 					ofType = 'String' ifTrue: [ 
 						widgets
 						add: (widget
@@ -313,24 +312,28 @@ EParametrizedExample >> recognizeWidgetElements [
 						add:
 							(widget
 								name: 'search';
+								returnClass: ofType;
 								object: (self class environment at: val)) ].
 			elementType = 'multipleSearch'
 				ifTrue: [ widgets
 						add:
 							(widget
 								name: 'multipleSearch';
+								returnClass: ofType;
 								object: (self class environment at: val)) ].
 			elementType = 'dropdown'
 				ifTrue: [ widgets
 						add:
 							(widget
 								name: 'dropdown';
+								returnClass: ofType;
 								object: (self class environment at: val)) ].
 			elementType = 'list'
 				ifTrue: [ widgets
 						add:
 							(widget
 								name: 'list';
+								returnClass: ofType;
 								object: (self class environment at: val)) ] ].
 	^ widgets
 ]

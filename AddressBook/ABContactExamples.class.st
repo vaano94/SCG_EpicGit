@@ -56,6 +56,7 @@ ABContactExamples >> addSamePhoneTypes [
 	<gtExample>
 	<label: 'Contact with one phone type'>
 	<description: 'Verify that adding same phone type raises error'>
+	<return:#ABContact>
 	| contact anotherPhone |
 	contact := ABContactExamples testFullContact.
 	anotherPhone := ABPhoneNumber testPhone.

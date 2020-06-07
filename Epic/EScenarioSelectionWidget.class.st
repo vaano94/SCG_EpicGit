@@ -1,7 +1,8 @@
 Class {
 	#name : #EScenarioSelectionWidget,
 	#superclass : #EScenarioInputWidget,
-	#classTraits : 'TypeFieldDependentChoice classTrait',
+	#traits : 'BuilderStringForGtExample + TypeFieldDependentChoice',
+	#classTraits : 'BuilderStringForGtExample classTrait + TypeFieldDependentChoice classTrait',
 	#instVars : [
 		'exampleList'
 	],

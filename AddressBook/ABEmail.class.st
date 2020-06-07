@@ -18,10 +18,10 @@ ABEmail class >> testEmail [
 	| email |
 	email := ABEmail new.
 	email 
-		extension: 'com';
-		type: ABEmailType home;
-		username: 'jdoe';
-		host: 'gmail'.
+		extension: 'ch';
+		type: ABEmailType work;
+		username: 'ivan.kravchenko';
+		host: 'students.unibe'.
 	^email.
 ]
 

@@ -20,13 +20,13 @@ ABAddressBookExamples >> addressBookAddContact [
 	<gtExample>
 	<label: 'Book with one contact'>
 	<description: 'Verify that adding a contact is successful'>
-	| addressBook b phn phones adr addresses |
+	| addressBook b phn phones adr addresses email |
 	addressBook := ABAddressBook emptyAddressBook.
 	b := ABContact new.
 	b
-		firstName: 'FirstName';
-		lastName: 'LastName'.
-	phn := ABPhoneNumber testPhone.
+		firstName: 'Ivan';
+		lastName: 'Kravchenko'.
+	phn := ABPhoneNumber testPhoneIvan.
 	phones := OrderedCollection new.
 	phones add: phn.
 	b phoneNumber: phones.
@@ -35,7 +35,9 @@ ABAddressBookExamples >> addressBookAddContact [
 	addresses add: adr.
 	b address: addresses.
 	addressBook addContact: b.
-	self assert: b firstName equals: 'FirstName'.
+	email:= ABEmail testEmail.
+	b addEmail: email. 
+	self assert: b firstName equals: 'Ivan'.
 	^ addressBook
 ]
 
@@ -97,7 +99,7 @@ ABAddressBookExamples >> addressBookTwoFullTestContacts [
 { #category : #'as yet unclassified' }
 ABAddressBookExamples >> addressBookWithFullTestContact [
 	<gtExample>
-	<label: 'Full contact'>
+	<label: 'Book with john doe'>
 	<description: 'A book with fully filled contact'>
 	<return: #ABAddressBook>
 	| addressBook contact phn phones adr addresses email |
@@ -141,25 +143,12 @@ ABAddressBookExamples >> exampleAddContact: aContact toAddressBook: anAddressBoo
 	<label: 'Add a given contact to an address book'>
 	<description: 'Add a given contact to an address book'>
 	<given: #aContact ofType: #ABContact in: #ABContactExamples
-	elementType: #list>
-	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
 	elementType: #dropdown>
+	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #search>
 	<return: #ABAddressBook>
 	anAddressBook addContact: aContact.
 	^ anAddressBook
-]
-
-{ #category : #accessing }
-ABAddressBookExamples >> exampleAddContactEmptyJohnDoetoAddressBookBookwithtwocontacts [
-<gtExample>
-<label: 'Generated example for exampleAddContactEmptyJohnDoetoAddressBookBookwithtwocontacts'>
-<return: #ABAddressBook>
-| result  aContact  aBook |
-aContact :=  ABContactExamples new janeDoeInstance.
-aBook := self  exampleSearchPhonesWithTwoContacts.
-
-result := self exampleAddContact:aContact toAddressBook:aBook .
-^ result
 ]
 
 { #category : #'as yet unclassified' }
@@ -347,18 +336,6 @@ ABAddressBookExamples >> exampleSearchPhonesWithTwoContacts [
 	resultOneRecord := self exampleSearchPhones: 99999 in: book.
 	self assert: resultOneRecord size equals: 1.
 	^ book
-]
-
-{ #category : #accessing }
-ABAddressBookExamples >> exampleSearchPhones_CHANGE_ME_inBookOnecontactsearchnames [
-<gtExample>
-<label: 'Generated example for exampleSearchPhones_CHANGE_ME_inBookOnecontactsearchnames'>
-| result  Phonenumber  Addressbook |
-Phonenumber := 'ff' as: ByteString.
-Addressbook := self exampleSearchNamesWithOneContact.
-
-result := self exampleSearchPhones:Phonenumber in:Addressbook .
-^ result
 ]
 
 { #category : #'as yet unclassified' }

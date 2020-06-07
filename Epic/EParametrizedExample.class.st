@@ -161,19 +161,20 @@ EParametrizedExample >> generateMethodString [
 			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
 			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
-				ifTrue: [ methodDescription:= methodDescription , 'self '. methodDescription:= methodDescription, item method selector. ]
-				ifFalse: [ methodDescription:= methodDescription, ' ' , item classLabel. methodDescription:= methodDescription, ' new ' , item method selector.  ].
+				ifTrue: [ "methodDescription:= methodDescription , 'self '. methodDescription:= methodDescription, item method selector."
+							methodDescription:= methodDescription, ' ', (self selectorElement drawnElements at: index) generateString. ]
+				ifFalse: [ "methodDescription:= methodDescription, ' ' , item classLabel. methodDescription:= methodDescription, ' new ' , item method selector."
+						methodDescription:= methodDescription, ' ', (self selectorElement drawnElements at: index) generateStringSelf.  ].
 			
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 
 			] on: Error do: [ 
-			
+			|inputElementString|
 			"self inform: 'not a gtExample'."
 			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
-			methodDescription:= methodDescription , ((parameterValues at: index) printString).
-			methodDescription:= methodDescription , ' as: '.
-			methodDescription:= methodDescription , ((parameterValues at: index) class asString).
-			methodDescription:= methodDescription , '.'.
+			"call a trait method inside a widget to generate string representation"
+			inputElementString:= (self selectorElement drawnElements at: index) generateString.
+			methodDescription:= methodDescription , inputElementString,  '.'.
 			methodDescription:= methodDescription , String cr.
 			 ]
 		
@@ -252,12 +253,22 @@ EParametrizedExample >> initialize [
 { #category : #'as yet unclassified' }
 EParametrizedExample >> prepareReturnValuesArrayFor: aCollectionOfExamples [
 	"I accept methods declared with <gtExample> , execute them and return an array with returned values"
-
 	^ aCollectionOfExamples
 		collect: [ :anExample | 
 			(anExample isMemberOf: GtExample)
 				ifTrue: [ anExample run returnValue ]
-				ifFalse: [ anExample ].
+				ifFalse: [
+						| hasNoExamples return |
+						hasNoExamples:= true.
+						anExample isCollection ifTrue: [ anExample do: 
+							[ :element | (element isMemberOf: GtExample)
+									ifTrue: [ hasNoExamples:= false. ]
+		 					].
+						hasNoExamples ifTrue:[ return:= anExample] 
+										  ifFalse: [ return := anExample collect: [ :ex| ex run returnValue ]].
+	 						].
+						return
+						].
 			]
 ]
 

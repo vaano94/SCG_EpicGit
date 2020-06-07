@@ -1,8 +1,8 @@
 Class {
 	#name : #EScenarioSelectionDropdownWidget,
 	#superclass : #EScenarioInputWidget,
-	#traits : 'TypeFieldDependentChoice',
-	#classTraits : 'TypeFieldDependentChoice classTrait',
+	#traits : 'BuilderStringForGtExample + TypeFieldDependentChoice',
+	#classTraits : 'BuilderStringForGtExample classTrait + TypeFieldDependentChoice classTrait',
 	#instVars : [
 		'exampleList',
 		'toggleButton',

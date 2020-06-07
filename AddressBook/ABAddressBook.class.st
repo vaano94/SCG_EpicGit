@@ -119,7 +119,7 @@ ABAddressBook >> gtViewContactsList: aView [
 		title: 'Contacts';
 		priority: 0;
 		items: [ contacts ];
-		column: 'Name' item: [ :aContact | aContact fullName  ]
+		column: 'Name' item: [ :aContact | aContact fullName asRopedText foreground: Color gray ] width: 400
 ]
 
 { #category : #'gt-extensions' }

@@ -24,6 +24,17 @@ ABPhoneNumber class >> testPhone [
 ]
 
 { #category : #tests }
+ABPhoneNumber class >> testPhoneIvan [
+| phone |
+	phone := ABPhoneNumber new.
+	phone 
+		countryCode: 41;
+		number: 123456789;
+		type: ABPhoneType home.
+	^ phone
+]
+
+{ #category : #tests }
 ABPhoneNumber class >> testPhoneOnlyNines [
 | phone |
 	phone := ABPhoneNumber new.

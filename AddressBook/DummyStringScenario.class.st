@@ -8,6 +8,7 @@ Class {
 DummyStringScenario >> a [
 	<gtExample>
 	<label: 'a'>
+	<return: #String>
 	^ 'a'
 ]
 
@@ -15,6 +16,7 @@ DummyStringScenario >> a [
 DummyStringScenario >> b [
 	<gtExample>
 	<label: 'b'>
+	<return: #String>
 	^ 'b'
 ]
 
@@ -22,6 +24,7 @@ DummyStringScenario >> b [
 DummyStringScenario >> c [
 	<gtExample>
 	<label: 'c'>
+	<return: #String>
 	^ 'c'
 ]
 
@@ -29,6 +32,7 @@ DummyStringScenario >> c [
 DummyStringScenario >> d [
 	<gtExample>
 	<label: 'd'>
+	<return: #String>
 	^ 'd'
 ]
 
@@ -79,6 +83,26 @@ DummyStringScenario >> joinMultipleStrings: strings and: strings2 [
 	strings do: [ :s | strStream nextPutAll: s asString ].
 	strings2 do: [ :s | strStream nextPutAll: s asString ].
 	^ strStream contents
+]
+
+{ #category : #accessing }
+DummyStringScenario >> joinMultipleStrings_CHANGE_ME_and_CHANGE_ME_ [
+<gtExample>
+<label: 'Generated example for joinMultipleStrings_CHANGE_ME_and_CHANGE_ME_'>
+<return: #String>
+| result  Onearray  Anotherarray |
+Onearray := (Array 
+with: (DummyStringScenario new d) 
+with: (DummyStringScenario new d) 
+with: (DummyStringScenario new a) 
+) asOrderedCollection.
+Anotherarray := (Array 
+with: (DummyStringScenario new d) 
+with: (DummyStringScenario new a) 
+) asOrderedCollection.
+
+result := self joinMultipleStrings:Onearray and:Anotherarray .
+^ result
 ]
 
 { #category : #'as yet unclassified' }
@@ -139,4 +163,24 @@ DummyStringScenario >> openFile: file [
 	<return: #String>
 	self inform: file exists asString.
 	^ file
+]
+
+{ #category : #printing }
+DummyStringScenario >> printString: str [
+	<gtExample>
+	<gtParametrizedExample>
+	<given: #aWord ofType: #String in:#'' elementType:#input>
+	<return: #String>
+	self inform: str.
+]
+
+{ #category : #printing }
+DummyStringScenario >> returnExample: example [
+	<gtExample>
+	<gtParametrizedExample>
+	<given: #aBook ofType: #ABAddressBook in: #ABAddressBookExamples
+	elementType: #list>
+	<return: #ABAddressBook>
+	self inform: example.
+	^ example
 ]

@@ -1,6 +1,8 @@
 Class {
 	#name : #EScenarioTextInputWidget,
 	#superclass : #EScenarioInputWidget,
+	#traits : 'BuilderStringForString',
+	#classTraits : 'BuilderStringForString classTrait',
 	#instVars : [
 		'editor'
 	],

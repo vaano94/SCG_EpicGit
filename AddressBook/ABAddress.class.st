@@ -20,12 +20,12 @@ ABAddress class >> testAddress [
 	| address |
 	address := ABAddress new.
 	address
-		streetName: 'TestStreet';
-		streetNumber: 000;
-		city: 'TestCity';
-		country: 'TestCountry';
-		postalCode: 0000;
-		type: ABAddressType home.
+		streetName: 'Hochschulstrasse';
+		streetNumber: 6;
+		city: 'Bern';
+		country: 'Switzerland';
+		postalCode: 3012;
+		type: ABAddressType work.
 	^ address
 ]
 

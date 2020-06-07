@@ -1,6 +1,8 @@
 Class {
 	#name : #EScenarioFileSelectionWidget,
 	#superclass : #EScenarioInputWidget,
+	#traits : 'BuilderStringForFile',
+	#classTraits : 'BuilderStringForFile classTrait',
 	#instVars : [
 		'inputWidget',
 		'pathEditor',

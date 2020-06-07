@@ -1,7 +1,8 @@
 Class {
 	#name : #EScenarioSelectionSpotterMultipleSelectionWidget,
 	#superclass : #EScenarioInputWidget,
-	#classTraits : 'TypeFieldDependentChoice classTrait',
+	#traits : 'BuilderStringForGtExampleArray + TypeFieldDependentChoice',
+	#classTraits : 'BuilderStringForGtExampleArray classTrait + TypeFieldDependentChoice classTrait',
 	#instVars : [
 		'exampleContainer',
 		'spotterDropDownLook',
@@ -201,7 +202,8 @@ EScenarioSelectionSpotterMultipleSelectionWidget >> initialize [
 
 { #category : #'grammar - Parameter' }
 EScenarioSelectionSpotterMultipleSelectionWidget >> parameterValue [
-	^ selectedExamples values collect: [ :ex | ex run returnValue ]
+	"^ selectedExamples values collect: [ :ex | ex run returnValue ]"
+	^ selectedExamples values
 ]
 
 { #category : #examples }

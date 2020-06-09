@@ -405,3 +405,9 @@ ABAddressBookExamples >> searchResultForFilter: filter inBook: aBook word: word 
 	result := aBook search: word withFilter: filter.
 	^ result
 ]
+
+{ #category : #tests }
+ABAddressBookExamples >> testExampleAddContactToAddressBook [
+	<gtExample>
+  ^ (ABAddressBookExamples new addressBookWithFullTestContact) addContact: (ABMyContactsAddressBookExamples new berangariaMartinContact)
+]

@@ -150,6 +150,27 @@ EpicExamples >> scenarioNewContact [
 	| scenario |
 	scenario := EScenario new.
 	scenario description: 'Add a new contact'.
+	scenario descriptionText: '!!Description:
+Adding a contact to an address book
+!!Scenario:
+Feature: Add a contact to an address book
+Given: AddressBook ${class:ABAddressBook}$ and a Contact ${class:ABContact}$
+When: The user clicks on ''Add'' button in a contact list
+Then: the chosen contact should be added.'.
+	scenario simpleExampleText: '!!Simple example:
+Imagine we have a simple ${class:ABAddressBook|label=address book}$ with one contact: 
+${example:ABAddressBookExamples>>#addressBookWithFullTestContact|noCode|previewShow=gtViewContactsList:|previewHeight=80}$
+
+We want to add ${class:ABContact|label=another contact}$: 
+${example:ABMyContactsAddressBookExamples>>#berangariaMartinContact|noCode|previewShow=gtViewDetailsCardFor:|previewHeight=240}$
+
+After the execution of ${method:name=ABAddressBook>>#addContact:}$
+
+The size of book should increase by one.
+
+Test case: ${method:name=ABAddressBookExamples>>#testExampleAddContactToAddressBook|previewExpanded=true|previewHeight=100|codeExpanded=true|codeHeight=100}$ 
+
+${example:ABAddressBookExamples>>#testExampleAddContactToAddressBook|noCode|previewShow=gtViewContactsList:|previewHeight=120}$'. 
 	scenario exampleMethods: (Array 
 		with: (ABAddressBookExamples >> #addressBookAddContact) gtExample
 		with: (ABAddressBookExamples >> #addressBookAddTwoContactsWithSameName) gtExample

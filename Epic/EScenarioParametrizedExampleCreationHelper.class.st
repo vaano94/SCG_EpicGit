@@ -49,8 +49,6 @@ EScenarioParametrizedExampleCreationHelper >> createAddExampleButton [
 				|s|
 				coder save.
 				coder compile. 
-				"s:= (exampleMethod methodClass name), '>>#' , coder selector."
-				"self propertyTests add: coder compiledMethod."
 				].
 			saveAction:= (coder addOns mainActions detect: [:act | act asString = 'a GtCoderAction(Save)']).
 			saveAction action: block.
@@ -137,11 +135,10 @@ EScenarioParametrizedExampleCreationHelper >> initializeForClassSearch [
 	
 	spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
 	spotterClassWidget 
-		border: (BlBorder paint: (Color green) width: 3);
+		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 0.5);
 		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
 		padding: (BlInsets all: 3);
-		geometry: (BlRectangle cornerRadius: 5).
-"		 					spotterClassWidget defaultValue: (self class environment at: returnClass)\. "
+		geometry: (BlRectangle cornerRadius: 7).
 	
 	self classSelectSpotterWidget: spotterClassWidget.	
 	container addChild: label.		
@@ -168,7 +165,7 @@ EScenarioParametrizedExampleCreationHelper >> initializeForDescription [
 			vFitContent;
 			hMatchParent.
 	textElement	
-		border: (BlBorder paint: (Color green) width: 3);
+		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 2);
 		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
 		padding: (BlInsets all: 3);
 		geometry: (BlRectangle cornerRadius: 5).
@@ -183,7 +180,7 @@ EScenarioParametrizedExampleCreationHelper >> initializeForDescription [
 
 { #category : #initialization }
 EScenarioParametrizedExampleCreationHelper >> initializeForLabel [
-	|container label documenter aDocument text textElement |
+	|container label aDocument textElement |
 	container:= BlElement new 
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c |
@@ -199,7 +196,7 @@ EScenarioParametrizedExampleCreationHelper >> initializeForLabel [
 			vFitContent;
 			hMatchParent.
 	textElement	
-		border: (BlBorder paint: (Color green) width: 3);
+		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 2);
 		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
 		padding: (BlInsets all: 3);
 		geometry: (BlRectangle cornerRadius: 5).
@@ -214,7 +211,7 @@ EScenarioParametrizedExampleCreationHelper >> initializeForLabel [
 
 { #category : #initialization }
 EScenarioParametrizedExampleCreationHelper >> initializeForMethodName [
-	|container label editorLook aDocument editor textElement |
+	|container label editorLook editor |
 	container:= BlElement new 
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c |
@@ -223,12 +220,12 @@ EScenarioParametrizedExampleCreationHelper >> initializeForMethodName [
 
 	label:= self blLabelFor: 'Method Name: '.
 	
-	editorLook := (BrGlamorousRegularEditorLook new fontSize: 25).
+	editorLook := (BrGlamorousRegularEditorLook new fontSize: 22).
 	editor := BrEditor new
 		inputFilter: BrTextEditorLetterInputFilter new;
 		text: ' ';
 		look:	editorLook;	
-		border: (BlBorder paint: (Color green) width: 3);
+		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 2);
 		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
 		padding: (BlInsets all: 3);
 		geometry: (BlRectangle cornerRadius: 5).
@@ -252,22 +249,23 @@ EScenarioParametrizedExampleCreationHelper >> initializeForParameterAmount [
 
 	label:= self blLabelFor: 'Parameter Amount: '.
 	
-	editorLook := (BrGlamorousRegularEditorLook new fontSize: 25).
+	editorLook := (BrGlamorousRegularEditorLook new fontSize: 22).
 	editor := BrEditor new
 		inputFilter: BrTextEditorDigitInputFilter new;
-		hExact: 27;
+		hExact: 22;
 		text: '1';
 		look:	editorLook;	
-		border: (BlBorder paint: (Color green) width: 3);
+		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 1);
 		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
 		padding: (BlInsets all: 3);
 		geometry: (BlRectangle cornerRadius: 5).
+		parameterAmountNumber:= 1.
 	editor editor when: BrTextEditorModifiedEvent do: [ :anEvent | 
 		|trimmed number|
 		trimmed:= (editor text asString trim).
-		trimmed size > 0 ifTrue: [ 
+		trimmed isEmpty ifTrue: [ 
 		number:= trimmed asNumber.
-		((number > 4) or: (number=0)) ifTrue: [ editor text: '1' ].
+		((number > 4) or: (number = 0)) ifTrue: [ editor text: '1' ].
 		parameterAmountNumber:= number.
 		 ].	
 		].

@@ -94,7 +94,8 @@ ABAddressBook >> addContact: aContact [
 				^ tempContact.
 			 ].
 	 ]. 
-	^ contacts add: aContact.
+	contacts add: aContact.
+	^ self.
 ]
 
 { #category : #accessing }

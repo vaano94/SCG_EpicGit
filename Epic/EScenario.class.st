@@ -10,7 +10,9 @@ Class {
 		'description',
 		'exampleMethod',
 		'exampleMethods',
-		'parametrizedExamples'
+		'parametrizedExamples',
+		'descriptionText',
+		'simpleExampleText'
 	],
 	#category : #'Epic-Model'
 }
@@ -27,23 +29,7 @@ EScenario >> createAddExampleButton [
 		look: BrGlamorousButtonWithLabelLook new;
 		label: 'New parameterized example';
 		action: [ :button |
-			| coder saveAction block|
-			coder := GtMethodCoder 
-				forClass: String 
-				source: 'empty'.
-			coder expanded: true.
-			block:= [
-				|s|
-				coder save.
-				self inform: 'SAVED'.
-				coder compile. 
-				"s:= (exampleMethod methodClass name), '>>#' , coder selector."
-				self propertyTests add: coder compiledMethod.
-				].
-			saveAction:= (coder addOns mainActions detect: [:act | act asString = 'a GtCoderAction(Save)']).
-			saveAction action: block.
-
-			button phlow spawnObject: coder ];
+			button phlow spawnObject: EScenarioParametrizedExampleCreationHelper new. ];
 		margin: (BlInsets top: 10 left: 10 bottom: 10 right: 0);
 		constraintsDo: [ :c | 
 			c linear horizontal alignLeft.
@@ -58,6 +44,16 @@ EScenario >> description [
 { #category : #accessing }
 EScenario >> description: aString [
 	description := aString
+]
+
+{ #category : #accessing }
+EScenario >> descriptionText [
+	^ descriptionText
+]
+
+{ #category : #accessing }
+EScenario >> descriptionText: anObject [
+	descriptionText := anObject
 ]
 
 { #category : #accessing }
@@ -121,6 +117,25 @@ EScenario >> gtListOfParametrizedExamplesFor: aView [
 ]
 
 { #category : #'as yet unclassified' }
+EScenario >> gtOverviewFor: aView [
+	<gtView>
+	|overviewElement viewElement container|
+	container:= BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
+	overviewElement:= EScenarioOverviewElement new.
+	overviewElement initializeForScenario: self.
+	container addChild: overviewElement.
+	viewElement:= aView explicit
+		title: 'Overview';
+		priority: 9;
+		stencil: [ (overviewElement asScrollableElement) ].
+	^ viewElement		
+]
+
+{ #category : #'as yet unclassified' }
 EScenario >> gtViewSource: aView [
 	<gtView> 
 	self exampleMethod ifNil: [ ^ aView empty ].
@@ -136,4 +151,14 @@ EScenario >> initialize [
 { #category : #accessing }
 EScenario >> parametrizedExamples [
 	^ parametrizedExamples
+]
+
+{ #category : #accessing }
+EScenario >> simpleExampleText [
+	^ simpleExampleText
+]
+
+{ #category : #accessing }
+EScenario >> simpleExampleText: anObject [
+	simpleExampleText := anObject
 ]

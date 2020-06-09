@@ -28,7 +28,7 @@ EScenarioSelectionWidget class >> widgetType [
 
 { #category : #initialization }
 EScenarioSelectionWidget >> examples: aListOfExamples [
-	exampleList display: aListOfExamples
+	exampleList items: aListOfExamples
 ]
 
 { #category : #initialization }

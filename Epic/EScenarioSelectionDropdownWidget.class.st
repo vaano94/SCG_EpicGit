@@ -37,7 +37,7 @@ EScenarioSelectionDropdownWidget >> exampleList [
 
 { #category : #initialization }
 EScenarioSelectionDropdownWidget >> examples: aListOfExamples [
-	exampleList display: aListOfExamples
+	exampleList items: aListOfExamples
 ]
 
 { #category : #examples }

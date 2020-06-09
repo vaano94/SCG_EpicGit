@@ -21,6 +21,35 @@ EScenario >> addParametrizedExample: anExample [
 	self parametrizedExamples add: anExample.
 ]
 
+{ #category : #'as yet unclassified' }
+EScenario >> createAddExampleButton [
+		^ BrButton new
+		look: BrGlamorousButtonWithLabelLook new;
+		label: 'New parameterized example';
+		action: [ :button |
+			| coder saveAction block|
+			coder := GtMethodCoder 
+				forClass: String 
+				source: 'empty'.
+			coder expanded: true.
+			block:= [
+				|s|
+				coder save.
+				self inform: 'SAVED'.
+				coder compile. 
+				"s:= (exampleMethod methodClass name), '>>#' , coder selector."
+				self propertyTests add: coder compiledMethod.
+				].
+			saveAction:= (coder addOns mainActions detect: [:act | act asString = 'a GtCoderAction(Save)']).
+			saveAction action: block.
+
+			button phlow spawnObject: coder ];
+		margin: (BlInsets top: 10 left: 10 bottom: 10 right: 0);
+		constraintsDo: [ :c | 
+			c linear horizontal alignLeft.
+		]
+]
+
 { #category : #accessing }
 EScenario >> description [
 	^ description
@@ -65,13 +94,30 @@ EScenario >> gtListOfExamplesFor: aView [
 { #category : #'as yet unclassified' }
 EScenario >> gtListOfParametrizedExamplesFor: aView [
 	<gtView>
-	^ aView columnedList
-		title: 'Parametrized examples';
-		priority: 3;
+	|phlowList listElement viewElement container|
+	container:= BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
+	phlowList := GtPhlowColumnedListView new
 		items: [ self parametrizedExamples ];
 		column: 'Index' item: [ :anElement :anIndex | anIndex ] width: 30;
 		column: 'Method'
-			item: [ :anElement | anElement exampleMethod gtParametrizedExample label ]
+			item: [ :anElement | anElement exampleMethod gtParametrizedExample label ].
+	listElement:= phlowList asElementDo: [:e| 
+		e constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ].
+		e addChild: self createAddExampleButton].
+	
+	container addChild: listElement.
+	
+	viewElement:= aView explicit
+		title: 'Parametrized examples';
+		priority: 3;
+		stencil: [ container ].
+	^ viewElement		
 ]
 
 { #category : #'as yet unclassified' }

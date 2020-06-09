@@ -58,7 +58,7 @@ EScenarioParametersSelectionElement >> initialize [
 
 { #category : #initialization }
 EScenarioParametersSelectionElement >> initializeForParametrizedExample: aParametrizedExample [
-	| widgetModels  |
+	| widgetModels |
 	"I receive parametrized example and initialize values for widget view"
 	parametrizedExample := aParametrizedExample.
 	self drawnElements: OrderedCollection new.

@@ -54,11 +54,9 @@ EParametrizedExampleParameterWidget >> build [
 
 { #category : #'parameter widgets' }
 EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
-	| exampleList initialButtonElement toggleButtonLabel dropDownLook childContainer label buttonInstance | 
-	
-	childContainer:= self defaultHorizontalLayoutElementForChoice.
-	label:= self labelWith: 'Widget: '.
-	
+	| exampleList initialButtonElement toggleButtonLabel dropDownLook childContainer label buttonInstance |
+	childContainer := self defaultHorizontalLayoutElementForChoice.
+	label := self labelWith: 'Widget: '.
 	toggleButtonLabel = ''.
 	exampleList := BrSimpleList new.
 	exampleList
@@ -69,8 +67,7 @@ EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
 				constraintsDo: [ :c | c horizontal matchParent ];
 				padding: (BlInsets all: 6);
 				when: BlClickEvent
-					do:
-						[ :anEvent | exampleList selectOne: index ] ];
+					do: [ :anEvent | exampleList selectOne: index ] ];
 		when: BrSelectionChanged
 			do: [ :anEvent | 
 			anEvent
@@ -78,18 +75,15 @@ EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
 					| widget |
 					widget := exampleList items at: anInterval first.
 					toggleButtonLabel := widget.
-					widgetType:= widget. ] ];
+					widgetType := widget ] ];
 		fitContent;
 		margin:
 			(BlInsets
 				left: 0;
 				right: 0);
 		border: (BlBorder paint: (Color fromHexString: 'D9D9D9') width: 0.5).
-
-	exampleList display: self widgetsDict keys.
-	
-	buttonInstance := (self toggleButton: param).
-				
+	exampleList items: self widgetsDict keys.
+	buttonInstance := self toggleButton: param.
 	initialButtonElement := buttonInstance
 		look:
 			BrGlamorousButtonWithLabelAndIconLook
@@ -100,17 +94,17 @@ EParametrizedExampleParameterWidget >> choiceWidgetForParameter: param [
 								yourself ]
 						content: [ exampleList ]);
 		margin: (BlInsets all: 8).
-		
 	exampleList
 		addShortcut:
 			(BlShortcut new
 				combination: BlKeyCombination builder return build;
-				action: [ 
-					initialButtonElement label: toggleButtonLabel.
+				action: [ initialButtonElement label: toggleButtonLabel.
 					dropDownLook hide ]).
-				
-	widgetTypeWidget:= initialButtonElement.			
-	childContainer addChildren: { label. initialButtonElement }.
+	widgetTypeWidget := initialButtonElement.
+	childContainer
+		addChildren:
+			{label.
+			initialButtonElement}.
 	^ childContainer
 ]
 

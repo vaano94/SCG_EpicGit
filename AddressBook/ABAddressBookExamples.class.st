@@ -160,6 +160,7 @@ ABAddressBookExamples >> exampleSearchAddress: aWord in: aBook [
 	elementType: #list>
 	<return: #ABContact>
 	<label: 'Parametrized search of an address in an address book'>
+	<description: 'Searches for a contact which address includes provided input. In case of multiple contacts, returns all of them. Ignores using case.'>
 	| result |
 	result := aBook searchAddresses: aWord.
 	^ result

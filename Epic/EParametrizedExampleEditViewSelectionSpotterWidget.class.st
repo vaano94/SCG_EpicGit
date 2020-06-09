@@ -14,11 +14,10 @@ Class {
 { #category : #examples }
 EParametrizedExampleEditViewSelectionSpotterWidget >> actOnClassSelected: aClass [
 	selectedClass := aClass.
-									exampleContainer removeChildren.
-									exampleContainer
-										addChild: (self createLabelForClass: aClass).
-									
-									spotterDropDownLook hide.
+	exampleContainer removeChildren.
+	exampleContainer
+	  addChild: (self createLabelForClass: aClass).
+	spotterDropDownLook hide.
 ]
 
 { #category : #examples }

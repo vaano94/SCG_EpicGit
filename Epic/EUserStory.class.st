@@ -50,6 +50,11 @@ EUserStory >> addScenario: aScenario [
 ]
 
 { #category : #accessing }
+EUserStory >> children [ 
+	^ self scenarios
+]
+
+{ #category : #accessing }
 EUserStory >> component [
 	^ component
 ]
@@ -100,6 +105,18 @@ EUserStory >> gtStoryInfoFor: aView [
 ]
 
 { #category : #'as yet unclassified' }
+EUserStory >> gtTreeViewOn: aView [
+	<gtView>
+
+	(self scenarios isEmpty) ifTrue: [^ aView empty].
+	^ aView columnedTree
+		title: 'Tree' translated;
+		items: [self children];
+		children: [ :each | each children ];
+		column: 'Type' format: [ :eachElement | eachElement treeViewShortString ].
+]
+
+{ #category : #'as yet unclassified' }
 EUserStory >> gtViewScenarios: aView [
 	<gtView>
 	^ aView list
@@ -133,6 +150,11 @@ EUserStory >> pillar: anObject [
 { #category : #accessing }
 EUserStory >> scenarios [
 	^ scenarios
+]
+
+{ #category : #'as yet unclassified' }
+EUserStory >> treeViewShortString [
+	^ 'Use Story: (As a ', user name, ', I want to ', action, ')'
 ]
 
 { #category : #accessing }

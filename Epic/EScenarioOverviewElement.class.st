@@ -118,7 +118,8 @@ EScenarioOverviewElement >> initializeDocumenterView: text forDocumenter: docu [
 		constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical fitContent ].
-	docu text: text.
+		
+	docu text: (text ifNotNil: [ '' ] ifNil: [ text ]).
 	textElement := docu asElementWithoutSaveAction
 			vFitContent;
 			hMatchParent.

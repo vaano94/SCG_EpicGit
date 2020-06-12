@@ -125,10 +125,13 @@ EParametrizedExampleParameterWidget >> composePragmaString [
 	"<given: #book ofType: #ABAddressBook in: #ABAddressBookExamples	elementType: #dropdown>"
 	exampleMethodClassName:= editView parametrizedExample exampleMethod classBinding value.
 	parameterNameWithArticle := ((parameterNameWidget editor text value asString) copyReplaceAll: ' ' with: '').
+	
+	(((parameterNameWithArticle asLowercase findString: 'a') = 1) or: ((parameterNameWithArticle asLowercase findString: 'an') = 1)) ifFalse: [ 
 	parameterNameWithArticle at: 1 put: (parameterNameWithArticle first asUppercase).
 	parameterNameWithArticle first isVowel 
 		ifTrue: [ parameterNameWithArticle:= 'an', parameterNameWithArticle]  
 		ifFalse: [ parameterNameWithArticle:= 'a' , parameterNameWithArticle ].
+		].
 	pragmaString:= pragmaString format: {
 		parameterNameWithArticle . 
 		(inClassWidget parameterValue asString) . 

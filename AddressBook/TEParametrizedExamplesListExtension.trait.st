@@ -3,7 +3,7 @@ Trait {
 	#category : #'AddressBook-Scenarios'
 }
 
-{ #category : #'gt-extensions' }
+{ #category : #'as yet unclassified' }
 TEParametrizedExamplesListExtension >> gtViewParametrizedExamplesSelectionFor: aView [
 	<gtView>
 	^ aView columnedList 	
@@ -14,7 +14,10 @@ TEParametrizedExamplesListExtension >> gtViewParametrizedExamplesSelectionFor: a
 		"column: 'Model entity' item: [ :aParametrizeExample |
 			 aParametrizeExample exampleMethod label ];"
 		column: 'Label' item: [ :aParametrizeExample |
-			 aParametrizeExample exampleMethod gtParametrizedExample label ]
+			 aParametrizeExample exampleMethod gtParametrizedExample label ];
+		actionButtonIcon: BrGlamorousIcons add 
+			action: [ :aButton | aButton phlow 
+				spawnObject: EScenarioParametrizedExampleCreationHelper new ]
 ]
 
 { #category : #'gt-extensions' }

@@ -57,38 +57,6 @@ ABEmail >> googleEmail [
 	^ email
 ]
 
-{ #category : #'as yet unclassified' }
-ABEmail >> gtEmailFor: aView [
-	<gtSearch>
-	<gtView>
-	^ aView sparta
-		title: 'Email view';
-		priority: 0;
-		hMatchParent;
-		height: 500;
-		rendering: [ :aCanvas :anElement | 
-			aCanvas fill
-				paint: Color red;
-				path: anElement bounds asRectangle;
-				draw ]
-]
-
-{ #category : #'as yet unclassified' }
-ABEmail >> gtRawFor: aView [
-	<gtSearch>
-	<gtView>
-	^ aView sparta
-		title: 'Email view';
-		priority: 0;
-		hMatchParent;
-		height: 500;
-		rendering: [ :aCanvas :anElement | 
-			aCanvas fill
-				paint: Color red;
-				path: anElement bounds asRectangle;
-				draw ]
-]
-
 { #category : #accessing }
 ABEmail >> host [
 	^ host

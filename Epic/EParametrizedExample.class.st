@@ -160,7 +160,7 @@ EParametrizedExample >> generateMethodString [
 			[ item gtExample ifNotNil: [ "self inform: 'have a gtExample here'."
 			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
 			
-			self halt.
+			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
 				ifTrue: [ methodDescription:= methodDescription, ' ', (self selectorElement drawnElements at: index) generateStringSelf. ]
 				ifFalse: [ methodDescription:= methodDescription, ' ', (self selectorElement drawnElements at: index) generateString. ].
@@ -232,7 +232,7 @@ EParametrizedExample >> gtViewParameters2For: aView [
 	self selectorElement: selElement.
 	^ aView explicit
 		title: 'Pick Examples';
-		priority: 9099;
+		priority: 1;
 		stencil: [ selElement ];
 		actionButtonIcon: BrGlamorousIcons play
 			label: 'Run'

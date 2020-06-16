@@ -23,6 +23,11 @@ EScenario >> addParametrizedExample: anExample [
 	self parametrizedExamples add: anExample.
 ]
 
+{ #category : #accessing }
+EScenario >> children [
+	^ {  }
+]
+
 { #category : #'as yet unclassified' }
 EScenario >> createAddExampleButton [
 		^ BrButton new
@@ -136,6 +141,17 @@ EScenario >> gtOverviewFor: aView [
 ]
 
 { #category : #'as yet unclassified' }
+EScenario >> gtTreeViewOn: aView [
+	<gtView>
+
+	(self exampleMethods isEmpty) ifTrue: [^ aView empty].
+	^ aView columnedTree
+		title: 'Tree' translated;
+		items: [{self exampleMethods}];
+		column: 'Examples' format: [ :eachElement | ^ eachElement ].
+]
+
+{ #category : #'as yet unclassified' }
 EScenario >> gtViewSource: aView [
 	<gtView> 
 	self exampleMethod ifNil: [ ^ aView empty ].
@@ -161,4 +177,9 @@ EScenario >> simpleExampleText [
 { #category : #accessing }
 EScenario >> simpleExampleText: anObject [
 	simpleExampleText := anObject
+]
+
+{ #category : #'as yet unclassified' }
+EScenario >> treeViewShortString [
+	^ 'Scenario: (Description: ', description, ')'
 ]

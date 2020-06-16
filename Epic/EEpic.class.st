@@ -21,6 +21,11 @@ EEpic >> addUseCase: anUseCase [
 	self use_cases add: anUseCase
 ]
 
+{ #category : #accessing }
+EEpic >> children [
+	^ self use_cases 
+]
+
 { #category : #ui }
 EEpic >> gtDocumentFor: aView [
 	<gtView>
@@ -50,6 +55,17 @@ EEpic >> gtEpicInformationFor: aView [
 	title: 'Information';
 	priority: 0;
 	text: [ 'Epic: ', title ]
+]
+
+{ #category : #'as yet unclassified' }
+EEpic >> gtTreeViewOn: aView [
+	<gtView>
+	(self use_cases isEmpty) ifTrue: [^ aView empty].
+	^ aView columnedTree
+		title: 'Tree' translated;
+		items: [self children];
+		children: [ :each | each children ];
+		column: 'Type' format: [ :eachElement | eachElement treeViewShortString ].
 ]
 
 { #category : #ui }
@@ -103,6 +119,11 @@ EEpic >> title [
 { #category : #accessing }
 EEpic >> title: aString [
 	title := aString
+]
+
+{ #category : #'as yet unclassified' }
+EEpic >> treeViewShortString [
+	^ 'Epic: ', self title 
 ]
 
 { #category : #accessing }

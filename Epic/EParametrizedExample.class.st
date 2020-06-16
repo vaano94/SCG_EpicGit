@@ -160,11 +160,10 @@ EParametrizedExample >> generateMethodString [
 			[ item gtExample ifNotNil: [ "self inform: 'have a gtExample here'."
 			methodDescription:= methodDescription , ((parameterNames at: index) copyReplaceAll: ' ' with: ''), ' := '.
 			
+			
 			exampleMethod gtParametrizedExample classLabel = item classLabel 
-				ifTrue: [ "methodDescription:= methodDescription , 'self '. methodDescription:= methodDescription, item method selector."
-							methodDescription:= methodDescription, ' ', (self selectorElement drawnElements at: index) generateString. ]
-				ifFalse: [ "methodDescription:= methodDescription, ' ' , item classLabel. methodDescription:= methodDescription, ' new ' , item method selector."
-						methodDescription:= methodDescription, ' ', (self selectorElement drawnElements at: index) generateStringSelf.  ].
+				ifTrue: [ methodDescription:= methodDescription, ' ', (self selectorElement drawnElements at: index) generateStringSelf. ]
+				ifFalse: [ methodDescription:= methodDescription, ' ', (self selectorElement drawnElements at: index) generateString. ].
 			
 			methodDescription:= methodDescription , '.'.
 			methodDescription:= methodDescription , String cr.] 

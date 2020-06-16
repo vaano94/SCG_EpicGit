@@ -54,6 +54,11 @@ EUseCase >> addUserStory: aUserStory [
 ]
 
 { #category : #accessing }
+EUseCase >> children [
+	^ self userStories
+]
+
+{ #category : #accessing }
 EUseCase >> complexity [
 	^ complexity
 ]
@@ -140,6 +145,18 @@ Under Diagram, you will be able to see a use case diagram. This is still under c
 	^ (aDocument gtTextFor: aView)
 		title: 'View Details';
 		priority: 1
+]
+
+{ #category : #'as yet unclassified' }
+EUseCase >> gtTreeViewOn: aView [
+	<gtView>
+
+	(self userStories isEmpty) ifTrue: [^ aView empty].
+	^ aView columnedTree
+		title: 'Tree' translated;
+		items: [self children];
+		children: [ :each | each children ];
+		column: 'Type' format: [ :eachElement | eachElement treeViewShortString].
 ]
 
 { #category : #ui }
@@ -235,6 +252,11 @@ EUseCase >> title [
 { #category : #accessing }
 EUseCase >> title: anObject [
 	title := anObject
+]
+
+{ #category : #'as yet unclassified' }
+EUseCase >> treeViewShortString [
+	^ 'Use Case: (Title:' , self title, ' , Task: ', self task, ')'
 ]
 
 { #category : #accessing }

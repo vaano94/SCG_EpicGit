@@ -407,7 +407,8 @@ EParametrizedExampleEditView >> refactorIncreaseArguments: parametersNames withP
 		addParameterToMethod: parametrizedExample exampleMethod selector
 		in: parametrizedExample exampleMethod methodClass name
 		newSelector: changedNameString
-		initializer: 'x:=newObject'.
+		initializer: 'self printString'.
+"		initializer: 'x:= new Object'."
 	refactoring execute.
 ]
 
@@ -430,11 +431,14 @@ EParametrizedExampleEditView >> refactorMethodName [
 			(1 + oldMethodArgumentsSize) to: (parametersNames size) do: [ :index |
 				|tmp|
 				tmp:= parametersNames at: index.
-				tmp at: 1 put: (tmp first asUppercase).
-				tmp first isVowel 
-						ifTrue: [ tmp:= 'an', tmp]  
+				"insert 'an' or 'a' symbol if the parameter does not start with it, otherwise, ignore"
+				(((tmp asLowercase findString: 'a') = 1) or: ((tmp asLowercase findString: 'an') = 1)) ifFalse: [ 
+					tmp at: 1 put: (tmp first asUppercase).
+					tmp first isVowel
+						ifTrue: [ tmp:= 'an', tmp]
 						ifFalse: [ tmp:= 'a' , tmp ].
-				parametersNames at: index put: tmp.		
+					parametersNames at: index put: tmp.
+					 ].
 				 ].
 		 ].
 	
@@ -444,7 +448,7 @@ EParametrizedExampleEditView >> refactorMethodName [
 		ifTrue: [ 
 			"figure out deleted argument names"
 			self parametrizedExample exampleMethod argumentNames.
-			self refactorDecreaseArguments: parametersNames  withPrefix: oldPrefix ].
+			self refactorDecreaseArguments: parametersNames withPrefix: oldPrefix ].
 ]
 
 { #category : #removing }

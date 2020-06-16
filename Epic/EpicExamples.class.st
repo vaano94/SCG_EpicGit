@@ -26,6 +26,17 @@ EpicExamples >> addressBookAddAddressSuccess [
 	^addressBook.
 ]
 
+{ #category : #'as yet unclassified' }
+EpicExamples >> board [
+	|board|
+	board:= EAgileEpicBoard new
+	epics: (Array 
+			with: self epicManageAddressBook 
+			with: self epicSearchAddressBook
+			).
+	^ board.
+]
+
 { #category : #'examples - epic' }
 EpicExamples >> epicManageAddressBook [
 	<gtExample>

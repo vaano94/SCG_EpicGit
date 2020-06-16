@@ -170,8 +170,12 @@ DummyStringScenario >> printString: str [
 	<gtExample>
 	<gtParametrizedExample>
 	<given: #aWord ofType: #String in:#'' elementType:#input>
+	<label: 'Print string'>
+	<description: 'A simple parametrized examples that 
+	prints the string representation of an input parameter'>
 	<return: #String>
-	self inform: str.
+	Transcript show: str asString.
+	^ str.
 ]
 
 { #category : #printing }

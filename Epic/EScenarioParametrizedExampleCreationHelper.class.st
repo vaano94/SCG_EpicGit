@@ -3,13 +3,21 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'classSelectSpotterWidget',
+		'spotterReturnClassWidget',
 		'methodNameInput',
 		'labelDocumenter',
 		'descriptionDocumenter',
-		'parameterAmountNumber'
+		'parameterAmountNumber',
+		'methodParametersElement',
+		'widgetDict'
 	],
 	#category : #'Epic-Model'
 }
+
+{ #category : #'as yet unclassified' }
+EScenarioParametrizedExampleCreationHelper >> actOnExampleDeleted: aChild [
+	self methodParametersElement removeChild: aChild.
+]
 
 { #category : #'as yet unclassified' }
 EScenarioParametrizedExampleCreationHelper >> blLabelFor: text [
@@ -60,7 +68,36 @@ EScenarioParametrizedExampleCreationHelper >> createAddExampleButton [
 		geometry: (BlRectangle cornerRadius: 5);
 		constraintsDo: [ :c | 
 			c linear horizontal alignLeft.
-		]
+		].
+]
+
+{ #category : #'as yet unclassified' }
+EScenarioParametrizedExampleCreationHelper >> createAddParameterButton [
+		| cont button |
+		^ BrButton new
+		look: BrGlamorousButtonWithLabelLook new;
+		label: 'Add parameter';
+		action: [ self methodParametersElement addChild: self spawnEmptyParameterChoiceContainer ];
+		border: (BlBorder paint: (Color green) width: 3);
+		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
+		padding: (BlInsets all: 3);
+		geometry: (BlRectangle cornerRadius: 5);
+		constraintsDo: [ :c | 
+			c linear horizontal alignLeft.
+		].
+]
+
+{ #category : #'as yet unclassified' }
+EScenarioParametrizedExampleCreationHelper >> createEmptyParametersElement [
+	|paramElement|
+		paramElement := BlElement new
+		layout: BlLinearLayout vertical;
+		padding: (BlInsets all: 4);
+		constraintsDo: [ :c | 
+			c vertical fitContent.
+			c horizontal matchParent ].	
+		self methodParametersElement: paramElement.
+	^ paramElement.	
 ]
 
 { #category : #'as yet unclassified' }
@@ -106,6 +143,24 @@ EScenarioParametrizedExampleCreationHelper >> getHelpButton [
 			BrGlamorousButtonWithIconLook)	
 ]
 
+{ #category : #'as yet unclassified' }
+EScenarioParametrizedExampleCreationHelper >> getRemoveExampleButton [
+	^ GtInspectorRoundButtonStencil normal asElement
+		icon: GtInspectorPlusIconStencil close asElement;
+		constraintsDo: [ :c | 
+			c ignoreByLayout.
+			c
+				margin:
+					(BlInsets
+						top: 2
+						left: 0
+						bottom: 0
+						right: 2).
+			c ignored horizontal alignRight.
+			c ignored vertical alignTop ].
+		"action: [ self inform: 'clicked' ]."
+]
+
 { #category : #initialization }
 EScenarioParametrizedExampleCreationHelper >> initialize [
 	super initialize.
@@ -114,35 +169,53 @@ EScenarioParametrizedExampleCreationHelper >> initialize [
 		c horizontal matchParent.
 		c vertical matchParent ].
 	
+	self initializeWidgetDict.
+	
 	self addChild: self initializeForLabel.
 	self addChild: self initializeForDescription.
 	self addChild: self initializeForMethodName.
 	self addChild: self initializeForClassSearch.
-	self addChild: self initializeForParameterAmount.
+"	self addChild: self initializeForParameterAmount."
+	self addChild: self createEmptyParametersElement.
+	self addChild: self createAddParameterButton.
 	self addChild: self createAddExampleButton.
 ]
 
 { #category : #initialization }
 EScenarioParametrizedExampleCreationHelper >> initializeForClassSearch [
-	|container label documenter aDocument text textElement spotterClassWidget|
+	|container saveLabel returnLabel returnClassSpotter spotterClassWidget|
 	container:= BlElement new 
 		layout: BlLinearLayout horizontal;
 		constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical fitContent ].
 
-	label:= self blLabelFor: 'Class: '.
+	saveLabel:= self blLabelFor: 'Save in class: '.
+	
+	returnLabel:= self blLabelFor: 'Return Class: '.
 	
 	spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
 	spotterClassWidget 
-		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 0.5);
+		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 2);
 		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
 		padding: (BlInsets all: 3);
 		geometry: (BlRectangle cornerRadius: 7).
+		
+	returnClassSpotter:= EParametrizedExampleEditViewSelectionSpotterWidget new.
+	returnClassSpotter
+		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 2);
+		margin: (BlInsets top: 15 left: 15 bottom: 0 right: 0);
+		padding: (BlInsets all: 3);
+		geometry: (BlRectangle cornerRadius: 7).	
 	
-	self classSelectSpotterWidget: spotterClassWidget.	
-	container addChild: label.		
+	self classSelectSpotterWidget: spotterClassWidget.
+	self spotterReturnClassWidget: returnClassSpotter.
+	
+	container addChild: saveLabel.		
 	container addChild: spotterClassWidget.
+	
+	container addChild: returnLabel.		
+	container addChild: spotterReturnClassWidget.
 	
 	^ container.	
 ]
@@ -275,4 +348,70 @@ EScenarioParametrizedExampleCreationHelper >> initializeForParameterAmount [
 	container addChild: self getHelpButton.
 	
 	^ container.	
+]
+
+{ #category : #initialization }
+EScenarioParametrizedExampleCreationHelper >> initializeWidgetDict [
+	|wDict|
+	wDict:= SmallDictionary new.
+	EScenarioInputWidget subclasses collect: [ :subclass | wDict at: (subclass widgetType) put: subclass ].
+	self widgetDict: wDict.
+]
+
+{ #category : #accessing }
+EScenarioParametrizedExampleCreationHelper >> methodParametersElement [
+	^ methodParametersElement
+]
+
+{ #category : #accessing }
+EScenarioParametrizedExampleCreationHelper >> methodParametersElement: anObject [
+	methodParametersElement := anObject
+]
+
+{ #category : #'as yet unclassified' }
+EScenarioParametrizedExampleCreationHelper >> spawnEmptyParameterChoiceContainer [
+	| childContainer parameterContainerSize emptyParameterWidget removeButton clickHandler |
+	childContainer := BlElement new
+		layout: BlLinearLayout horizontal;
+		padding: (BlInsets all: 10);
+		constraintsDo: [ :c | 
+			c vertical fitContent.
+			c horizontal fitContent ].
+	parameterContainerSize := self methodParametersElement children size.
+"	self
+		inform: 'parameterContainser size : ' , (parameterContainerSize + 1) asString."
+	emptyParameterWidget := EParametrizedExampleParameterWidget new
+		editView: self;
+		insideClass: '';
+		order: parameterContainerSize;
+		widgetsDict: self widgetDict;
+		build.
+	removeButton := self getRemoveExampleButton.
+	clickHandler := BlEventHandler
+		on: BlClickEvent
+		do: [ self actOnExampleDeleted: childContainer ].
+	removeButton addEventHandler: clickHandler.
+	childContainer addChild: emptyParameterWidget.
+	childContainer addChild: removeButton.
+	^ childContainer
+]
+
+{ #category : #accessing }
+EScenarioParametrizedExampleCreationHelper >> spotterReturnClassWidget [
+	^ spotterReturnClassWidget
+]
+
+{ #category : #accessing }
+EScenarioParametrizedExampleCreationHelper >> spotterReturnClassWidget: anObject [
+	spotterReturnClassWidget := anObject
+]
+
+{ #category : #accessing }
+EScenarioParametrizedExampleCreationHelper >> widgetDict [
+	^ widgetDict
+]
+
+{ #category : #accessing }
+EScenarioParametrizedExampleCreationHelper >> widgetDict: anObject [
+	widgetDict := anObject
 ]

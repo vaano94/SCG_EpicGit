@@ -233,7 +233,7 @@ EParametrizedExample >> gtViewParameters2For: aView [
 	self selectorElement: selElement.
 	^ aView explicit
 		title: 'Pick Examples';
-		priority: 9099;
+		priority: 1;
 		stencil: [ selElement ];
 		actionButtonIcon: BrGlamorousIcons play
 			label: 'Run'

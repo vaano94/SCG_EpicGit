@@ -88,26 +88,25 @@ EScenarioBuilderCreationElement >> createTraitsList [
 		border: (BlBorder paint: Color veryLightGray);
 		hMatchParent;
 		vFitContent;
-		display: (functionsTraits ifNil: #());
+		items: (functionsTraits ifNil: #());
 		stencil: [ :aTrait :index | 
 			| labelElement |
 			labelElement := BrLabel new.
 			labelElement
 				look: BrGlamorousLabelLook new;
-				padding: (BlInsets  all: 4);
+				padding: (BlInsets all: 4);
 				margin: (BlInsets bottom: 2);
 				text: aTrait name;
 				vFitContent;
 				hMatchParent;
-				when: BlClickEvent do: [ :anEvent  |
+				when: BlClickEvent
+					do: [ :anEvent | 
 					anEvent consumed: true.
-					(selectedTraits includes: aTrait) 
-						ifTrue: [ 
-							selectedTraits remove: aTrait.
+					(selectedTraits includes: aTrait)
+						ifTrue: [ selectedTraits remove: aTrait.
 							labelElement background: Color white ]
-						ifFalse: [ 
-							selectedTraits add: aTrait.
-							labelElement background: (Color veryLightGray alpha: 0.5) ] ] ] 
+						ifFalse: [ selectedTraits add: aTrait.
+							labelElement background: (Color veryLightGray alpha: 0.5) ] ] ]
 ]
 
 { #category : #accessing }

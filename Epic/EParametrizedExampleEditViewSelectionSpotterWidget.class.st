@@ -88,7 +88,8 @@ EParametrizedExampleEditViewSelectionSpotterWidget >> initialize [
 	| container |
 	super initialize.
 	self
-		look: BrShadowLook;
+		border: (BlBorder paint: (Color fromHexString: 'eaeaea') width: 1);
+		geometry: (BlRectangle cornerRadius: 7);
 		padding:
 			(BlInsets
 				top: 5

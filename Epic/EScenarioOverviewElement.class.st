@@ -112,13 +112,15 @@ EScenarioOverviewElement >> initializeDocumenterView: text [
 
 { #category : #initialization }
 EScenarioOverviewElement >> initializeDocumenterView: text forDocumenter: docu [
-	|container aDocument textElement|
+	|container aDocument textElement tempText|
 	container:= BlElement new 
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical fitContent ].
-	docu text: text.
+	tempText:= text.
+	text ifNotNil: [] ifNil: [ tempText := '' ].
+	docu text: tempText.
 	textElement := docu asElementWithoutSaveAction
 			vFitContent;
 			hMatchParent.

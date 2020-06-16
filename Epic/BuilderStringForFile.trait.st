@@ -5,5 +5,5 @@ Trait {
 
 { #category : #'as yet unclassified' }
 BuilderStringForFile >> generateString [
-	^ self parameterValue pathString printString, ' as FileReference'.
+	^ self parameterValue pathString printString, ' asFileReference'.
 ]

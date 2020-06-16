@@ -210,6 +210,7 @@ EParametrizedExampleParameterWidget >> initialize [
 	self
 		layout: BlLinearLayout horizontal;
 		padding: (BlInsets all: 6);
+		border: (BlBorder paint: (Color gray) width: 0.5);
 		constraintsDo: [ :c | 
 			c vertical fitContentLimited .
 			c horizontal matchParent. ].

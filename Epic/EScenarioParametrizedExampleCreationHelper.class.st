@@ -100,18 +100,19 @@ EScenarioParametrizedExampleCreationHelper >> createEmptyParametersElement [
 	^ paramElement.	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EScenarioParametrizedExampleCreationHelper >> generateMethodString [
 	| labelTxt descriptionTxt methodDescription methodNameTxt parameterNameArray|
 	methodDescription:= ''.
-	parameterNameArray:= Array with: 'one' with: 'two' with: 'three' with: 'four' with: 'five'.
 	
 	labelTxt:= labelDocumenter document text asString trim copyReplaceAll: '''' with: ''''''.
 	descriptionTxt:= descriptionDocumenter document text asString trim copyReplaceAll: '''' with: ''''''.
 	methodNameTxt:= methodNameInput text asString trim.
 	methodDescription := methodDescription , methodNameTxt, '_'.
 	
-	(1 to: parameterAmountNumber) doWithIndex: [ :e :index | methodDescription:= methodDescription, (parameterNameArray at: index) , ':' , (parameterNameArray at: index), ' ' ].
+	(1 to: methodParametersElement children size) doWithIndex: [ :e :index | | parameterName |
+		parameterName:= ((methodParametersElement children at: 1) children at:1) parameterNameWidget text asString.
+		methodDescription:= methodDescription, parameterName , ':' , parameterName, ' ' ].
 	
 	methodDescription := methodDescription , String cr.
 	methodDescription := methodDescription , '<gtExample>', String cr.
@@ -119,9 +120,13 @@ EScenarioParametrizedExampleCreationHelper >> generateMethodString [
 	methodDescription := methodDescription ,  '<label: ''', labelTxt ,'''>', String cr.
 	methodDescription := methodDescription ,  '<description: ''', descriptionTxt ,'''>', String cr.
 	
-	(1 to: parameterAmountNumber) doWithIndex: [ :e :index | 
-		methodDescription := methodDescription , '<given:#', (parameterNameArray at: index) ,' ofType:#String in:#'''' elementType:#input>', String cr.]. 
-	methodDescription := methodDescription , '<return:#Object>', String cr.
+	self methodParametersElement children do: [ :paramElement |
+		| str |
+		str:= (paramElement children at: 1) composePragmaString: classSelectSpotterWidget parameterValue asString.
+		methodDescription:= methodDescription, str, String cr.
+		].
+	
+	methodDescription := methodDescription , '<return:#', spotterReturnClassWidget parameterValue asString, '>', String cr.
 	methodDescription := methodDescription ,  '"This method lacks implementation. Consider providing the right invocation call"', String cr.
 	methodDescription := methodDescription ,  '|result |' , String cr.
 	methodDescription := methodDescription ,  'result:= Object new.' , String cr.
@@ -167,7 +172,7 @@ EScenarioParametrizedExampleCreationHelper >> initialize [
 	self layout: BlLinearLayout vertical;
 		constraintsDo: [ :c |
 		c horizontal matchParent.
-		c vertical matchParent ].
+		c vertical fitContent. ].
 	
 	self initializeWidgetDict.
 	

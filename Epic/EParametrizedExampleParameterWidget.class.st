@@ -143,6 +143,30 @@ EParametrizedExampleParameterWidget >> composePragmaString [
 ]
 
 { #category : #'as yet unclassified' }
+EParametrizedExampleParameterWidget >> composePragmaString: exampleMethodClassName [
+	|pragmaString parameterNameWithArticle |
+	pragmaString:= '<given: #''{1}'' ofType: #{2} in: #{3} elementType: #{4}>'.
+	"<given: #book ofType: #ABAddressBook in: #ABAddressBookExamples	elementType: #dropdown>"
+	"exampleMethodClassName:= editView parametrizedExample exampleMethod classBinding value."
+	parameterNameWithArticle := ((parameterNameWidget editor text value asString) copyReplaceAll: ' ' with: '').
+	
+	(((parameterNameWithArticle asLowercase findString: 'a') = 1) or: ((parameterNameWithArticle asLowercase findString: 'an') = 1)) ifFalse: [ 
+	parameterNameWithArticle at: 1 put: (parameterNameWithArticle first asUppercase).
+	parameterNameWithArticle first isVowel 
+		ifTrue: [ parameterNameWithArticle:= 'an', parameterNameWithArticle]  
+		ifFalse: [ parameterNameWithArticle:= 'a' , parameterNameWithArticle ].
+		].
+	pragmaString:= pragmaString format: {
+		parameterNameWithArticle . 
+		(inClassWidget parameterValue asString) . 
+		(exampleInWidget parameterValue asString) .
+	 	(widgetTypeWidget label asString)
+	}.
+	self inform: pragmaString.
+	^ pragmaString.
+]
+
+{ #category : #'as yet unclassified' }
 EParametrizedExampleParameterWidget >> defaultHorizontalLayoutElementForChoice [
 	^ BlElement new
 		layout: BlLinearLayout horizontal;

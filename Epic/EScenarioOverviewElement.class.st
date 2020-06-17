@@ -168,10 +168,12 @@ EScenarioOverviewElement >> initializeForScenario: scen [
 	self scenario: scen.
 	descriptionTextDocumenter:= self emptyDocumenter.
 	self descDocumenter: descriptionTextDocumenter.
+	self addChild: (self blLabelFor: 'Description:').
 	self addChild: (self initializeDocumenterView: (scen descriptionText) forDocumenter: descriptionTextDocumenter).
 	
 	simpleExampleDocumenter:= self emptyDocumenter.
 	self simpleExDocumenter: simpleExampleDocumenter.
+	self addChild: (self blLabelFor: 'SimpleExample:').
 	self addChild: (self initializeDocumenterView: (scen simpleExampleText) forDocumenter: simpleExampleDocumenter).
 	
 	self addChild: self initializeExamplesTab.

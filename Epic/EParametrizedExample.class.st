@@ -195,20 +195,6 @@ EParametrizedExample >> generateMethodString [
 ]
 
 { #category : #accessing }
-EParametrizedExample >> gtViewDocumentFor: aView [
-	<gtView>
-	^ aView explicit
-		title: 'Description';
-		priority: 10;
-		stencil: [ 
-			| container docView |
-	
-			docView:= EParametrizedExampleDocumentView new.
-			self documentView: docView.
-			container := docView initializeForParametrizedExample: self. ].
-]
-
-{ #category : #accessing }
 EParametrizedExample >> gtViewEditFor: aView [
 	<gtView>
 	^ aView explicit
@@ -219,7 +205,9 @@ EParametrizedExample >> gtViewEditFor: aView [
 	
 			editView:= EParametrizedExampleEditView new.
 			self editView: editView.
-			container := editView initializeForParametrizedExample: self ].
+			container := editView initializeForParametrizedExample: self.
+			container asScrollableElement.
+			 ].
 ]
 
 { #category : #accessing }

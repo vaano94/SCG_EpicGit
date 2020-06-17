@@ -172,9 +172,6 @@ EParametrizedExampleDocumentView >> createLabelForReturn: aParametrizedExample [
 	container addChild: label.
 	container addChild: textElement.	
 	^ container.	
-		
-		
-	
 ]
 
 { #category : #'as yet unclassified' }
@@ -285,11 +282,7 @@ EParametrizedExampleDocumentView >> initializeForParametrizedExample: aParametri
 	| aDocument scenarioName scenarioElement exampleTextElement whenElement propertyTestsElement returnElement providingElement aScrollPane|
 	self parametrizedExample: aParametrizedExample.
 	aDocument := GtDocument new.
-	aDocument editor useSyncStylerStrategy.
-	
-	"aScrollPane := BlScrollableElement new.
-	self addChild: aScrollPane.	"
-	
+	aDocument editor useSyncStylerStrategy.	
 	self parametrizedExample boundScenario
 			ifNil: [ 	
 					(parametrizedExample exampleMethod pragmaAt: #label:) 

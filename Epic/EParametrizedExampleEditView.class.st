@@ -223,17 +223,22 @@ EParametrizedExampleEditView >> createReturnElementForParametrizedExample: aPara
 			c horizontal matchParent ].
 			
 	label := BrLabel new
-		padding: (BlInsets top: 10 left: 10 bottom: 0 right: 6);
+		padding: (BlInsets top: 10 left: 10 bottom: 20 right: 6);
 		margin: (BlInsets top: 10 left: 10); 
 		text: 'Returns: ';
 		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 18);
 		constraintsDo: [ :c | 
 			c minWidth: 100.
 			c linear horizontal alignLeft.
-			c linear vertical alignTop. ].
+			c linear vertical alignCenter.
+			c frame vertical alignCenter.
+			 ].
 	returnClass := (aParametrizedExample exampleMethod pragmas detect: [ :p | p selector = #return: ])  argumentNamed: #return.
 	spotterClassWidget:= EParametrizedExampleEditViewSelectionSpotterWidget new.
-		 					spotterClassWidget defaultValue: (self class environment at: returnClass). 
+		 					spotterClassWidget defaultValue: (self class environment at: returnClass); constraintsDo: [ :c | 
+			c linear vertical alignCenter.
+			c frame vertical alignCenter.
+			 ].
 						
 	childContainer addChild: label.
 	childContainer addChild: spotterClassWidget .
@@ -249,10 +254,10 @@ EParametrizedExampleEditView >> getRemoveExampleButton [
 			c
 				margin:
 					(BlInsets
-						top: -10
+						top: 2
 						left: 0
 						bottom: 0
-						right: -10).
+						right: 2).
 			c ignored horizontal alignRight.
 			c ignored vertical alignTop ];
 		action: [ self inform: 'clicked' ].
@@ -269,13 +274,10 @@ EParametrizedExampleEditView >> getRemoveExampleButton [
 { #category : #initialization }
 EParametrizedExampleEditView >> initialize [ 
 	super initialize.
-	
 	self
-		layout: BlLinearLayout vertical ;
-		"padding: (BlInsets all: 6);"
-		"border: (BlBorder paint: (Color red ) width: 3);"
+		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
-			c vertical matchParent.
+			c vertical fitContent.
 			c horizontal matchParent ]
 ]
 
@@ -364,14 +366,15 @@ EParametrizedExampleEditView >> refactorDecreaseArguments: parametersNames withP
 	^ nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 EParametrizedExampleEditView >> refactorExistingMethod [
 	|pragmaStrings labelText descriptionText returnText pragmasConsecutiveStrings parametersNames |
 	self inform: 'Inside refactor existing method'.
 	pragmaStrings:= OrderedCollection new.
 	self methodParametersElement children do: [ :paramElement |
-		| str |
-		str:= ((paramElement children at: 1) composePragmaString).
+		| str exampleMethodClassName|
+		exampleMethodClassName:= self parametrizedExample exampleMethod.		
+		str:= ((paramElement children at: 1) composePragmaString: exampleMethodClassName).
 		 pragmaStrings add: str].
 	labelText:= ((self children at: 1) children at: 2) document editor text asString.
 	descriptionText:= ((self children at: 2) children at: 2) document editor text asString.

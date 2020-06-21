@@ -9,7 +9,8 @@ Class {
 		'descriptionDocumenter',
 		'parameterAmountNumber',
 		'methodParametersElement',
-		'widgetDict'
+		'widgetDict',
+		'parentExampleCollection'
 	],
 	#category : #'Epic-Model'
 }
@@ -53,10 +54,12 @@ EScenarioParametrizedExampleCreationHelper >> createAddExampleButton [
 				forClass: classSelectSpotterWidget parameterValue
 				source: self generateMethodString.
 			coder expanded: true.
-			block:= [
-				|s|
+			block:= [ |ex|
 				coder save.
-				coder compile. 
+				coder compile.
+				ex:= EParametrizedExample new.
+				ex exampleMethod: (coder compiledMethod).
+				parentExampleCollection add: ex.
 				].
 			saveAction:= (coder addOns mainActions detect: [:act | act asString = 'a GtCoderAction(Save)']).
 			saveAction action: block.
@@ -371,6 +374,16 @@ EScenarioParametrizedExampleCreationHelper >> methodParametersElement [
 { #category : #accessing }
 EScenarioParametrizedExampleCreationHelper >> methodParametersElement: anObject [
 	methodParametersElement := anObject
+]
+
+{ #category : #accessing }
+EScenarioParametrizedExampleCreationHelper >> parentExampleCollection [
+	^ parentExampleCollection
+]
+
+{ #category : #accessing }
+EScenarioParametrizedExampleCreationHelper >> parentExampleCollection: anObject [
+	parentExampleCollection := anObject
 ]
 
 { #category : #'as yet unclassified' }

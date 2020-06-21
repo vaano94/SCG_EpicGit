@@ -16,8 +16,12 @@ TEParametrizedExamplesListExtension >> gtViewParametrizedExamplesSelectionFor: a
 		column: 'Label' item: [ :aParametrizeExample |
 			 aParametrizeExample exampleMethod gtParametrizedExample label ];
 		actionButtonIcon: BrGlamorousIcons add 
-			action: [ :aButton | aButton phlow 
-				spawnObject: EScenarioParametrizedExampleCreationHelper new ]
+			action: [ :aButton | 
+				|helper|
+			helper:= EScenarioParametrizedExampleCreationHelper new.
+			helper parentExampleCollection: self parametrizedExamples.
+				aButton phlow 
+				spawnObject: helper ]
 ]
 
 { #category : #'gt-extensions' }

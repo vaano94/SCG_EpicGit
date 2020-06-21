@@ -34,7 +34,10 @@ EScenario >> createAddExampleButton [
 		look: BrGlamorousButtonWithLabelLook new;
 		label: 'New parameterized example';
 		action: [ :button |
-			button phlow spawnObject: (EScenarioParametrizedExampleCreationHelper new asScrollableElement) ];
+			|helper|
+			helper:= EScenarioParametrizedExampleCreationHelper new.
+			helper parentExampleCollection: self parametrizedExamples.
+			button phlow spawnObject: (helper asScrollableElement) ];
 		margin: (BlInsets top: 10 left: 10 bottom: 10 right: 0);
 		constraintsDo: [ :c | 
 			c linear horizontal alignLeft.

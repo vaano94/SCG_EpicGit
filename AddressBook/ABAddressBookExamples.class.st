@@ -19,6 +19,7 @@ Class {
 ABAddressBookExamples >> addressBookAddContact [
 	<gtExample>
 	<label: 'Book with one contact'>
+	<return:#ABAdressBook>
 	<description: 'Verify that adding a contact is successful'>
 	| addressBook b phn phones adr addresses email |
 	addressBook := ABAddressBook emptyAddressBook.
@@ -46,6 +47,7 @@ ABAddressBookExamples >> addressBookAddTwoContactsWithSameName [
 	<gtExample>
 	<label: 'Book add same name results in one contact example'>
 	<description: 'Verify that adding same contact merges them'>
+	<return:#ABAdressBook>
 	| addressBook contactWithSameName email |
 	addressBook := self addressBookWithFullTestContact.
 	contactWithSameName := ABContactExamples testFullContact.
@@ -129,6 +131,7 @@ ABAddressBookExamples >> emptyAddressBook [
 	<label: 'empty book'>
 	<description: 'Book that does not contain anything'>
 	<used: #(#(ABAddressBookExamples >> #exampleAddContact:toAddressBook:) 'two')>
+	<return:#ABAdressBook>
 	| addressBook |
 	addressBook := ABAddressBook emptyAddressBook.
 	self assert: addressBook contacts isNotNil.
